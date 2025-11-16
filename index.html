@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Book Categories</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Base Styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s ease; }
+    body { font-family: 'Inter', sans-serif; background: #e0e5ec; min-height: 100vh; display: flex; flex-direction: column; align-items: center; transition: background 0.5s; }
+    body.dark { background: #121212; color: #eee; }
 
+    header {
+        width: 100%;
+        padding: 50px 20px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #fff;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        position: relative;
+    }
+
+    header h1 { font-size: 2.8em; font-weight: 700; margin-bottom: 10px; }
+    header p { font-weight: 400; font-size: 1.1em; }
+
+    .theme-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255,255,255,0.3);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #fff;
+        transition: all 0.3s;
+    }
+
+    .theme-toggle:hover { transform: scale(1.1); background: rgba(255,255,255,0.5); }
+
+    .search-container {
+        margin: 30px 0 20px;
+        text-align: center;
+    }
+
+    .search-container input {
+        padding: 12px 20px;
+        font-size: 1em;
+        border-radius: 25px;
+        border: none;
+        width: 300px;
+        max-width: 90%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        outline: none;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+        padding: 40px 20px 60px;
+        max-width: 1200px;
+        width: 100%;
+    }
+
+    /* Glassmorphism + Neumorphism Cards */
+    .category-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -10px -10px 20px rgba(255,255,255,0.5);
+        text-align: center;
+        padding: 35px 20px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        color: #333;
+        transition: all 0.4s ease;
+        text-decoration: none;
+    }
+
+    body.dark .category-card {
+        background: rgba(255,255,255,0.05);
+        color: #eee;
+        box-shadow: 10px 10px 20px rgba(0,0,0,0.3), -10px -10px 20px rgba(255,255,255,0.05);
+    }
+
+    .category-card:hover {
+        transform: translateY(-12px) scale(1.05);
+        box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+        border: 2px solid #6a11cb;
+    }
+
+    .category-icon {
+        font-size: 50px;
+        margin-bottom: 18px;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .category-card:hover .category-icon { transform: rotate(15deg) scale(1.2); color: #6a11cb; }
+
+    .category-card h2 {
+        font-size: 1.2em;
+        font-weight: 600;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+    }
+
+    .category-card:hover h2 { color: #6a11cb; }
+
+    /* Mobile Adjustments */
+    @media (max-width: 600px) {
+        header h1 { font-size: 2em; }
+        .category-card { padding: 25px 15px; }
+        .category-icon { font-size: 40px; }
+        .search-container input { width: 90%; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Discover Your Next Read</h1>
+    <p>Explore categories and dive into your favorite books</p>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+</header>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search categories...">
+</div>
+
+<div class="container" id="categoryContainer">
+    <a href="Books/Personal Development.html" class="category-card"><span class="category-icon">📘</span><h2>Personal Development</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">💰</span><h2>Finance</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🧠</span><h2>Psychology</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">📈</span><h2>Business & Economics</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">💪</span><h2>Health & Wellness</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">💻</span><h2>Technology & Computing</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">📚</span><h2>Education & Learning</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">📝</span><h2>Biographies & Memoirs</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">✈️</span><h2>Travel</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🔬</span><h2>Science & Nature</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🎨</span><h2>Arts & Creativity</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🍳</span><h2>Cooking & Food</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🙏</span><h2>Spirituality & Religion</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">👪</span><h2>Parenting & Family</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🕵️‍♂️</span><h2>True Crime</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🎯</span><h2>Hobbies & Crafts</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🔨</span><h2>DIY & Home Improvement</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🌱</span><h2>Gardening</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🐾</span><h2>Pet Care</h2></a>
+</div>
+
+<script>
+    // Dark/Light Mode Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    });
+
+    // Search Filter
+    const searchInput = document.getElementById('searchInput');
+    const categoryContainer = document.getElementById('categoryContainer');
+    searchInput.addEventListener('input', () => {
+        const filter = searchInput.value.toLowerCase();
+        const cards = categoryContainer.getElementsByClassName('category-card');
+        Array.from(cards).forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
+</script>
+
+</body>
+</html>
