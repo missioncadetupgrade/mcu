@@ -1,183 +1,65 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Book Categories — Catalog</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#60a5fa;--glass:rgba(255,255,255,0.04)}
-    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#e6eef8;background:linear-gradient(180deg,#071026 0%, #081428 60%);}
-    .app{max-width:1100px;margin:36px auto;padding:28px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 8px 30px rgba(2,6,23,0.6)}
-    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:18px}
-    h1{font-size:20px;margin:0}
-    p.lead{margin:4px 0 0;color:var(--muted);font-size:13px}.controls{display:flex;gap:12px;align-items:center}
-input.search{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit;min-width:260px}
-select,button{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-button.primary{background:linear-gradient(90deg,var(--accent),#3b82f6);border:0;color:#021328}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:18px}
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);min-height:84px;display:flex;flex-direction:column;justify-content:space-between}
-.cat-title{font-weight:600;font-size:15px}
-.cat-desc{font-size:12px;color:var(--muted);margin-top:6px}
-.tag{display:inline-block;margin-top:8px;font-size:11px;color:var(--muted);background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:999px}
-
-.footer{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:18px;color:var(--muted);font-size:13px}
-.actions{display:flex;gap:8px}
-
-/* small responsive tweaks */
-@media (max-width:520px){.controls{flex-direction:column;align-items:stretch}input.search{width:100%}header{gap:8px}}
-
-/* tiny helper styles for form */
-.form-row{display:flex;gap:8px;align-items:center}
-.form-row input[type="text"]{flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Categories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .category-button {
+            padding: 15px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        .category-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div class="app" role="application">
-    <header>
-      <div>
-        <h1>Book Categories</h1>
-        <p class="lead">Browse, search & export book category lists for your app or library.</p>
-      </div><div class="controls">
-    <input class="search" id="search" placeholder="Search categories..." aria-label="Search categories" />
-    <select id="filter">
-      <option value="all">All groups</option>
-      <option value="arts">Arts & Lit</option>
-      <option value="self">Self-Help</option>
-      <option value="sci">Science & Tech</option>
-      <option value="hist">History & Culture</option>
-    </select>
-    <button id="exportBtn">Export CSV</button>
-    <button class="primary" id="addBtn">+ Add</button>
-  </div>
-</header>
 
-<main>
-  <section id="grid" class="grid" aria-live="polite"></section>
-
-  <section style="margin-top:18px;display:none" id="formArea">
-    <div style="background:var(--card);padding:12px;border-radius:10px;margin-bottom:12px">
-      <div class="form-row">
-        <input id="newName" type="text" placeholder="Category name (e.g. Personal Finance)" />
-        <input id="newTag" type="text" placeholder="Short tag (e.g. finance)" />
-        <button id="saveBtn">Save</button>
-        <button id="cancelBtn">Cancel</button>
-      </div>
-      <div style="margin-top:8px;color:var(--muted);font-size:13px">Tip: Keep names short and tags useful for filtering.</div>
+    <h1>Book Categories</h1>
+    <div class="button-container">
+        <a href="#" class="category-button">Self-Help & Personal Development</a>
+        <a href="#" class="category-button">Finance</a>
+        <a href="#" class="category-button">Psychology</a>
+        <a href="#" class="category-button">Business & Economics</a>
+        <a href="#" class="category-button">Health & Wellness</a>
+        <a href="#" class="category-button">Technology & Computing</a>
+        <a href="#" class="category-button">Education & Learning</a>
+        <a href="#" class="category-button">Biographies & Memoirs</a>
+        <a href="#" class="category-button">Travel</a>
+        <a href="#" class="category-button">Science & Nature</a>
+        <a href="#" class="category-button">Arts & Creativity</a>
+        <a href="#" class="category-button">Cooking & Food</a>
+        <a href="#" class="category-button">Spirituality & Religion</a>
+        <a href="#" class="category-button">Parenting & Family</a>
+        <a href="#" class="category-button">True Crime</a>
+        <a href="#" class="category-button">Hobbies & Crafts</a>
+        <a href="#" class="category-button">DIY & Home Improvement</a>
+        <a href="#" class="category-button">Gardening</a>
+        <a href="#" class="category-button">Pet Care</a>
     </div>
-  </section>
-</main>
 
-<div class="footer">
-  <div>Showing <span id="count">0</span> categories</div>
-  <div class="actions"><button id="resetBtn">Reset</button><button id="downloadJson">Download JSON</button></div>
-</div>
-
-  </div> <script>
-    // Initial category data (example set). You can replace or expand this array.
-    const initialCategories = [
-      {name:'Classic Literature', tag:'literature', desc:'Novels, poetry, classic fiction and drama.'},
-      {name:'Modern Fiction', tag:'fiction', desc:'Contemporary novels and short stories.'},
-      {name:'Historical Fiction', tag:'history-fiction', desc:'Stories set in historical settings.'},
-      {name:'Mystery & Thriller', tag:'mystery', desc:'Crime, suspense and whodunits.'},
-      {name:'Personal Finance', tag:'finance', desc:'Money management, investing & wealth.'},
-      {name:'Investing', tag:'investing', desc:'Stocks, bonds, real estate and strategies.'},
-      {name:'Business & Entrepreneurship', tag:'business', desc:'Startups, leadership and management.'},
-      {name:'Psychology', tag:'psychology', desc:'Behavior, mind, therapy and mental health.'},
-      {name:'Self-Help', tag:'self-help', desc:'Personal growth, habits and motivation.'},
-      {name:'Mindfulness & Spirituality', tag:'spirituality', desc:'Meditation, religion and inner growth.'},
-      {name:'Science Fiction', tag:'sci-fi', desc:'Futures, tech, and speculative worlds.'},
-      {name:'Fantasy', tag:'fantasy', desc:'Magic, myths, and epic adventures.'},
-      {name:'Children & YA', tag:'young', desc:'Children books and young adult fiction.'},
-      {name:'Biography & Memoir', tag:'bio', desc:'Lives of notable people.'},
-      {name:'History', tag:'history', desc:'World history and cultural history.'},
-      {name:'Philosophy', tag:'philosophy', desc:'Ethics, metaphysics, and thinkers.'},
-      {name:'Education', tag:'education', desc:'Teaching methods and learning theory.'},
-      {name:'Health & Fitness', tag:'health', desc:'Wellness, exercise and diet.'},
-      {name:'Cooking & Food', tag:'cooking', desc:'Recipes, techniques and food culture.'},
-      {name:'Travel', tag:'travel', desc:'Guides, travelogues and destinations.'}
-    ];
-
-    let categories = [...initialCategories];
-
-    const grid = document.getElementById('grid');
-    const countEl = document.getElementById('count');
-    const searchInput = document.getElementById('search');
-    const filter = document.getElementById('filter');
-
-    function render(list){
-      grid.innerHTML = '';
-      list.forEach(cat => {
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML = `<div><div class="cat-title">${escapeHtml(cat.name)}</div><div class="cat-desc">${escapeHtml(cat.desc||'')}</div></div><div><span class="tag">${escapeHtml(cat.tag)}</span></div>`;
-        grid.appendChild(card);
-      });
-      countEl.textContent = list.length;
-    }
-
-    function escapeHtml(s){return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));}
-
-    function query(){
-      const q = searchInput.value.trim().toLowerCase();
-      const f = filter.value;
-      let res = categories.filter(c=>{
-        if(f!=='all' && !c.tag.includes(f)) return false;
-        if(!q) return true;
-        return c.name.toLowerCase().includes(q) || (c.tag||'').toLowerCase().includes(q) || (c.desc||'').toLowerCase().includes(q);
-      });
-      render(res);
-    }
-
-    // wire up events
-    searchInput.addEventListener('input', ()=>query());
-    filter.addEventListener('change', ()=>query());
-
-    // Add new category
-    const addBtn = document.getElementById('addBtn');
-    const formArea = document.getElementById('formArea');
-    const saveBtn = document.getElementById('saveBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const newName = document.getElementById('newName');
-    const newTag = document.getElementById('newTag');
-
-    addBtn.addEventListener('click', ()=>{
-      formArea.style.display = formArea.style.display === 'none' || !formArea.style.display ? 'block' : 'none';
-      newName.focus();
-    });
-    cancelBtn.addEventListener('click', ()=>{formArea.style.display='none'; newName.value=''; newTag.value='';});
-    saveBtn.addEventListener('click', ()=>{
-      const n=newName.value.trim(); const t=(newTag.value.trim()||n.toLowerCase().replace(/\s+/g,'-'));
-      if(!n) return alert('Please enter a category name');
-      categories.unshift({name:n,tag:t,desc:''});
-      newName.value=''; newTag.value=''; formArea.style.display='none'; query();
-    });
-
-    // Reset to initial
-    document.getElementById('resetBtn').addEventListener('click', ()=>{categories=[...initialCategories]; query();});
-
-    // Export CSV
-    document.getElementById('exportBtn').addEventListener('click', ()=>{
-      const rows = categories.map(c=>`"${c.name.replace(/"/g,'""')}","${(c.tag||'').replace(/"/g,'""')}","${(c.desc||'').replace(/"/g,'""')}"\`);
-      const csv = ['Name,Tag,Description', ...categories.map(c=>`"${c.name.replace(/"/g,'""')}","${(c.tag||'').replace(/"/g,'""')}","${(c.desc||'').replace(/"/g,'""')}")].join('\n');
-      downloadFile(csv,'book_categories.csv','text/csv');
-    });
-
-    // Download JSON
-    document.getElementById('downloadJson').addEventListener('click', ()=>{
-      const j = JSON.stringify(categories, null, 2);
-      downloadFile(j,'book_categories.json','application/json');
-    });
-
-    function downloadFile(content, filename, type){
-      const blob = new Blob([content],{type});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    }
-
-    // initial render
-    render(categories);
-  </script></body>
+</body>
 </html>
