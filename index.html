@@ -1,65 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Categories</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Categories</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        text-align: center;
+        padding: 40px 20px 20px;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 2.5em;
+        letter-spacing: 1px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .category-card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        text-align: center;
+        padding: 30px 20px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .category-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+
+    .category-icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .category-card h2 {
+        margin: 0;
+        font-size: 1.2em;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+
+    @media (max-width: 600px) {
+        header h1 {
+            font-size: 2em;
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
+        .category-card {
+            padding: 25px 15px;
         }
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-        .category-button {
-            padding: 15px 25px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none;
-        }
-        .category-button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 
-    <h1>Book Categories</h1>
-    <div class="button-container">
-        <a href="#" class="category-button">Self-Help & Personal Development</a>
-        <a href="#" class="category-button">Finance</a>
-        <a href="#" class="category-button">Psychology</a>
-        <a href="#" class="category-button">Business & Economics</a>
-        <a href="#" class="category-button">Health & Wellness</a>
-        <a href="#" class="category-button">Technology & Computing</a>
-        <a href="#" class="category-button">Education & Learning</a>
-        <a href="#" class="category-button">Biographies & Memoirs</a>
-        <a href="#" class="category-button">Travel</a>
-        <a href="#" class="category-button">Science & Nature</a>
-        <a href="#" class="category-button">Arts & Creativity</a>
-        <a href="#" class="category-button">Cooking & Food</a>
-        <a href="#" class="category-button">Spirituality & Religion</a>
-        <a href="#" class="category-button">Parenting & Family</a>
-        <a href="#" class="category-button">True Crime</a>
-        <a href="#" class="category-button">Hobbies & Crafts</a>
-        <a href="#" class="category-button">DIY & Home Improvement</a>
-        <a href="#" class="category-button">Gardening</a>
-        <a href="#" class="category-button">Pet Care</a>
-    </div>
+<header>
+    <h1>Explore Book Categories</h1>
+</header>
+
+<div class="container">
+    <a href="#" class="category-card"><span class="category-icon">📘</span><h2>Self-Help & Personal Development</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">💰</span><h2>Finance</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🧠</span><h2>Psychology</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">📈</span><h2>Business & Economics</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">💪</span><h2>Health & Wellness</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">💻</span><h2>Technology & Computing</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">📚</span><h2>Education & Learning</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">📝</span><h2>Biographies & Memoirs</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">✈️</span><h2>Travel</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🔬</span><h2>Science & Nature</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🎨</span><h2>Arts & Creativity</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🍳</span><h2>Cooking & Food</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🙏</span><h2>Spirituality & Religion</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">👪</span><h2>Parenting & Family</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🕵️‍♂️</span><h2>True Crime</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🎯</span><h2>Hobbies & Crafts</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🔨</span><h2>DIY & Home Improvement</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🌱</span><h2>Gardening</h2></a>
+    <a href="#" class="category-card"><span class="category-icon">🐾</span><h2>Pet Care</h2></a>
+</div>
 
 </body>
 </html>
