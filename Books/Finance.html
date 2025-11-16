@@ -129,7 +129,18 @@
 
 <header>
     <h1>Finance Books</h1>
-    <p>Grow yourself with these top books</p>
+    <p>Grow yourself with these top books</p><button id="refreshButton">Refresh Page</button>
+
+    <script>
+        // Get a reference to the button element
+        const refreshBtn = document.getElementById("refreshButton");
+
+        // Add an event listener to the button
+        refreshBtn.addEventListener("click", function() {
+            // Reload the current page when the button is clicked
+            window.location.reload();
+        });
+    </script>
     <button class="theme-toggle" id="themeToggle">🌙</button>
 </header>
 
