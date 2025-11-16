@@ -130,6 +130,18 @@
 <header>
     <h1>Discover Your Next Read</h1>
     <p>Explore categories and dive into your favorite books</p>
+    <button id="refreshButton">Refresh Page</button>
+
+    <script>
+        // Get a reference to the button element
+        const refreshBtn = document.getElementById("refreshButton");
+
+        // Add an event listener to the button
+        refreshBtn.addEventListener("click", function() {
+            // Reload the current page when the button is clicked
+            window.location.reload();
+        });
+    </script>
     <button class="theme-toggle" id="themeToggle">🌙</button>
 </header>
 
