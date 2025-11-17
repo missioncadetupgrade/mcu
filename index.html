@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Cadet Upgrade - Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;transition:.3s ease;font-family:'Inter',sans-serif;}
+    body{background:#e0e5ec;min-height:100vh;color:#222;}
+    body.dark{background:#121212;color:#eee;}
+
+    /* HEADER */
+    header{
+        width:100%;padding:50px 20px 30px;text-align:center;
+        background:linear-gradient(135deg,#6a11cb,#2575fc);
+        color:#fff;border-bottom-left-radius:20px;border-bottom-right-radius:20px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.2);position:relative;
+    }
+    header h1{font-size:2.8em;font-weight:700;}
+    header p{margin-top:10px;font-size:1.1em;}
+
+    /* Navigation */
+    nav{
+        margin-top:25px;display:flex;gap:25px;justify-content:center;flex-wrap:wrap;
+    }
+    nav a{
+        color:#fff;text-decoration:none;font-weight:500;font-size:1.05em;
+        padding:8px 18px;border-radius:20px;background:rgba(255,255,255,0.15);
+        backdrop-filter:blur(5px);
+    }
+    nav a:hover{background:rgba(255,255,255,0.35);}    
+
+    /* Theme Toggle */
+    .theme-toggle{
+        position:absolute;top:20px;right:20px;
+        width:42px;height:42px;border-radius:50%;border:none;
+        background:rgba(255,255,255,0.35);color:#fff;font-size:20px;cursor:pointer;
+    }
+
+    /* MAIN CONTENT */
+    section{max-width:900px;margin:40px auto;padding:20px;line-height:1.8;}
+    h2{font-size:2em;margin-bottom:15px;text-align:center;color:#6a11cb;}
+    h3{font-size:1.5em;margin-top:25px;color:#2575fc;}
+
+    ul{margin-left:20px;margin-top:10px;line-height:1.7;}
+
+    /* Responsive */
+    @media (max-width:600px){header h1{font-size:2.1em;}nav a{font-size:.9em;}}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Mission Cadet Upgrade</h1>
+    <p>"Enjoy Life 99%✨ | 🏆Grow 1% Every Day🥇📚 | 🎯Keep Moving Forward🚀🚀"</p>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="Book.html">Books</a>
+        <a href="assignments.html">Assignments</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About Us</a>
+    </nav>
+
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section>
+    <h2>Welcome to Mission Cadet Upgrade</h2>
+
+    <p><strong>Mission Cadet Upgrade</strong> is a student-led initiative created by the final-year NCC cadets of Kongunadu Arts and Science College. Our mission is to empower cadets with personal excellence, communication mastery, awareness, and career readiness.</p>
+
+    <h3>About the Initiative</h3>
+    <p>We aim to transform NCC cadets into confident leaders and responsible citizens, well-equipped to serve the nation both in and beyond uniform.</p>
+
+    <h3>What We Do</h3>
+    <ul>
+        <li>🌟 <strong>Personality Development</strong> – Build discipline, confidence & leadership.</li>
+        <li>🗣️ <strong>Communication Training</strong> – Public speaking, GD, interviews.</li>
+        <li>📰 <strong>Current Affairs Training</strong> – Stay updated on national & global events.</li>
+        <li>🎯 <strong>Career Guidance</strong> – Defense, UPSC, TNPSC & more.</li>
+        <li>📚 <strong>Exam Preparation</strong> – UPSC, AFCAT, INET, CDS, SSC etc.</li>
+    </ul>
+
+    <h3>Why Join Us?</h3>
+    <ul>
+        <li>🤝 Learn directly from senior NCC mentors</li>
+        <li>🧠 Gain practical knowledge beyond academics</li>
+        <li>💬 Improve communication & leadership skills</li>
+        <li>🎓 Career guidance and motivational support</li>
+        <li>💡 A community that inspires & uplifts</li>
+    </ul>
+
+    <h3>Our Motto</h3>
+    <p>“Enjoy Life 99%✨ | Grow 1% Every Day🥇” – Every cadet has unlimited potential, and with the right support, we help them shine.</p>
+
+    <h3>Join the Movement</h3>
+    <p>Are you ready to upgrade your skills, mindset, and future? Become part of the Mission Cadet Upgrade movement today.</p>
+    <p style="font-weight:bold;font-size:18px;text-align:center;margin-top:10px;">👉 Together, let's learn, lead & rise.</p>
+</section>
+
+<script>
+const themeToggle=document.getElementById('themeToggle');
+
+themeToggle.addEventListener('click',()=>{
+    document.body.classList.toggle('dark');
+    themeToggle.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
+});
+</script>
+
+</body>
+</html>
