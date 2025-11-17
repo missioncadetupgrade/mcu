@@ -285,6 +285,14 @@ themeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark");
     themeBtn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
 });
+    
+document.querySelectorAll('.faq-card').forEach(card => {
+    card.addEventListener('click', () => {
+        card.classList.toggle('open');
+        let sign = card.querySelector("span");
+        sign.textContent = card.classList.contains("open") ? "-" : "+";
+    });
+});
 </script>
 
 </body>
