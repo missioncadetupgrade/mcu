@@ -112,48 +112,52 @@ nav a:hover {
 .theme-toggle:hover {
     background: rgba(255,255,255,0.5);
 }
-
-/* FAQ SECTION */
+/* FAQ CONTAINER */
 .faq-container {
-    max-width: 900px;
     width: 100%;
-    padding: 40px 20px;
+    max-width: 900px;
+    padding: 30px 20px 60px;
+    margin-top: 20px;
 }
 
+/* FAQ Card (Same Style as Category Card) */
 .faq-card {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -10px -10px 20px rgba(255,255,255,0.5);
     padding: 20px 25px;
-    border-radius: 18px;
     margin-bottom: 20px;
     cursor: pointer;
-    box-shadow: 10px 10px 20px rgba(0,0,0,0.1),
-                -10px -10px 20px rgba(255,255,255,0.5);
+    color: #333;
 }
 
 body.dark .faq-card {
     background: rgba(255,255,255,0.05);
-    box-shadow: 10px 10px 20px rgba(0,0,0,0.4),
-                -10px -10px 20px rgba(255,255,255,0.05);
+    color: #eee;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.3), -10px -10px 20px rgba(255,255,255,0.05);
 }
 
 .faq-question {
     font-size: 1.2em;
     font-weight: 600;
+    display: flex;
+    justify-content: space-between;
 }
 
 .faq-answer {
-    margin-top: 10px;
+    margin-top: 12px;
+    line-height: 1.6;
     display: none;
-    color: #444;
 }
 
-body.dark .faq-answer {
-    color: #ddd;
-}
-
-.faq-card.active .faq-answer {
+.faq-card.open .faq-answer {
     display: block;
+}
+
+.faq-card.open {
+    border: 2px solid #6a11cb;
+    transform: scale(1.02);
 }
 
 /* Responsive Design */
