@@ -54,10 +54,21 @@
 <header>
     <h1>Mission Cadet Upgrade</h1>
     <p>"Enjoy Life 99%✨ | 🏆Grow 1% Every Day🥇📚 | 🎯Keep Moving Forward🚀🚀"</p>
+<button id="refreshButton">Refresh Page</button>
 
+    <script>
+        // Get a reference to the button element
+        const refreshBtn = document.getElementById("refreshButton");
+
+        // Add an event listener to the button
+        refreshBtn.addEventListener("click", function() {
+            // Reload the current page when the button is clicked
+            window.location.reload();
+        });
+    </script>
     <nav>
         <a href="#">Home</a>
-        <a href="Book.html">Books</a>
+        <a href="Books.html">Books</a>
         <a href="assignments.html">Assignments</a>
         <a href="faq.html">FAQ</a>
         <a href="about.html">About Us</a>
