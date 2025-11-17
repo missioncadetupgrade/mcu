@@ -6,12 +6,12 @@
 <title>Professional Book Categories</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    /* Base Styles */
-    * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s ease; }
-    body { font-family: 'Inter', sans-serif; background: #e0e5ec; min-height: 100vh; display: flex; flex-direction: column; align-items: center; transition: background 0.5s; }
-    body.dark { background: #121212; color: #eee; }
+   *{margin:0;padding:0;box-sizing:border-box;transition:.3s ease;font-family:'Inter',sans-serif;}
+    body{background:#e0e5ec;min-height:100vh;color:#222;}
+    body.dark{background:#121212;color:#eee;}
 
-header{
+    /* HEADER */
+    header{
         width:100%;padding:50px 20px 30px;text-align:center;
         background:linear-gradient(135deg,#6a11cb,#2575fc);
         color:#fff;border-bottom-left-radius:20px;border-bottom-right-radius:20px;
@@ -30,6 +30,7 @@ header{
         backdrop-filter:blur(5px);
     }
     nav a:hover{background:rgba(255,255,255,0.35);}    
+   
 
     /* Theme Toggle */
     .theme-toggle{
