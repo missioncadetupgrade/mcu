@@ -1,14 +1,152 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Read-only PDF Viewer (Drive)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Cadet Upgrade - PDF Viewer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* Base Styles */
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  transition: 0.3s ease;
+}
+body {
+  background: #e0e5ec;
+  min-height: 100vh;
+  color: #222;
+}
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+/* HEADER */
+header {
+  width: 100%; padding: 50px 20px 30px; text-align: center;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  position: relative;
+}
+header h1 { font-size: 2.8em; font-weight: 700; }
+header p { margin-top: 10px; font-size: 1.1em; }
+
+/* Navigation */
+nav {
+  margin-top: 25px;
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+nav a {
+  color: #fff; text-decoration: none; font-weight: 500; font-size: 1.05em;
+  padding: 8px 18px; border-radius: 20px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(5px);
+}
+nav a:hover { background: rgba(255,255,255,0.35); }
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: absolute; top: 20px; right: 20px;
+  width: 42px; height: 42px; border-radius: 50%;
+  border: none; background: rgba(255,255,255,0.35);
+  color: #fff; font-size: 20px; cursor: pointer;
+}
+
+/* Main Viewer Section */
+.viewer-section {
+  max-width: 700px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 25px;
+}
+
+.view-box {
+  padding: 40px 20px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 10px 10px 20px rgba(0,0,0,0.1),
+              -10px -10px 20px rgba(255,255,255,0.5);
+}
+
+.view-box h2 {
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  color: #6a11cb;
+}
+
+/* Button Link */
+.form-link {
+  display: inline-block;
+  padding: 15px 30px;
+  margin-top: 15px;
+  background: #6a11cb;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 600;
+  border-radius: 25px;
+  text-decoration: none;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+}
+.form-link:hover {
+  background: #2575fc;
+  transform: translateY(-5px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  header h1 { font-size: 2.1em; }
+  nav a { font-size: 0.9em; }
+  .form-link { font-size: 1em; padding: 12px 20px; }
+}
+</style>
 </head>
-<body class="no-select">
-  <div class="viewer-wrap">
-    <!-- Replace FILE_ID below -->
-    <a href="https://forms.gle/2arVhBsHqprNs7H46">28-11-2025</a>
+
+<body>
+
+<header>
+  <h1>Mission Cadet Upgrade</h1>
+  <p>"Enjoy Life 99%✨ | 🏆Grow 1% Every Day🥇📚 | 🎯Keep Moving Forward🚀🚀"</p>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="Books.html">Books</a>
+    <a href="Assignments.html">Assignments</a>
+    <a href="Faq.html">FAQ</a>
+    <a href="Aboutus.html">About Us</a>
+  </nav>
+
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="viewer-section">
+  <div class="view-box">
+    <h2>NCC Theory Test</h2>
+
+    <!-- link you provided -->
+    <a class="form-link" href="https://forms.gle/2arVhBsHqprNs7H46" target="_blank">
+      Test 1 (28-11-2025)
+    </a>
   </div>
+</section>
+
+<script>
+const themeToggle = document.getElementById('themeToggle');
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  themeToggle.textContent = 
+    document.body.classList.contains('dark') ? '☀️' : '🌙';
+});
+</script>
+
 </body>
 </html>
