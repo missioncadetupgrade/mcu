@@ -3,157 +3,226 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mission Cadet Upgrade - PDF Viewer</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Mission Cadet Upgrade | Theory Test</title>
 
 <style>
-/* Base Styles */
-* {
-  margin: 0; padding: 0; box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-  transition: 0.3s ease;
-}
-body {
-  background: #e0e5ec;
-  min-height: 100vh;
-  color: #222;
-}
-body.dark {
-  background: #121212;
-  color: #eee;
+:root{
+  --bg:#050505;
+  --panel:#111;
+  --panel-soft:#1a0a0a;
+  --border:#2e2e2e;
+  --text:#ffffff;
+  --muted:#c2c2c2;
+  --accent:#c62828;
+  --accent-dark:#8e0000;
+  --radius:14px;
 }
 
-/* HEADER */
-header {
-  width: 100%; padding: 50px 20px 30px; text-align: center;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: #fff;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  position: relative;
-}
-header h1 { font-size: 2.8em; font-weight: 700; }
-header p { margin-top: 10px; font-size: 1.1em; }
-
-/* Navigation */
-nav {
-  margin-top: 25px;
-  display: flex;
-  gap: 25px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-nav a {
-  color: #fff; text-decoration: none; font-weight: 500; font-size: 1.05em;
-  padding: 8px 18px; border-radius: 20px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(5px);
-}
-nav a:hover { background: rgba(255,255,255,0.35); }
-
-/* Theme Toggle Button */
-.theme-toggle {
-  position: absolute; top: 20px; right: 20px;
-  width: 42px; height: 42px; border-radius: 50%;
-  border: none; background: rgba(255,255,255,0.35);
-  color: #fff; font-size: 20px; cursor: pointer;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', Arial, sans-serif;
 }
 
-/* Main Viewer Section */
-.viewer-section {
-  max-width: 700px;
-  margin: 40px auto;
-  text-align: center;
-  padding: 25px;
+body{
+  background:linear-gradient(180deg,#000,#080808);
+  color:var(--text);
+  min-height:100vh;
 }
 
-.view-box {
-  padding: 40px 20px;
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 10px 10px 20px rgba(0,0,0,0.1),
-              -10px -10px 20px rgba(255,255,255,0.5);
+/* ================= NAV ================= */
+.top-nav{
+  background:linear-gradient(90deg,var(--panel),#1a0000);
+  border-bottom:2px solid var(--accent);
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.view-box h2 {
-  font-size: 1.6em;
-  margin-bottom: 20px;
-  color: #6a11cb;
+.brand{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--accent);
+  text-transform:uppercase;
 }
 
-/* Button Link */
-.form-link {
-  display: inline-block;
-  padding: 15px 30px;
-  margin-top: 15px;
-  background: #6a11cb;
-  color: #fff;
-  font-size: 1.2em;
-  font-weight: 600;
-  border-radius: 25px;
-  text-decoration: none;
-  box-shadow: 0 5px 12px rgba(0,0,0,0.2);
-}
-.form-link:hover {
-  background: #2575fc;
-  transform: translateY(-5px);
+.nav-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  header h1 { font-size: 2.1em; }
-  nav a { font-size: 0.9em; }
-  .form-link { font-size: 1em; padding: 12px 20px; }
+.nav-links{
+  display:flex;
+  gap:14px;
+}
+
+.nav-links a{
+  padding:10px 18px;
+  border-radius:10px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+  transition:.3s;
+}
+
+.nav-links a.active,
+.nav-links a:hover{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;
+}
+
+.reload-btn{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border:none;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.reload-btn:hover{
+  background:#fff;
+  color:var(--accent);
+}
+
+/* Mobile Menu */
+.menu-btn{
+  display:none;
+  font-size:26px;
+  background:none;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+}
+
+@media(max-width:850px){
+  .menu-btn{ display:block; }
+
+  .nav-links{
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:#140000;
+    flex-direction:column;
+    padding:15px;
+    border-bottom:2px solid var(--accent);
+    display:none;
+  }
+
+  .nav-links.show{ display:flex; }
+
+  .reload-btn{
+    width:100%;
+    margin-top:10px;
+  }
+}
+
+/* ================= MAIN ================= */
+.main{
+  max-width:1100px;
+  margin:40px auto 60px;
+  padding:0 20px;
+}
+
+/* ================= VIEWER SECTION ================= */
+.viewer-section{
+  max-width:1100px;
+  margin:60px auto;
+  padding:0 20px;
+}
+
+.view-box{
+  background:linear-gradient(135deg,#120000,#1a0a0a);
+  border-left:6px solid var(--accent);
+  border-radius:var(--radius);
+  padding:35px;
+  text-align:center;
+}
+
+.view-box h2{
+  color:var(--accent);
+  font-size:28px;
+  text-transform:uppercase;
+  margin-bottom:22px;
+  letter-spacing:1px;
+}
+
+/* ================= FORM LINK BUTTON ================= */
+.form-link{
+  display:inline-block;
+  padding:16px 32px;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;
+  text-decoration:none;
+  font-weight:800;
+  border-radius:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  transition:.3s;
+}
+
+.form-link:hover{
+  background:#fff;
+  color:var(--accent);
+  transform:scale(1.05);
+}
+
+/* ================= CTA ================= */
+.cta{
+  margin-top:40px;
+  padding:18px;
+  text-align:center;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border-radius:12px;
+  font-weight:800;
+  text-transform:uppercase;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Mission Cadet Upgrade</h1>
-  <p>"Enjoy Life 99%✨ | 🏆Grow 1% Every Day🥇📚 | 🎯Keep Moving Forward🚀🚀"</p>
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="brand">Mission Cadet Upgrade</div>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="Books.html">Books</a>
-    <a href="Assignments.html">Assignments</a>
-    <a href="Faq.html">FAQ</a>
-    <a href="Aboutus.html">About Us</a>
-  </nav>
+  <div class="nav-area">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-  <button id="themeToggle" class="theme-toggle">🌙</button>
-</header>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="Books.html">Books</a>
+      <a class="active" href="Assignments.html">Assignments</a>
+      <a href="Faq.html">FAQ</a>
+      <a href="Aboutus.html">About Us</a>
+      <button class="reload-btn" onclick="location.reload()">⟳ Reload</button>
+    </div>
+  </div>
+</div>
 
+<!-- VIEWER SECTION -->
 <section class="viewer-section">
   <div class="view-box">
     <h2>NCC Theory Test</h2>
 
-    <!-- link you provided -->
-    <a class="form-link" href="https://forms.gle/72ZY333f6RK8sQrC8" target="_blank">
-     Theory Test 3
+    <a class="form-link"
+       href="https://forms.gle/72ZY333f6RK8sQrC8"
+       target="_blank">
+       Theory Test
     </a>
-  </div><br><br>
-  <div class="view-box">
-    <h2>NCC Communication Assessment</h2>
-
-    <!-- link you provided -->
-    <a class="form-link" href="https://forms.gle/sj75adr1H9WhxA1k9" target="_blank">
-     Daily Communication Assessment 
-    </a><p>Upload your Self Intro Video(upto 2 min) daily</p>
-  </div> 
+  </div>
 </section>
 
 <script>
-const themeToggle = document.getElementById('themeToggle');
-
-themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  themeToggle.textContent = 
-    document.body.classList.contains('dark') ? '☀️' : '🌙';
-});
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('show');
+}
 </script>
 
 </body>

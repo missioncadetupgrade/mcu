@@ -3,137 +3,259 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mission Cadet Upgrade - About Us</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Mission Cadet Upgrade | About</title>
 
 <style>
-    *{margin:0;padding:0;box-sizing:border-box;transition:.3s ease;font-family:'Inter',sans-serif;}
-    body{background:#e0e5ec;min-height:100vh;color:#222;}
-    body.dark{background:#121212;color:#eee;}
+:root{
+  --bg:#050505;
+  --panel:#111;
+  --panel-soft:#1a0a0a;
+  --border:#2e2e2e;
+  --text:#ffffff;
+  --muted:#c2c2c2;
+  --accent:#c62828;
+  --accent-dark:#8e0000;
+  --radius:14px;
+}
 
-    /* HEADER */
-    header{
-        width:100%;padding:50px 20px 30px;text-align:center;
-        background:linear-gradient(135deg,#6a11cb,#2575fc);
-        color:#fff;border-bottom-left-radius:20px;border-bottom-right-radius:20px;
-        box-shadow:0 10px 25px rgba(0,0,0,0.2);position:relative;
-    }
-    header h1{font-size:2.8em;font-weight:700;}
-    header p{margin-top:10px;font-size:1.1em;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', Arial, sans-serif;
+}
 
-    /* Navigation */
-    nav{
-        margin-top:25px;display:flex;gap:25px;justify-content:center;flex-wrap:wrap;
-    }
-    nav a{
-        color:#fff;text-decoration:none;font-weight:500;font-size:1.05em;
-        padding:8px 18px;border-radius:20px;background:rgba(255,255,255,0.15);
-        backdrop-filter:blur(5px);
-    }
-    nav a:hover{background:rgba(255,255,255,0.35);}    
+body{
+  background:linear-gradient(180deg,#000,#080808);
+  color:var(--text);
+  min-height:100vh;
+}
 
-    /* Theme Toggle */
-    .theme-toggle{
-        position:absolute;top:20px;right:20px;
-        width:42px;height:42px;border-radius:50%;border:none;
-        background:rgba(255,255,255,0.35);color:#fff;font-size:20px;cursor:pointer;
-    }
+/* ================= NAV ================= */
+.top-nav{
+  background:linear-gradient(90deg,var(--panel),#1a0000);
+  border-bottom:2px solid var(--accent);
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    /* MAIN CONTENT */
-    section{max-width:900px;margin:40px auto;padding:20px;line-height:1.8;}
-    h2{font-size:2em;margin-bottom:15px;text-align:center;color:#6a11cb;}
-    h3{font-size:1.5em;margin-top:25px;color:#2575fc;}
-    p{margin-top:10px;font-size:1.05em;}
-    ul{margin-left:20px;margin-top:10px;line-height:1.7;}
+.brand{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--accent);
+  text-transform:uppercase;
+}
 
-    /* Refresh Button */
-    #refreshButton{
-        margin-top:15px;padding:8px 15px;border:none;
-        border-radius:10px;background:#fff;color:#2575fc;
-        font-weight:600;cursor:pointer;
-    }
+.nav-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    /* Responsive */
-    @media (max-width:600px){
-        header h1{font-size:2.1em;}
-        nav a{font-size:.9em;}
-    }
+.nav-links{
+  display:flex;
+  gap:14px;
+}
+
+.nav-links a{
+  padding:10px 18px;
+  border-radius:10px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+  transition:.3s;
+}
+
+.nav-links a.active,
+.nav-links a:hover{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;
+}
+
+.reload-btn{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border:none;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.reload-btn:hover{
+  background:#fff;
+  color:var(--accent);
+}
+
+/* Mobile Menu */
+.menu-btn{
+  display:none;
+  font-size:26px;
+  background:none;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+}
+
+@media(max-width:850px){
+  .menu-btn{ display:block; }
+
+  .nav-links{
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:#140000;
+    flex-direction:column;
+    padding:15px;
+    border-bottom:2px solid var(--accent);
+    display:none;
+  }
+
+  .nav-links.show{ display:flex; }
+
+  .reload-btn{
+    width:100%;
+    margin-top:10px;
+  }
+}
+
+/* ================= MAIN ================= */
+.main{
+  max-width:1100px;
+  margin:40px auto 60px;
+  padding:0 20px;
+}
+
+/* ================= CONTENT CARD ================= */
+.content-section{
+  background:linear-gradient(135deg,#120000,#1a0a0a);
+  border-left:6px solid var(--accent);
+  border-radius:var(--radius);
+  padding:30px;
+}
+
+.content-section h2{
+  color:var(--accent);
+  font-size:28px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+
+.content-section h3{
+  margin-top:26px;
+  margin-bottom:10px;
+  font-size:20px;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.content-section p{
+  color:#e0e0e0;
+  line-height:1.7;
+  margin-bottom:14px;
+}
+
+.content-section ul{
+  padding-left:22px;
+  margin-top:10px;
+}
+
+.content-section ul li{
+  margin-bottom:8px;
+  color:#eee;
+}
+
+/* ================= CTA ================= */
+.cta{
+  margin-top:40px;
+  padding:18px;
+  text-align:center;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border-radius:12px;
+  font-weight:800;
+  text-transform:uppercase;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-    <h1>Mission Cadet Upgrade</h1>
-    <p>ABOUT US</p>
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="brand">Mission Cadet Upgrade</div>
 
-    <button id="refreshButton">Refresh Page</button>
+  <div class="nav-area">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="Books.html">Books</a>
-        <a href="Assignments.html">Assignments</a>
-        <a href="Faq.html">FAQ</a>
-        <a href="Aboutus.html">About Us</a>
-    </nav>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="Books.html">Books</a>
+      <a href="Assignments.html">Assignments</a>
+      <a href="Faq.html">FAQ</a>
+      <a class="active" href="Aboutus.html">About Us</a>
+      <button class="reload-btn" onclick="location.reload()">⟳ Reload</button>
+    </div>
+  </div>
+</div>
 
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-</header>
+<!-- MAIN CONTENT -->
+<div class="main">
 
-<section>
+  <div class="content-section">
     <h2>Who We Are</h2>
     <p>
-        Mission Cadet Upgrade is a student-driven association formed by the final-year NCC cadets
-        of Kongunadu Arts and Science College. Our mission is to nurture and guide our fellow cadets
-        in developing essential life skills, improving communication, and building confidence to excel
-        in every field they pursue.
+      Mission Cadet Upgrade is a student-driven association formed by the final-year NCC cadets
+      of Kongunadu Arts and Science College. Our mission is to nurture and guide our fellow cadets
+      in developing essential life skills, improving communication, and building confidence to excel
+      in every field they pursue.
     </p>
     <p>
-        We believe that being an NCC cadet goes beyond discipline and drills — it’s about becoming a
-        well-rounded individual ready to serve the nation with knowledge, leadership, and integrity.
+      We believe that being an NCC cadet goes beyond discipline and drills — it’s about becoming a
+      well-rounded individual ready to serve the nation with knowledge, leadership, and integrity.
     </p>
 
     <h3>Our Vision</h3>
     <p>
-        To create a community of confident, disciplined, and career-ready cadets who excel in both
-        personal and professional spheres, embodying the values of leadership, service, and excellence.
+      To create a community of confident, disciplined, and career-ready cadets who excel in both
+      personal and professional spheres, embodying the values of leadership, service, and excellence.
     </p>
 
     <h3>Our Mission</h3>
     <ul>
-        <li>To enhance personality development and communication skills among NCC cadets.</li>
-        <li>To create awareness about career opportunities in both government and private sectors.</li>
-        <li>To promote current affairs awareness and encourage participation in intellectual discussions.</li>
-        <li>To provide guidance and support for competitive exams such as UPSC, TNPSC, AFCAT, CDS, INET, SSC, etc.</li>
-        <li>To motivate cadets to set and achieve higher goals through mentorship, teamwork, and continuous learning.</li>
+      <li>Enhance personality development and communication skills.</li>
+      <li>Create awareness about career opportunities.</li>
+      <li>Promote current affairs and intellectual discussions.</li>
+      <li>Guide cadets for UPSC, TNPSC, AFCAT, CDS, INET, SSC, etc.</li>
+      <li>Motivate cadets through mentorship and teamwork.</li>
     </ul>
 
     <h3>Our Story</h3>
     <p>
-        Founded by the final-year NCC seniors of Kongunadu Arts and Science College, Mission Cadet Upgrade
-        began as a small initiative to help fellow cadets prepare for their future. What started as
-        peer-to-peer learning sessions soon evolved into a structured platform promoting academic excellence,
-        leadership, and national awareness.
+      Founded by final-year NCC seniors, Mission Cadet Upgrade started as peer-to-peer learning
+      sessions and evolved into a structured leadership platform.
     </p>
     <p>
-        With consistent efforts and teamwork, the association continues to empower cadets to think beyond the
-        uniform — to lead, serve, and succeed in all walks of life.
+      Today, it empowers cadets to think beyond the uniform — to lead, serve, and succeed.
     </p>
 
     <h3>Our Motto</h3>
     <p><strong>“Empowering Cadets for a Better Tomorrow.”</strong></p>
-</section>
+  </div>
+
+  <div class="cta">
+    Serve With Honour • Lead With Courage
+  </div>
+
+</div>
 
 <script>
-    // Refresh Button
-    const refreshBtn = document.getElementById("refreshButton");
-    refreshBtn.addEventListener("click", () => window.location.reload());
-
-    // Theme Toggle
-    const themeToggle=document.getElementById('themeToggle');
-    themeToggle.addEventListener('click',()=>{
-        document.body.classList.toggle('dark');
-        themeToggle.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
-    });
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('show');
+}
 </script>
 
 </body>

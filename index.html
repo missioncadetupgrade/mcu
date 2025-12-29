@@ -3,121 +3,255 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mission Cadet Upgrade - Home</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Mission Cadet Upgrade | Indian Army Theme</title>
+
 <style>
-    *{margin:0;padding:0;box-sizing:border-box;transition:.3s ease;font-family:'Inter',sans-serif;}
-    body{background:#e0e5ec;min-height:100vh;color:#222;}
-    body.dark{background:#121212;color:#eee;}
+:root{
+  --bg:#050505;
+  --panel:#111111;
+  --panel-soft:#1c1c1c;
+  --border:#2e2e2e;
+  --text:#ffffff;
+  --muted:#c2c2c2;
+  --accent:#c62828;
+  --accent-dark:#8e0000;
+  --radius:14px;
+}
 
-    /* HEADER */
-    header{
-        width:100%;padding:50px 20px 30px;text-align:center;
-        background:linear-gradient(135deg,#6a11cb,#2575fc);
-        color:#fff;border-bottom-left-radius:20px;border-bottom-right-radius:20px;
-        box-shadow:0 10px 25px rgba(0,0,0,0.2);position:relative;
-    }
-    header h1{font-size:2.8em;font-weight:700;}
-    header p{margin-top:10px;font-size:1.1em;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', Arial, sans-serif;
+}
 
-    /* Navigation */
-    nav{
-        margin-top:25px;display:flex;gap:25px;justify-content:center;flex-wrap:wrap;
-    }
-    nav a{
-        color:#fff;text-decoration:none;font-weight:500;font-size:1.05em;
-        padding:8px 18px;border-radius:20px;background:rgba(255,255,255,0.15);
-        backdrop-filter:blur(5px);
-    }
-    nav a:hover{background:rgba(255,255,255,0.35);}    
+body{
+  background:linear-gradient(180deg,#000,#080808);
+  color:var(--text);
+  min-height:100vh;
+}
 
-    /* Theme Toggle */
-    .theme-toggle{
-        position:absolute;top:20px;right:20px;
-        width:42px;height:42px;border-radius:50%;border:none;
-        background:rgba(255,255,255,0.35);color:#fff;font-size:20px;cursor:pointer;
-    }
+/* ================= TOP NAV ================= */
+.top-nav{
+  background:linear-gradient(90deg,var(--panel),#1a0000);
+  border-bottom:2px solid var(--accent);
+  padding:16px 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-    /* MAIN CONTENT */
-    section{max-width:900px;margin:40px auto;padding:20px;line-height:1.8;}
-    h2{font-size:2em;margin-bottom:15px;text-align:center;color:#6a11cb;}
-    h3{font-size:1.5em;margin-top:25px;color:#2575fc;}
+.brand{
+  font-size:22px;
+  font-weight:900;
+  color:var(--accent);
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
 
-    ul{margin-left:20px;margin-top:10px;line-height:1.7;}
+.nav-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    /* Responsive */
-    @media (max-width:600px){header h1{font-size:2.1em;}nav a{font-size:.9em;}}
+.nav-links{
+  display:flex;
+  gap:14px;
+}
+
+.nav-links a{
+  padding:10px 18px;
+  border-radius:10px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+  transition:.3s;
+}
+
+.nav-links a.active,
+.nav-links a:hover{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;
+}
+
+/* Reload Button */
+.reload-btn{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border:none;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+  font-weight:700;
+  transition:.3s;
+}
+.reload-btn:hover{
+  background:#fff;
+  color:var(--accent);
+}
+
+/* Mobile Menu Button */
+.menu-btn{
+  display:none;
+  font-size:26px;
+  background:none;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* ================= MOBILE NAV ================= */
+@media(max-width:850px){
+  .menu-btn{
+    display:block;
+  }
+
+  .nav-links{
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:#140000;
+    flex-direction:column;
+    padding:15px;
+    border-bottom:2px solid var(--accent);
+    display:none;
+  }
+
+  .nav-links.show{
+    display:flex;
+  }
+
+  .reload-btn{
+    margin-top:10px;
+    width:100%;
+  }
+}
+
+/* ================= MAIN ================= */
+.main{
+  max-width:1100px;
+  margin:40px auto;
+  padding:0 20px;
+}
+
+.header h1{
+  font-size:36px;
+  text-transform:uppercase;
+}
+
+.header p{
+  color:var(--muted);
+  margin-top:8px;
+}
+
+/* ================= CARDS ================= */
+.card{
+  background:linear-gradient(135deg,#120000,#1a0a0a);
+  border:1px solid var(--border);
+  border-left:6px solid var(--accent);
+  border-radius:var(--radius);
+  padding:25px;
+  margin-bottom:20px;
+}
+
+.card h2{
+  color:var(--accent);
+  margin-bottom:12px;
+  text-transform:uppercase;
+}
+
+.card ul{
+  padding-left:20px;
+}
+
+.card ul li{
+  margin-bottom:8px;
+  color:#eee;
+}
+
+/* CTA */
+.cta{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  padding:16px;
+  border-radius:12px;
+  text-align:center;
+  font-weight:800;
+  margin-top:20px;
+  text-transform:uppercase;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-    <h1>Mission Cadet Upgrade</h1>
-    <p>"Enjoy Life 99%✨ | 🏆Grow 1% Every Day🥇📚 | 🎯Keep Moving Forward🚀🚀"</p>
-<button id="refreshButton">Refresh Page</button>
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="brand">Mission Cadet Upgrade</div>
 
-    <script>
-        // Get a reference to the button element
-        const refreshBtn = document.getElementById("refreshButton");
+  <div class="nav-area">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-        // Add an event listener to the button
-        refreshBtn.addEventListener("click", function() {
-            // Reload the current page when the button is clicked
-            window.location.reload();
-        });
-    </script>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="Books.html">Books</a>
-        <a href="Assignments.html">Assignments</a>
-        <a href="Faq.html">FAQ</a>
-        <a href="Aboutus.html">About Us</a>
-    </nav>
+    <div class="nav-links" id="navLinks">
+      <a class="active" href="index.html">Home</a>
+      <a href="Books.html">Books</a>
+      <a href="Assignments.html">Assignments</a>
+      <a href="Faq.html">FAQ</a>
+      <a href="Aboutus.html">About Us</a>
 
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-</header>
+      <!-- Reload Button -->
+      <button class="reload-btn" onclick="reloadPage()">⟳ Reload</button>
+    </div>
+  </div>
+</div>
 
-<section>
-    <h2>Welcome to Mission Cadet Upgrade</h2>
+<!-- MAIN -->
+<div class="main">
+  <div class="header">
+    <h1>Unity • Discipline </h1>
+    <p>Forging Leadership | Building Character | Serving the Nation</p>
+  </div>
 
-    <p><strong>Mission Cadet Upgrade</strong> is a student-led initiative created by the final-year NCC cadets of Kongunadu Arts and Science College. Our mission is to empower cadets with personal excellence, communication mastery, awareness, and career readiness.</p>
+  <div class="card">
+    <h2>About the Mission</h2>
+    <p>
+      Mission Cadet Upgrade is a disciplined, NCC-led initiative focused on
+      leadership excellence, military readiness, and national service.
+    </p>
+  </div>
 
-    <h3>About the Initiative</h3>
-    <p>We aim to transform NCC cadets into confident leaders and responsible citizens, well-equipped to serve the nation both in and beyond uniform.</p>
-
-    <h3>What We Do</h3>
+  <div class="card">
+    <h2>Training Domains</h2>
     <ul>
-        <li>🌟 <strong>Personality Development</strong> – Build discipline, confidence & leadership.</li>
-        <li>🗣️ <strong>Communication Training</strong> – Public speaking, GD, interviews.</li>
-        <li>📰 <strong>Current Affairs Training</strong> – Stay updated on national & global events.</li>
-        <li>🎯 <strong>Career Guidance</strong> – Defense, UPSC, TNPSC & more.</li>
-        <li>📚 <strong>Exam Preparation</strong> – UPSC, AFCAT, INET, CDS, SSC etc.</li>
+      <li>🎖 Leadership & Command Skills</li>
+      <li>🗣 Military Communication</li>
+      <li>📰 Defence & Current Affairs</li>
+      <li>🎯 Officer Entry Preparation</li>
+      <li>📚 NDA • CDS • AFCAT • INET • UPSC</li>
     </ul>
+  </div>
 
-    <h3>Why Join Us?</h3>
+  <div class="card">
+    <h2>Why This Platform?</h2>
     <ul>
-        <li>🤝 Learn directly from senior NCC mentors</li>
-        <li>🧠 Gain practical knowledge beyond academics</li>
-        <li>💬 Improve communication & leadership skills</li>
-        <li>🎓 Career guidance and motivational support</li>
-        <li>💡 A community that inspires & uplifts</li>
+      <li>🇮🇳 NCC senior mentorship</li>
+      <li>⚔ Army-oriented discipline</li>
+      <li>🧠 Tactical thinking</li>
+      <li>🏆 Officer mindset</li>
     </ul>
+  </div>
 
-    <h3>Our Motto</h3>
-    <p>“Enjoy Life 99%✨ | Grow 1% Every Day🥇” – Every cadet has unlimited potential, and with the right support, we help them shine.</p>
-
-    <h3>Join the Movement</h3>
-    <p>Are you ready to upgrade your skills, mindset, and future? Become part of the Mission Cadet Upgrade movement today.</p>
-    <p style="font-weight:bold;font-size:18px;text-align:center;margin-top:10px;">👉 Together, let's learn, lead & rise.</p>
-</section>
+  <div class="cta">
+    Serve With Honour • Lead With Courage
+  </div>
+</div>
 
 <script>
-const themeToggle=document.getElementById('themeToggle');
-
-themeToggle.addEventListener('click',()=>{
-    document.body.classList.toggle('dark');
-    themeToggle.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
-});
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('show');
+}
 </script>
 
 </body>

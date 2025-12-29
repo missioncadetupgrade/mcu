@@ -3,196 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Professional Book Categories</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Mission Cadet Upgrade | Assignments</title>
+
 <style>
-   *{margin:0;padding:0;box-sizing:border-box;transition:.3s ease;font-family:'Inter',sans-serif;}
-    body{background:#e0e5ec;min-height:100vh;color:#222;}
-    body.dark{background:#121212;color:#eee;}
+:root{
+  --bg:#050505;
+  --panel:#111;
+  --panel-soft:#1a0a0a;
+  --border:#2e2e2e;
+  --text:#ffffff;
+  --muted:#c2c2c2;
+  --accent:#c62828;
+  --accent-dark:#8e0000;
+  --radius:14px;
+}
 
-    /* HEADER */
-    header{
-        width:100%;padding:50px 20px 30px;text-align:center;
-        background:linear-gradient(135deg,#6a11cb,#2575fc);
-        color:#fff;border-bottom-left-radius:20px;border-bottom-right-radius:20px;
-        box-shadow:0 10px 25px rgba(0,0,0,0.2);position:relative;
-    }
-    header h1{font-size:2.8em;font-weight:700;}
-    header p{margin-top:10px;font-size:1.1em;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', Arial, sans-serif;
+}
 
-    /* Navigation */
-    nav{
-        margin-top:25px;display:flex;gap:25px;justify-content:center;flex-wrap:wrap;
-    }
-    nav a{
-        color:#fff;text-decoration:none;font-weight:500;font-size:1.05em;
-        padding:8px 18px;border-radius:20px;background:rgba(255,255,255,0.15);
-        backdrop-filter:blur(5px);
-    }
-    nav a:hover{background:rgba(255,255,255,0.35);}    
-   
+body{
+  background:linear-gradient(180deg,#000,#080808);
+  color:var(--text);
+  min-height:100vh;
+}
 
-    /* Theme Toggle */
-    .theme-toggle{
-        position:absolute;top:20px;right:20px;
-        width:42px;height:42px;border-radius:50%;border:none;
-        background:rgba(255,255,255,0.35);color:#fff;font-size:20px;cursor:pointer;
-    }
+/* ================= NAV ================= */
+.top-nav{
+  background:linear-gradient(90deg,var(--panel),#1a0000);
+  border-bottom:2px solid var(--accent);
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .theme-toggle {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(255,255,255,0.3);
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        color: #fff;
-        transition: all 0.3s;
-    }
+.brand{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--accent);
+  text-transform:uppercase;
+}
 
-    .theme-toggle:hover { transform: scale(1.1); background: rgba(255,255,255,0.5); }
+.nav-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    .search-container {
-        margin: 30px 0 20px;
-        text-align: center;
-    }
+.nav-links{
+  display:flex;
+  gap:14px;
+}
 
-    .search-container input {
-        padding: 12px 20px;
-        font-size: 1em;
-        border-radius: 25px;
-        border: none;
-        width: 300px;
-        max-width: 90%;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        outline: none;
-    }
+.nav-links a{
+  padding:10px 18px;
+  border-radius:10px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+  transition:.3s;
+}
 
-    .container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 25px;
-        padding: 40px 20px 60px;
-        max-width: 1200px;
-        width: 100%;
-    }
+.nav-links a.active,
+.nav-links a:hover{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;
+}
 
-    /* Glassmorphism + Neumorphism Cards */
-    .category-card {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(12px);
-        border-radius: 20px;
-        box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -10px -10px 20px rgba(255,255,255,0.5);
-        text-align: center;
-        padding: 35px 20px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        color: #333;
-        transition: all 0.4s ease;
-        text-decoration: none;
-    }
+.reload-btn{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border:none;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
 
-    body.dark .category-card {
-        background: rgba(255,255,255,0.05);
-        color: #eee;
-        box-shadow: 10px 10px 20px rgba(0,0,0,0.3), -10px -10px 20px rgba(255,255,255,0.05);
-    }
+.reload-btn:hover{
+  background:#fff;
+  color:var(--accent);
+}
 
-    .category-card:hover {
-        transform: translateY(-12px) scale(1.05);
-        box-shadow: 0 20px 35px rgba(0,0,0,0.2);
-        border: 2px solid #6a11cb;
-    }
+/* Mobile Menu */
+.menu-btn{
+  display:none;
+  font-size:26px;
+  background:none;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+}
 
-    .category-icon {
-        font-size: 50px;
-        margin-bottom: 18px;
-        transition: transform 0.3s ease, color 0.3s ease;
-    }
+@media(max-width:850px){
+  .menu-btn{ display:block; }
 
-    .category-card:hover .category-icon { transform: rotate(15deg) scale(1.2); color: #6a11cb; }
+  .nav-links{
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:#140000;
+    flex-direction:column;
+    padding:15px;
+    border-bottom:2px solid var(--accent);
+    display:none;
+  }
 
-    .category-card h2 {
-        font-size: 1.2em;
-        font-weight: 600;
-        line-height: 1.4;
-        transition: color 0.3s ease;
-    }
+  .nav-links.show{ display:flex; }
 
-    .category-card:hover h2 { color: #6a11cb; }
+  .reload-btn{
+    width:100%;
+    margin-top:10px;
+  }
+}
 
-    /* Mobile Adjustments */
-    @media (max-width: 600px) {
-        header h1 { font-size: 2em; }
-        .category-card { padding: 25px 15px; }
-        .category-icon { font-size: 40px; }
-        .search-container input { width: 90%; }
-    }
+/* ================= SEARCH ================= */
+.search-container{
+  max-width:600px;
+  margin:40px auto 20px;
+  padding:0 20px;
+}
+
+.search-container input{
+  width:100%;
+  padding:14px 18px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#120000;
+  color:#fff;
+  font-size:16px;
+}
+
+.search-container input::placeholder{
+  color:var(--muted);
+}
+
+.search-container input:focus{
+  outline:none;
+  border-color:var(--accent);
+}
+
+/* ================= CATEGORY GRID ================= */
+.container{
+  max-width:1100px;
+  margin:30px auto 60px;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.category-card{
+  background:linear-gradient(135deg,#120000,#1a0a0a);
+  border-left:6px solid var(--accent);
+  border-radius:var(--radius);
+  padding:28px;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  transition:.3s;
+}
+
+.category-card:hover{
+  transform:scale(1.04);
+  box-shadow:0 0 20px rgba(198,40,40,.35);
+}
+
+.category-icon{
+  font-size:40px;
+  display:block;
+  margin-bottom:14px;
+}
+
+.category-card h2{
+  font-size:20px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+/* ================= CTA ================= */
+.cta{
+  margin:40px auto;
+  max-width:800px;
+  padding:18px;
+  text-align:center;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border-radius:12px;
+  font-weight:800;
+  text-transform:uppercase;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-    <h1>Mission Cadet Upgrade</h1>
-    <p>BOOKS</p>
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="brand">Mission Cadet Upgrade</div>
 
-    <button id="refreshButton">Refresh Page</button>
+  <div class="nav-area">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="Books.html">Books</a>
-        <a href="Assignments.html">Assignments</a>
-        <a href="Faq.html">FAQ</a>
-        <a href="Aboutus.html">About Us</a>
-    </nav>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a class="active" href="Books.html">Books</a>
+      <a href="Assignments.html">Assignments</a>
+      <a href="Faq.html">FAQ</a>
+      <a href="Aboutus.html">About Us</a>
+      <button class="reload-btn" onclick="location.reload()">⟳ Reload</button>
+    </div>
+  </div>
+</div>
 
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-</header>
-
+<!-- SEARCH -->
 <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search categories...">
+  <input type="text" id="searchInput" placeholder="Search categories...">
 </div>
 
+<!-- CATEGORY GRID -->
 <div class="container" id="categoryContainer">
-      <a href="Books/NCC.html" class="category-card"><span class="category-icon">⚔️</span><h2>National Cadet Corps</h2></a>
-</div>
+  <a href="Books/NCC.html" class="category-card">
+    <span class="category-icon">⚔️</span>
+    <h2>National Cadet Corps</h2>
+  </a>
 
+<!--  <a href="Books/Finance.html" class="category-card">
+    <span class="category-icon">💰</span>
+    <h2>Finance</h2>
+  </a>
+</div>-->
 
-<div class="container" id="categoryContainer">
-      <a href="Books/Finance.html" class="category-card"><span class="category-icon">💰</span><h2>Finance</h2></a>
+<div class="cta">
+  Discipline • Knowledge • Leadership
 </div>
 
 <script>
-    // Dark/Light Mode Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-    });
-
-    // Search Filter
-    const searchInput = document.getElementById('searchInput');
-    const categoryContainer = document.getElementById('categoryContainer');
-    searchInput.addEventListener('input', () => {
-        const filter = searchInput.value.toLowerCase();
-        const cards = categoryContainer.getElementsByClassName('category-card');
-        Array.from(cards).forEach(card => {
-            const text = card.textContent.toLowerCase();
-            card.style.display = text.includes(filter) ? '' : 'none';
-        });
-    });
-  // Refresh Button
-document.getElementById("refreshButton").addEventListener("click", () => {
-    window.location.reload();
-});
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('show');
+}
 </script>
 
 </body>

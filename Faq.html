@@ -3,300 +3,313 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mission Cadet Upgrade - FAQ</title>
-
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Mission Cadet Upgrade | FAQ</title>
 
 <style>
-/* Base Styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    transition: all 0.3s ease;
+:root{
+  --bg:#050505;
+  --panel:#111;
+  --panel-soft:#1a0a0a;
+  --border:#2e2e2e;
+  --text:#ffffff;
+  --muted:#c2c2c2;
+  --accent:#c62828;
+  --accent-dark:#8e0000;
+  --radius:14px;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background: #e0e5ec;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', Arial, sans-serif;
 }
 
-body.dark {
-    background: #121212;
-    color: #eee;
+body{
+  background:linear-gradient(180deg,#000,#080808);
+  color:var(--text);
+  min-height:100vh;
 }
 
-/* HEADER */
-header {
-    width: 100%;
-    padding: 120px 20px 30px;
-    text-align: center;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: #fff;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    position: relative;
+/* ================= NAV ================= */
+.top-nav{
+  background:linear-gradient(90deg,var(--panel),#1a0000);
+  border-bottom:2px solid var(--accent);
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-header h1 {
-    font-size: 2.8em;
-    font-weight: 700;
-    margin-bottom: 10px;
+.brand{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--accent);
+  text-transform:uppercase;
 }
 
-header p {
-    font-size: 1.1em;
-    margin-bottom: 20px;
+
+.nav-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-/* Refresh Button */
-#refreshButton {
-    padding: 10px 20px;
-    background: rgba(255,255,255,0.2);
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    margin-bottom: 15px;
-    backdrop-filter: blur(6px);
+.nav-links{
+  display:flex;
+  gap:14px;
 }
 
-#refreshButton:hover {
-    background: rgba(255,255,255,0.4);
+.nav-links a{
+  padding:10px 18px;
+  border-radius:10px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+  transition:.3s;
 }
 
-/* Navigation Bar */
-nav {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+.nav-links a.active,
+.nav-links a:hover{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;
 }
 
-nav a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 8px 14px;
-    background: rgba(255,255,255,0.25);
-    border-radius: 12px;
+
+.reload-btn{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border:none;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
 }
 
-nav a:hover {
-    background: rgba(255,255,255,0.45);
+.reload-btn:hover{
+  background:#fff;
+  color:var(--accent);
 }
 
-/* Theme Toggle Button */
-.theme-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255,255,255,0.3);
-    border: none;
-    border-radius: 50%;
-    width: 42px;
-    height: 42px;
-    font-size: 18px;
-    cursor: pointer;
-    color: #fff;
+/* ================= HEADER ================= */
+.header{
+  max-width:1100px;
+  margin:40px auto 20px;
+  padding:0 20px;
 }
 
-.theme-toggle:hover {
-    background: rgba(255,255,255,0.5);
-}
-/* FAQ CONTAINER */
-.faq-container {
-    width: 100%;
-    max-width: 900px;
-    padding: 30px 20px 60px;
-    margin-top: 20px;
+.header h1{
+  font-size:36px;
+  text-transform:uppercase;
 }
 
-/* FAQ Card (Same Style as Category Card) */
-.faq-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    border-radius: 20px;
-    box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -10px -10px 20px rgba(255,255,255,0.5);
-    padding: 20px 25px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    color: #333;
+.header p{
+  margin-top:8px;
+  color:var(--muted);
 }
 
-body.dark .faq-card {
-    background: rgba(255,255,255,0.05);
-    color: #eee;
-    box-shadow: 10px 10px 20px rgba(0,0,0,0.3), -10px -10px 20px rgba(255,255,255,0.05);
+/* ================= FAQ ================= */
+.faq-container{
+  max-width:1100px;
+  margin:20px auto 60px;
+  padding:0 20px;
 }
 
-.faq-question {
-    font-size: 1.2em;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
+.faq-card{
+  background:linear-gradient(135deg,#120000,#1a0a0a);
+  border-left:6px solid var(--accent);
+  border-radius:var(--radius);
+  padding:22px;
+  margin-bottom:16px;
+  cursor:pointer;
+  transition:.3s;
 }
 
-.faq-answer {
-    margin-top: 12px;
-    line-height: 1.6;
-    display: none;
+.faq-card:hover{
+  transform:scale(1.01);
 }
 
-.faq-card.open .faq-answer {
-    display: block;
+.faq-question{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:700;
+  font-size:18px;
+  color:#fff;
 }
 
-.faq-card.open {
-    border: 2px solid #6a11cb;
-    transform: scale(1.02);
+.faq-question span{
+  font-size:24px;
+  color:var(--accent);
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-    header h1 {
-        font-size: 2em;
-    }
-
-    nav {
-        gap: 10px;
-    }
-
-    #refreshButton {
-        width: 90%;
-    }
+.faq-answer{
+  margin-top:12px;
+  line-height:1.6;
+  color:#eee;
+  display:none;
 }
+
+.faq-card.open .faq-answer{
+  display:block;
+}
+
+/* ================= CTA ================= */
+.cta{
+  margin-top:40px;
+  padding:18px;
+  text-align:center;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border-radius:12px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+/* Mobile Menu Button */
+.menu-btn{
+  display:none;
+  font-size:26px;
+  background:none;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+}
+/* ================= MOBILE ================= */
+@media(max-width:850px){
+  .menu-btn{
+    display:block;
+  }
+
+  .nav-links{
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:#140000;
+    flex-direction:column;
+    padding:15px;
+    border-bottom:2px solid var(--accent);
+    display:none;
+  }
+
+  .nav-links.show{
+    display:flex;
+  }
+
+  .reload-btn{
+    margin-top:10px;
+    width:100%;
+  }
+}
+
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Mission Cadet Upgrade</h1>
-    <p>"Enjoy Life 99%✨ | 🏆Grow 1% Every Day🥇📚 | 🎯Keep Moving Forward🚀🚀"</p>
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="brand">Mission Cadet Upgrade</div>
 
-    <button id="refreshButton">Refresh Page</button>
+  <div class="nav-area">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="Books.html">Books</a>
-        <a href="Assignments.html">Assignments</a>
-        <a href="Faq.html">FAQ</a>
-          <a href="Aboutus.html">About Us</a>
-    </nav>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="Books.html">Books</a>
+      <a href="Assignments.html">Assignments</a>
+      <a class="active" href="Faq.html">FAQ</a>
+      <a href="Aboutus.html">About Us</a>
 
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-</header>
+      <!-- Reload Button -->
+      <button class="reload-btn" onclick="reloadPage()">⟳ Reload</button>
+    </div>
+  </div>
+</div>
 
+<!-- HEADER -->
+<div class="header">
+  <h1>Frequently Asked Questions</h1>
+  <p>Discipline • Leadership • Service to the Nation</p>
+</div>
+
+<!-- FAQ -->
 <div class="faq-container">
 
-    <div class="faq-card">
-        <div class="faq-question">1. What is Mission Cadet Upgrade? <span>+</span></div>
-        <div class="faq-answer">
-            Mission Cadet Upgrade is an initiative started by the final-year NCC cadets of Kongunadu Arts and Science College. It focuses on improving communication, leadership, current affairs awareness, and career preparation.
-        </div>
+  <div class="faq-card">
+    <div class="faq-question">1. What is Mission Cadet Upgrade? <span>+</span></div>
+    <div class="faq-answer">
+      Mission Cadet Upgrade is a disciplined NCC-led initiative focused on leadership, communication, current affairs, and officer-oriented career preparation.
     </div>
+  </div>
 
-    <div class="faq-card">
-        <div class="faq-question">2. Who can join Mission Cadet Upgrade? <span>+</span></div>
-        <div class="faq-answer">
-            Any NCC cadet from any wing or year can join and participate in the programs.
-        </div>
+  <div class="faq-card">
+    <div class="faq-question">2. Who can join this mission? <span>+</span></div>
+    <div class="faq-answer">
+      Any NCC cadet from any wing or academic year can participate.
     </div>
+  </div>
 
-    <div class="faq-card">
-        <div class="faq-question">3. What activities are conducted? <span>+</span></div>
-        <div class="faq-answer">
-            Workshops, seminars, quizzes, career guidance, mock tests, group studies, and motivational sessions.
-        </div>
+  <div class="faq-card">
+    <div class="faq-question">3. What activities are conducted? <span>+</span></div>
+    <div class="faq-answer">
+      Leadership workshops, defence awareness sessions, mock tests, seminars, quizzes, and career guidance.
     </div>
+  </div>
 
-    <div class="faq-card">
-        <div class="faq-question">4. Which exams are covered? <span>+</span></div>
-        <div class="faq-answer">
-            UPSC, TNPSC, AFCAT, CDS, INET, SSC, and other competitive exams.
-        </div>
+  <div class="faq-card">
+    <div class="faq-question">4. Which exams are covered? <span>+</span></div>
+    <div class="faq-answer">
+      NDA, CDS, AFCAT, INET, UPSC, TNPSC, SSC, and other competitive exams.
     </div>
+  </div>
 
-    <div class="faq-card">
-        <div class="faq-question">5. Is there a membership fee? <span>+</span></div>
-        <div class="faq-answer">
-            No. Mission Cadet Upgrade is completely free for all cadets.
-        </div>
+  <div class="faq-card">
+    <div class="faq-question">5. Is there any fee? <span>+</span></div>
+    <div class="faq-answer">
+      No. This mission is completely free for all cadets.
     </div>
+  </div>
 
-    <div class="faq-card">
-        <div class="faq-question">6. How can I participate? <span>+</span></div>
-        <div class="faq-answer">
-            Through announcements from the NCC unit or by following official social media pages.
-        </div>
+  <div class="faq-card">
+    <div class="faq-question">6. Who conducts the sessions? <span>+</span></div>
+    <div class="faq-answer">
+      Senior NCC cadets, officers, faculty advisors, alumni, and guest experts.
     </div>
+  </div>
 
-    <div class="faq-card">
-        <div class="faq-question">7. Who organizes the sessions? <span>+</span></div>
-        <div class="faq-answer">
-            Final-year cadets organize the programs with support from NCC officers and faculty advisors.
-        </div>
+  <div class="faq-card">
+    <div class="faq-question">7. What are the benefits? <span>+</span></div>
+    <div class="faq-answer">
+      Improved confidence, leadership mindset, teamwork, discipline, and exam readiness.
     </div>
+  </div>
 
-    <div class="faq-card">
-        <div class="faq-question">8. Benefits of joining? <span>+</span></div>
-        <div class="faq-answer">
-            Improved confidence, communication, leadership skills, exam support, teamwork, and motivation.
-        </div>
+  <div class="faq-card">
+    <div class="faq-question">8. How can I contact the team? <span>+</span></div>
+    <div class="faq-answer">
+      Through NCC unit announcements, senior cadets, or official communication channels.
     </div>
+  </div>
 
-    <div class="faq-card">
-        <div class="faq-question">9. Do you invite external trainers? <span>+</span></div>
-        <div class="faq-answer">
-            Yes, guest speakers, alumni, and professionals are invited for special sessions.
-        </div>
-    </div>
-
-    <div class="faq-card">
-        <div class="faq-question">10. How to contact Mission Cadet Upgrade? <span>+</span></div>
-        <div class="faq-answer">
-            Through the NCC office, social media pages, or senior cadet coordinators.
-        </div>
-    </div>
+  <div class="cta">
+    Serve With Honour • Lead With Courage
+  </div>
 
 </div>
 
 <script>
-// FAQ Toggle
-document.querySelectorAll('.faq-card').forEach(card => {
-    card.addEventListener('click', () => {
-        card.classList.toggle('active');
-    });
+document.querySelectorAll('.faq-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    card.classList.toggle('open');
+    const sign = card.querySelector('span');
+    sign.textContent = card.classList.contains('open') ? '−' : '+';
+  });
 });
 
-// Refresh Button
-document.getElementById("refreshButton").addEventListener("click", () => {
-    window.location.reload();
-});
-
-// Theme Toggle
-const themeBtn = document.getElementById("themeToggle");
-themeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-    themeBtn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
-});
-    
-document.querySelectorAll('.faq-card').forEach(card => {
-    card.addEventListener('click', () => {
-        card.classList.toggle('open');
-        let sign = card.querySelector("span");
-        sign.textContent = card.classList.contains("open") ? "-" : "+";
-    });
-});
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('show');
+}
 </script>
 
 </body>
