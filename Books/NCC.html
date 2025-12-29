@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Cadet Upgrade | Books</title>
+
+<style>
+:root{
+  --bg:#050505;
+  --panel:#111;
+  --panel-soft:#1a0a0a;
+  --border:#2e2e2e;
+  --text:#ffffff;
+  --muted:#c2c2c2;
+  --accent:#c62828;
+  --accent-dark:#8e0000;
+  --radius:14px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', Arial, sans-serif;
+}
+
+body{
+  background:linear-gradient(180deg,#000,#080808);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* ================= NAV ================= */
+.top-nav{
+  background:linear-gradient(90deg,var(--panel),#1a0000);
+  border-bottom:2px solid var(--accent);
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--accent);
+  text-transform:uppercase;
+}
+
+.nav-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.nav-links{
+  display:flex;
+  gap:14px;
+}
+
+.nav-links a{
+  padding:10px 18px;
+  border-radius:10px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+  transition:.3s;
+}
+
+.nav-links a.active,
+.nav-links a:hover{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;
+}
+
+.reload-btn{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border:none;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.reload-btn:hover{
+  background:#fff;
+  color:var(--accent);
+}
+
+/* Mobile Menu */
+.menu-btn{
+  display:none;
+  font-size:26px;
+  background:none;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+}
+
+@media(max-width:850px){
+  .menu-btn{ display:block; }
+
+  .nav-links{
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:#140000;
+    flex-direction:column;
+    padding:15px;
+    border-bottom:2px solid var(--accent);
+    display:none;
+  }
+
+  .nav-links.show{ display:flex; }
+
+  .reload-btn{
+    width:100%;
+    margin-top:10px;
+  }
+}
+
+/* ================= SEARCH ================= */
+.search-container{
+  max-width:600px;
+  margin:40px auto 20px;
+  padding:0 20px;
+}
+
+.search-container input{
+  width:100%;
+  padding:14px 18px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#120000;
+  color:#fff;
+  font-size:16px;
+}
+
+.search-container input::placeholder{
+  color:var(--muted);
+}
+
+.search-container input:focus{
+  outline:none;
+  border-color:var(--accent);
+}
+
+/* ================= BOOK GRID ================= */
+.container{
+  max-width:1100px;
+  margin:30px auto;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+/* ================= BOOK CARD ================= */
+.book-card{
+  background:linear-gradient(135deg,#120000,#1a0a0a);
+  border-left:6px solid var(--accent);
+  border-radius:var(--radius);
+  padding:24px;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  transition:.3s;
+}
+
+.book-card:hover{
+  transform:scale(1.04);
+  box-shadow:0 0 22px rgba(198,40,40,.35);
+}
+
+.book-icon{
+  display:block;
+  margin-bottom:14px;
+}
+
+.book-icon img{
+  width:100%;
+  max-height:220px;
+  object-fit:cover;
+  border-radius:10px;
+  border:2px solid var(--border);
+}
+
+.book-card h2{
+  font-size:18px;
+  margin-top:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+/* ================= CTA ================= */
+.cta{
+  margin:40px auto 60px;
+  max-width:800px;
+  padding:18px;
+  text-align:center;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border-radius:12px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="brand">Mission Cadet Upgrade</div>
+
+  <div class="nav-area">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a class="active" href="Books.html">Books</a>
+      <a href="Assignments.html">Assignments</a>
+      <a href="Faq.html">FAQ</a>
+      <a href="Aboutus.html">About Us</a>
+      <button class="reload-btn" onclick="location.reload()">⟳ Reload</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="Search books...">
+</div>
+
+<!-- BOOKS -->
+<div class="container">
+
+  <a href="NCC/CS.html" class="book-card">
+    <span class="book-icon">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEilbU8qSjh9MHWny2tiqYCOfUwm3kiCHNMGntrxHO8krYBKCRGrMi-b7oNUpXqda1PtMjYl4hlIaX26oGlFy5qgRuF9Kv5mbTox-B6zbCc4AEieKcYNzZxA35YaFWIVsv11QSc1zx7VYFyhnH6geIKUxvjHuu_xcVGdXh74DCrrnmnFCmeDCCPGyBNOtzg/s772/1000024605.jpg">
+    </span>
+    <h2>NCC Common Syllabus</h2>
+  </a>
+
+  <a href="NCC/SS.html" class="book-card">
+    <span class="book-icon">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqA3fH5ZPAt4cEI4X7GgG9zc5ZO9MXo4VxlGoQbladtZD5lDFFftJmH3l6mcwpMhFIG3LUHSrQ6cHkGmjGHcX8YC8ScXLFP5AU24QS7TUtZD9Bp3kwEadhfiKQ9O1f8mz3qvj8ywTpg4bBzE9bSPqe4ENZBWkgbIXz_RGbj93-yKEx4zdoRZ6D_is21ZQ/s816/1000024606.jpg">
+    </span>
+    <h2>NCC Specialised Syllabus (Army)</h2>
+  </a>
+
+</div>
+
+<div class="cta">
+  Discipline • Knowledge • Leadership
+</div>
+
+<script>
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('show');
+}
+</script>
+
+</body>
+</html>
