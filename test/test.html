@@ -259,7 +259,7 @@ function submitTest() {
         `Marks Obtained: <b>${correct} / ${total}</b>`;
 
     saveResultToSupabase(correct, wrong, total);
-
+alert("Your Test has been submitted Successfully");
     new Chart(document.getElementById("resultChart"), {
         type: "doughnut",
         data: {
