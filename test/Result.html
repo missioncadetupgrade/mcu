@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Results Dashboard</title>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+  --bg:#050505;
+  --panel:#111;
+  --panel-soft:#1a1a1a;
+  --border:#2e2e2e;
+  --text:#fff;
+  --muted:#c2c2c2;
+  --accent:#c62828;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+
+body{
+  background:linear-gradient(180deg,#000,#080808);
+  color:var(--text);
+  padding:20px;
+}
+
+.header{
+  text-align:center;
+  margin-bottom:30px;
+}
+.header h1{color:var(--accent);letter-spacing:2px;}
+.header p{color:var(--muted);}
+
+.dashboard{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.card{
+  background:linear-gradient(135deg,#120000,#1a0a0a);
+  border:1px solid var(--border);
+  border-left:5px solid var(--accent);
+  border-radius:14px;
+  padding:20px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:10px;
+  border-bottom:1px solid var(--border);
+  text-align:center;
+}
+th{color:var(--accent);}
+td{color:#eee;}
+
+canvas{max-width:100%;}
+
+.topper{
+  font-size:18px;
+  font-weight:700;
+  color:#00ff99;
+  margin-top:10px;
+}
+
+@media(max-width:900px){
+  .dashboard{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>Student Results Dashboard</h1>
+  <p>Mission Cadet Upgrade • Performance Analytics</p>
+</div>
+
+<div class="dashboard">
+
+  <!-- RESULTS TABLE -->
+  <div class="card">
+    <h2>Results Table</h2><br>
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Roll No</th>
+          <th>Marks</th>
+          <th>Correct</th>
+          <th>Wrong</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- BAR GRAPH -->
+  <div class="card">
+    <h2>Student-wise Marks Comparison</h2>
+    <canvas id="marksBarChart"></canvas>
+  </div>
+
+  <!-- LINE GRAPH -->
+  <div class="card">
+    <h2>Performance Trend</h2>
+    <canvas id="marksLineChart"></canvas>
+    <div class="topper" id="topperText"></div>
+  </div>
+
+</div>
+
+<script>
+const supabaseUrl = 'https://ndpmisgcnwtalxzlsgdh.supabase.co';
+const supabaseKey = 'sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+let students=[];
+
+async function loadResults(){
+  const {data,error} = await supabaseClient
+    .from('Results')
+    .select('*')
+    .order('created_at',{ascending:true});
+
+  if(error){ alert("Error loading data"); return; }
+
+  students=data;
+  renderTable();
+  renderGraphs();
+}
+
+function renderTable(){
+  const tbody=document.querySelector("#resultsTable tbody");
+  tbody.innerHTML="";
+  students.forEach(s=>{
+    tbody.innerHTML+=`
+      <tr>
+        <td>${s.student_name}</td>
+        <td>${s.roll_no}</td>
+        <td>${s.marks}</td>
+        <td>${s.correct}</td>
+        <td>${s.wrong}</td>
+      </tr>`;
+  });
+}
+
+function renderGraphs(){
+  const names=students.map(s=>s.student_name);
+  const marks=students.map(s=>s.marks);
+
+  // Topper
+  const topStudent=[...students].sort((a,b)=>b.marks-a.marks)[0];
+  document.getElementById("topperText").innerHTML=
+    `🏆 Top Performer: ${topStudent.student_name} (${topStudent.marks} Marks)`;
+
+  // BAR CHART
+  new Chart(document.getElementById("marksBarChart"),{
+    type:'bar',
+    data:{
+      labels:names,
+      datasets:[{
+        label:'Marks',
+        data:marks,
+        backgroundColor:'#c62828'
+      }]
+    },
+    options:{
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#fff'}},
+        y:{ticks:{color:'#fff'},beginAtZero:true}
+      }
+    }
+  });
+
+  // LINE CHART
+  new Chart(document.getElementById("marksLineChart"),{
+    type:'line',
+    data:{
+      labels:names,
+      datasets:[{
+        label:'Marks Trend',
+        data:marks,
+        borderColor:'#00ff99',
+        backgroundColor:'rgba(0,255,153,0.2)',
+        tension:0.4,
+        fill:true
+      }]
+    },
+    options:{
+      plugins:{legend:{labels:{color:'#fff'}}},
+      scales:{
+        x:{ticks:{color:'#fff'}},
+        y:{ticks:{color:'#fff'},beginAtZero:true}
+      }
+    }
+  });
+}
+
+loadResults();
+</script>
+
+</body>
+</html>
