@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Read-only PDF Viewer (Drive)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    html,body { height:100%; margin:0; font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial; background:#111; }
+    .viewer-wrap { position:relative; height:100vh; width:100vw; display:flex; align-items:center; justify-content:center; }
+    /* iframe fills container */
+    .pdf-frame { width:96%; height:92vh; border:1px solid #333; border-radius:8px; box-shadow:0 6px 30px rgba(0,0,0,0.6); }
+    /* overlay to block clicks on toolbar area */
+    .toolbar-block { position:absolute; top:10px; left:50%; transform:translateX(-50%); width:96%; height:56px; z-index:5; pointer-events:auto; }
+    /* optional semi-transparent hint bar at top (clicks captured) */
+    .hint {
+      position:absolute; top:12px; left:50%; transform:translateX(-50%); z-index:6;
+      color:#fff; background:rgba(0,0,0,0.55); padding:6px 10px; border-radius:6px; font-size:13px;
+      pointer-events:none;
+    }
+    /* hide default context menu on the page */
+    .no-select { -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; }
+    /* small screen tweaks */
+    @media (max-width:700px){ .pdf-frame{ width:100%; height:90vh; } .toolbar-block{height:44px;} }
+  </style>
+</head>
+<body class="no-select">
+  <div class="viewer-wrap">
+    <!-- Replace FILE_ID below -->
+    <iframe id="pdfFrame" class="pdf-frame" src="https://drive.google.com/file/d/1p1Dzi7EOC9Gs2IBFqLdSMNzvJ4i225Rc/preview?usp=sharing"
+      sandbox="allow-same-origin allow-scripts"
+      allow="fullscreen"
+      frameborder="0"
+      scrolling="auto"></iframe>
+    <!-- overlay region that captures clicks over the top toolbar area of the preview -->
+    <div class="toolbar-block" title="Document is view-only (download disabled)"></div>
+
+    <div class="hint">Viewing mode — download/printing disabled (best-effort)</div>
+  </div>
+
+  <script>
+    // Block right-click on the page
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    }, {passive:false});
+
+    // Block common download/print/save shortcuts
+    document.addEventListener('keydown', function(e){
+      // block Ctrl/Cmd+S, Ctrl/Cmd+P, Ctrl/Cmd+U, Ctrl/Cmd+Shift+S, F12
+      const ctrlOrCmd = e.ctrlKey || e.metaKey;
+      if ( (ctrlOrCmd && (e.key === 's' || e.key === 'S' || e.key === 'p' || e.key === 'P' || e.key === 'u' || e.key === 'U')) 
+           || e.key === 'F12' 
+           || (e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 's')) ){
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+
+    // Prevent drag & drop saving
+    window.addEventListener('dragstart', function(e){ e.preventDefault(); });
+
+    // Optional: try to hide the download button by shrinking the iframe's top toolbar area:
+    // Note: this is a best-effort UI trick — it may break when Google changes preview UI.
+    (function tryHideToolbar(){
+      // We cannot reliably reach into cross-origin iframe to alter its DOM (same-origin policy).
+      // So instead we use the overlay .toolbar-block above to intercept clicks on the toolbar region.
+      // Nothing to do here programmatically; overlay exists in DOM and captures clicks.
+    })();
+  </script>
+</body>
+</html>
