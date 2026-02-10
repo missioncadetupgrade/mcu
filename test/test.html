@@ -177,8 +177,7 @@ let questions = [];
 async function loadQuestions() {
     const { data, error } = await supabaseClient
         .from('Questions')
-        .select('*')
-        .eq('FacultyEmail', facultyEmail);
+        .select('*');
 
     if (error) {
         alert("Error loading questions");
