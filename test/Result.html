@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Results Dashboard</title>
+<title>Cadet Result Portal</title>
 
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -11,38 +11,38 @@
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
 <style>
 :root{
   --bg:#050505;
   --panel:#111;
-  --panel-soft:#1a1a1a;
   --border:#2e2e2e;
   --text:#fff;
   --muted:#c2c2c2;
   --accent:#c62828;
+  --green:#00ff99;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',Arial,sans-serif;
+}
 
 body{
   background:linear-gradient(180deg,#000,#080808);
   color:var(--text);
   padding:20px;
+  display:flex;
+  justify-content:center;
 }
 
-.header{
-  text-align:center;
-  margin-bottom:30px;
-}
-.header h1{color:var(--accent);letter-spacing:2px;}
-.header p{color:var(--muted);}
-
-.dashboard{
-  max-width:1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
+.container{
+  width:80%;
+  max-width:500px;
 }
 
 .card{
@@ -50,72 +50,152 @@ body{
   border:1px solid var(--border);
   border-left:5px solid var(--accent);
   border-radius:14px;
+  padding:25px;
+  margin:20px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+h2{
+  text-align:center;
+  margin-bottom:20px;
+  color:var(--accent);
+  font-size:22px;
+}
+
+label{
+  display:block;
+  margin-top:15px;
+  margin-bottom:6px;
+  font-size:14px;
+  color:var(--muted);
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:#111;
+  color:#fff;
+  font-size:14px;
+}
+
+input:focus{
+  outline:none;
+  box-shadow:0 0 8px var(--accent);
+}
+
+.password-wrapper{
+  position:relative;
+}
+
+.password-wrapper i{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:var(--muted);
+}
+
+button{
+  width:100%;
+  margin-top:25px;
+  padding:13px;
+  border:none;
+  border-radius:8px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:bold;
+  font-size:15px;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+.result-box{
+  display:none;
+}
+
+.result-item{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+}
+
+canvas{
+  display:block;
+  margin:20px auto;
+  width:100% !important;
+  max-width:300px;
+  max-height:300px;
+}
+
+/* MOBILE OPTIMIZATION */
+@media(max-width:600px){
+
+body{
+  padding:15px;
+}
+
+.card{
   padding:20px;
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-th,td{
-  padding:10px;
-  border-bottom:1px solid var(--border);
-  text-align:center;
-}
-th{color:var(--accent);}
-td{color:#eee;}
-
-canvas{max-width:100%;}
-
-.topper{
+h2{
   font-size:18px;
-  font-weight:700;
-  color:#00ff99;
-  margin-top:10px;
 }
 
-@media(max-width:900px){
-  .dashboard{grid-template-columns:1fr;}
+.result-item{
+  font-size:13px;
 }
+
+canvas{
+  max-width:250px;
+  max-height:250px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <h1>Student Results Dashboard</h1>
-  <p>Mission Cadet Upgrade • Performance Analytics</p>
-</div>
+<div class="container">
 
-<div class="dashboard">
-
-  <!-- RESULTS TABLE -->
+  <!-- LOGIN FORM -->
   <div class="card">
-    <h2>Results Table</h2><br>
-    <table id="resultsTable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Roll No</th>
-          <th>Marks</th>
-          
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <h2>Cadet Result Login</h2>
+
+    <label>Reg No</label>
+    <input type="text" id="regno" placeholder="Enter Reg No">
+
+    <label>Submission ID</label>
+    <div class="password-wrapper">
+      <input type="password" id="password" placeholder="Enter Submission ID">
+      <i class="fa-solid fa-eye" onclick="togglePassword()"></i>
+    </div>
+
+    <button onclick="loadResult()">View Result</button>
   </div>
 
-  <!-- BAR GRAPH -->
-  <div class="card">
-    <h2>Student-wise Marks Comparison</h2>
-    <canvas id="marksBarChart"></canvas>
-  </div>
+  <!-- RESULT DISPLAY -->
+  <div class="card result-box" id="resultBox">
+    <h2>Test Result</h2>
 
-  <!-- LINE GRAPH -->
-  <div class="card">
-    <h2>Performance Trend</h2>
-    <canvas id="marksLineChart"></canvas>
-    <div class="topper" id="topperText"></div>
+    <div class="result-item"><span>Total Questions</span><span id="totalQ"></span></div>
+    <div class="result-item"><span>Attended</span><span id="attended"></span></div>
+    <div class="result-item"><span>Unattempted</span><span id="unattempted"></span></div>
+    <div class="result-item"><span>Correct</span><span id="correct"></span></div>
+    <div class="result-item"><span>Wrong</span><span id="wrong"></span></div>
+    <div class="result-item"><span>Marks</span><span id="marks"></span></div>
+
+    <canvas id="pieChart"></canvas>
   </div>
 
 </div>
@@ -125,88 +205,79 @@ const supabaseUrl = 'https://ncc.missioncadetupgrade.workers.dev';
 const supabaseKey = 'sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-let students=[];
+let pieChartInstance = null;
 
-async function loadResults(){
+function togglePassword(){
+  const input=document.getElementById("password");
+  const icon=document.querySelector(".password-wrapper i");
+  if(input.type==="password"){
+    input.type="text";
+    icon.classList.replace("fa-eye","fa-eye-slash");
+  }else{
+    input.type="password";
+    icon.classList.replace("fa-eye-slash","fa-eye");
+  }
+}
+
+async function loadResult(){
+  const regno=document.getElementById("regno").value.trim();
+  const submissionId=document.getElementById("password").value.trim();
+
+  if(!regno || !submissionId){
+    alert("Enter both fields");
+    return;
+  }
+
   const {data,error} = await supabaseClient
     .from('Results')
     .select('*')
-    .order('created_at',{ascending:true});
+    .eq('roll_no',regno)
+    .eq('id',submissionId)
+    .maybeSingle();
 
-  if(error){ alert("Error loading data"); return; }
+  if(!data){
+    alert("Invalid Reg No or Submission ID");
+    return;
+  }
 
-  students=data;
-  renderTable();
-  renderGraphs();
+  document.getElementById("resultBox").style.display="block";
+
+  document.getElementById("totalQ").innerText=data.total_questions;
+  document.getElementById("attended").innerText=data.attempted;
+  document.getElementById("unattempted").innerText=data.unattempted;
+  document.getElementById("correct").innerText=data.correct;
+  document.getElementById("wrong").innerText=data.wrong;
+  document.getElementById("marks").innerText=data.marks;
+
+  renderPie(data.correct,data.wrong,data.unattempted);
 }
 
-function renderTable(){
-  const tbody=document.querySelector("#resultsTable tbody");
-  tbody.innerHTML="";
-  students.forEach(s=>{
-    tbody.innerHTML+=`
-      <tr>
-        <td>${s.student_name}</td>
-        <td>${s.roll_no}</td>
-        <td>${s.marks}/25</td>
-      </tr>`;
-  });
-}
+function renderPie(correct,wrong,unattempted){
 
-function renderGraphs(){
-  const names=students.map(s=>s.student_name);
-  const marks=students.map(s=>s.marks);
+  if(pieChartInstance){
+    pieChartInstance.destroy();
+  }
 
-  // Topper
-  const topStudent=[...students].sort((a,b)=>b.marks-a.marks)[0];
-  document.getElementById("topperText").innerHTML=
-    `🏆 Top Performer: ${topStudent.student_name} (${topStudent.marks} Marks)`;
-
-  // BAR CHART
-  new Chart(document.getElementById("marksBarChart"),{
-    type:'bar',
+  pieChartInstance = new Chart(document.getElementById("pieChart"),{
+    type:'pie',
     data:{
-      labels:names,
+      labels:['Correct','Wrong','Unattempted'],
       datasets:[{
-        label:'Marks',
-        data:marks,
-        backgroundColor:'#c62828'
+        data:[correct,wrong,unattempted],
+        backgroundColor:['#00ff99','#ff4444','#888']
       }]
     },
     options:{
-      plugins:{legend:{display:false}},
-      scales:{
-        x:{ticks:{color:'#fff'}},
-        y:{ticks:{color:'#fff'},beginAtZero:true}
-      }
-    }
-  });
-
-  // LINE CHART
-  new Chart(document.getElementById("marksLineChart"),{
-    type:'line',
-    data:{
-      labels:names,
-      datasets:[{
-        label:'Marks Trend',
-        data:marks,
-        borderColor:'#00ff99',
-        backgroundColor:'rgba(0,255,153,0.2)',
-        tension:0.4,
-        fill:true
-      }]
-    },
-    options:{
-      plugins:{legend:{labels:{color:'#fff'}}},
-      scales:{
-        x:{ticks:{color:'#fff'}},
-        y:{ticks:{color:'#fff'},beginAtZero:true}
+      responsive:true,
+      plugins:{
+        legend:{
+          position:'bottom',
+          labels:{color:'#fff'}
+        }
       }
     }
   });
 }
-
-loadResults();
 </script>
 
 </body>

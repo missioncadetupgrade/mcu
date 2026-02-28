@@ -5,282 +5,475 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Online MCQ Test</title>
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- html2pdf -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Helvetica, Arial, sans-serif;
+
+/* ===== ORIGINAL CSS (UNCHANGED) ===== */
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Helvetica,Arial,sans-serif;}
+
+body{
+background:linear-gradient(135deg,#0d0d0d,#1a1a1a);
+color:white;
+display:flex;
+justify-content:center;
+padding:20px;
 }
 
-body {
-    background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
-    color: white;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+#pdfContent{
+width:100%;
+max-width:900px;
+background:rgba(0,0,0,0.8);
+padding:25px;
+border-radius:15px;
 }
 
-/* ---------- MAIN CONTAINER ---------- */
-#pdfContent {
-    width: 100%;
-    max-width: 900px;
-    background: rgba(0,0,0,0.8);
-    padding: 25px;
-    border-radius: 15px;
-    page-break-inside: avoid;
+h1{text-align:center;color:#8e0000;margin-bottom:20px;font-size:28px;}
+
+.question-block{
+margin-bottom:18px;
+padding:15px;
+background:rgba(255,255,255,0.05);
+border-radius:10px;
 }
 
-/* ---------- HEADINGS ---------- */
-h1 {
-    text-align: center;
-    color: #8e0000;
-    margin-bottom: 20px;
-    font-size: 28px;
+.question-block h3{
+color:#8e0000;
+margin-bottom:10px;
+font-size:18px;
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 15px;
+label{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:8px;
+font-size:16px;
+cursor:pointer;
 }
 
-/* ---------- QUESTIONS ---------- */
-.question-block {
-    margin-bottom: 18px;
-    padding: 15px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-    page-break-inside: avoid;
+input[type="radio"]{transform:scale(1.2);}
+
+.btn{
+background:#8e0000;
+color:white;
+padding:14px 30px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+display:block;
+margin:25px auto;
+width:fit-content;
 }
 
-.question-block h3 {
-    color: #8e0000;
-    margin-bottom: 10px;
-    font-size: 18px;
+.form-card{
+background:rgba(255,255,255,0.08);
+padding:30px;
+border-radius:15px;
+box-shadow:0 0 25px rgba(0,0,0,0.6);
+margin-bottom:25px;
 }
 
-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    break-inside: avoid;
+.form-card h3{
+text-align:center;
+margin-bottom:20px;
+color:#00ff99;
+font-size:22px;
 }
 
-input[type="radio"] {
-    transform: scale(1.2);
+.form-input{
+width:100%;
+padding:14px;
+border-radius:8px;
+border:none;
+margin-bottom:15px;
+font-size:15px;
+outline:none;
+background:#111;
+color:white;
 }
 
-/* ---------- BUTTON ---------- */
-.btn {
-    background: #8e0000;
-    color: white;
-    padding: 14px 30px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    display: block;
-    margin: 25px auto;
-    width: fit-content;
+.form-input:focus{box-shadow:0 0 10px #00ff99;}
+
+#timerBox{
+text-align:center;
+font-size:18px;
+font-weight:bold;
+margin-bottom:15px;
+color:#00ff99;
 }
 
-/* ---------- RESULT ---------- */
-#result-container {
-    margin-top: 35px;
-    padding: 20px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    page-break-inside: avoid;
+.dialog{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#111;
+padding:30px;
+border-radius:12px;
+box-shadow:0 0 20px #000;
+display:none;
+z-index:999;
+text-align:center;
 }
 
-#studentInfo,
-#marksText {
-    text-align: center;
-    margin-bottom: 15px;
-    font-size: 17px;
+.dialog button{margin-top:15px;}
+
+#webcamBox{
+display:none;
+text-align:center;
+margin-bottom:15px;
 }
 
-/* ---------- CHART ---------- */
-.chart-box {
-    width: 100%;
-    max-width: 320px;
-    height: auto;
-    margin: 20px auto;
+video{
+width:200px;
+border-radius:10px;
+border:2px solid #00ff99;
+}
+/* ================= MOBILE RESPONSIVE DESIGN ================= */
+
+@media (max-width:500px){
+
+body{
+padding:10px;
 }
 
-/* ================= MOBILE RESPONSIVE ================= */
-@media (max-width: 768px) {
-    h1 { font-size: 24px; }
-    #pdfContent { padding: 18px; }
-    .question-block h3 { font-size: 16px; }
-    label { font-size: 15px; }
-    .btn { width: 100%; padding: 14px; }
+#pdfContent{
+padding:15px;
+border-radius:10px;
 }
 
-@media (max-width: 480px) {
-    body { padding: 10px; }
-    h1 { font-size: 22px; }
-    #studentInfo, #marksText { font-size: 15px; }
-    input[type="radio"] { transform: scale(1.1); }
+h1{
+font-size:20px;
+margin-bottom:15px;
+}
+
+.question-block{
+padding:12px;
+margin-bottom:15px;
+}
+
+.question-block h3{
+font-size:15px;
+}
+
+label{
+font-size:14px;
+gap:8px;
+}
+
+input[type="radio"]{
+transform:scale(1.1);
+}
+
+.btn{
+width:100%;
+padding:12px;
+font-size:14px;
+margin:20px 0;
+}
+
+.form-card{
+padding:18px;
+border-radius:12px;
+}
+
+.form-card h3{
+font-size:18px;
+}
+
+.form-input{
+padding:12px;
+font-size:14px;
+}
+
+#timerBox{
+font-size:15px;
+}
+
+video{
+width:100%;
+max-width:180px;
+}
+
+.dialog{
+width:90%;
+padding:20px;
+}
+
+.dialog h3{
+font-size:16px;
+}
+
+.dialog p{
+font-size:14px;
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="pdfContent">
+<div id="pdfContent">
 
 <h1>Online MCQ Test</h1>
 
-<form id="mcqForm"></form>
-
-<button class="btn" onclick="submitTest()">Submit Test</button>
-
-<div id="result-container">
-    <h2>Result Summary</h2>
-    <div id="studentInfo"></div>
-    <div id="marksText"></div>
-    <div class="chart-box">
-        <canvas id="resultChart" width="300" height="300"></canvas>
-    </div>
-   <!-- <button class="btn" onclick="downloadPDF()">Save as PDF</button>-->
+<div id="studentFormBox" class="form-card">
+<h3>Student Verification</h3>
+<input type="text" id="studentNameInput" class="form-input" placeholder="Enter Student Name">
+<input type="text" id="rollNoInput" class="form-input" placeholder="Enter Enrollment / Regiment No">
+<button class="btn" onclick="startTest()">Start Test</button>
 </div>
 
+<div id="webcamBox">
+<h3 style="color:#00ff99;">Webcam Monitoring Active</h3>
+<video id="webcam" autoplay muted></video>
+<h3 style="color:#ff0000;">Correct Answer : + 1 Mark</h3>
+<h3 style="color:#ff0000;">Wrong Answer : - 0.25 Mark</h3>
+<h3 style="color:#ff0000;">Unattended Answer : 0 Mark (Neutral)</h3>
+</div>
+
+<div id="timerBox" style="display:none;"></div>
+
+<form id="mcqForm"></form>
+
+<button class="btn" id="submitBtn" onclick="submitTest()" disabled style="display:none;">
+Submit Test
+</button>
+
+</div>
+
+<div id="submissionDialog" class="dialog">
+<h3>Test Submitted Successfully</h3>
+<p id="submissionIdText"></p>
+<button class="btn" onclick="closeDialog()">OK</button>
 </div>
 
 <script>
-// -------- STUDENT DETAILS --------
-const studentName = prompt("Enter Student Name");
-const rollNo = prompt("Enter your Enrollment / Regiment No");
-const facultyEmail = "4tnbnncc@kasc.com";
 
-// -------- SUPABASE --------
-const supabaseUrl = 'https://ncc.missioncadetupgrade.workers.dev';
-const supabaseKey = 'sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+/* ================= VARIABLES ================= */
 
-let questions = [];
+let studentName="";
+let rollNo="";
+const facultyEmail="4tnbnncc@kasc.com";
 
-// -------- LOAD QUESTIONS --------
-async function loadQuestions() {
-    const { data, error } = await supabaseClient
-        .from('Questions')
-        .select('*');
+const supabaseUrl='https://ncc.missioncadetupgrade.workers.dev';
+const supabaseKey='sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
+const supabaseClient=supabase.createClient(supabaseUrl,supabaseKey);
 
-    if (error) {
-        alert("Error loading questions");
-        return;
-    }
+let questions=[];
+let submitted=false;
+let timerInterval=null;
+let timeLeft=0;
+let tabSwitchCount=0;
+let webcamStream=null;
 
-    questions = data;
-    const form = document.getElementById("mcqForm");
+/* ================= SECURITY ================= */
 
-    data.forEach((q, idx) => {
-        const div = document.createElement("div");
-        div.className = "question-block";
-        div.innerHTML = `
-            <h3>Q${idx + 1}. ${q.Question}</h3>
-            <label><input type="radio" name="q${idx}" value="Option1"> ${q.Option1}</label>
-            <label><input type="radio" name="q${idx}" value="Option2"> ${q.Option2}</label>
-            <label><input type="radio" name="q${idx}" value="Option3"> ${q.Option3}</label>
-            <label><input type="radio" name="q${idx}" value="Option4"> ${q.Option4}</label>
-        `;
-        form.appendChild(div);
-    });
+document.addEventListener("contextmenu",e=>e.preventDefault());
+
+document.addEventListener("keydown",function(e){
+if(e.key==="F12") e.preventDefault();
+if(e.ctrlKey && e.shiftKey && (e.key==="I"||e.key==="J")) e.preventDefault();
+if(e.ctrlKey && e.key==="U") e.preventDefault();
+});
+
+window.addEventListener("beforeunload",function(e){
+if(!submitted && questions.length>0){
+e.preventDefault();
+e.returnValue="";
+}
+});
+
+document.addEventListener("visibilitychange",function(){
+if(document.hidden && !submitted && questions.length>0){
+tabSwitchCount++;
+if(tabSwitchCount>=3){
+alert("Multiple tab switches detected. Auto submitting test.");
+submitTest();
+}
+}
+});
+
+/* ================= START TEST ================= */
+
+async function startTest(){
+
+const name=document.getElementById("studentNameInput").value.trim();
+const roll=document.getElementById("rollNoInput").value.trim();
+if(name===""||roll===""){alert("Enter all details");return;}
+
+try{
+webcamStream=await navigator.mediaDevices.getUserMedia({video:true});
+document.getElementById("webcam").srcObject=webcamStream;
+document.getElementById("webcamBox").style.display="block";
+
+webcamStream.getVideoTracks()[0].onended=function(){
+if(!submitted){
+alert("Webcam turned off. Auto submitting test.");
+submitTest();
+}
+};
+
+}catch(err){
+alert("Webcam permission required to start test.");
+return;
 }
 
+studentName=name;
+rollNo=roll;
 
-async function saveResultToSupabase(correct, wrong, total) {
-    const { error } = await supabaseClient
-        .from('Results')
-        .insert([
-            {
-                student_name: studentName,
-                roll_no: rollNo,
-                faculty_email: facultyEmail,
-                total_questions: total,
-                correct: correct,
-                wrong: wrong,
-                marks: correct
-            }
-        ]);
-
-    if (error) {
-        alert("Error saving result!");
-        console.error(error);
-    }
-}
-
-function submitTest() {
-    let correct = 0;
-
-    questions.forEach((q, idx) => {
-        const options = document.querySelectorAll(`input[name="q${idx}"]`);
-        let selected = null;
-
-        options.forEach(opt => {
-            opt.disabled = true;
-
-            if (opt.checked) selected = opt.value;
-
-            if (opt.value === q.Answer) {
-                opt.parentElement.style.color = "#00ff99";
-                opt.parentElement.style.fontWeight = "bold";
-            }
-
-            if (opt.checked && opt.value !== q.Answer) {
-                opt.parentElement.style.color = "#ff4444";
-            }
-        });
-
-        if (selected === q.Answer) correct++;
-    });
-
-    const total = questions.length;
-    const wrong = total - correct;
-
-    document.getElementById("studentInfo").innerHTML =
-        `Student Name: <b>${studentName}</b><br>Roll No: <b>${rollNo}</b>`;
-
-    document.getElementById("marksText").innerHTML =
-        `Marks Obtained: <b>${correct} / ${total}</b>`;
-
-    saveResultToSupabase(correct, wrong, total);
-alert("Your Test has been submitted Successfully");
-    new Chart(document.getElementById("resultChart"), {
-        type: "doughnut",
-        data: {
-            labels: ["Correct", "Wrong"],
-            datasets: [{
-                data: [correct, wrong],
-                backgroundColor: ["#00ff00", "#ff0000"]
-            }]
-        },
-        options: {
-            responsive: false,
-            plugins: {
-                legend: {
-                    labels: { color: "white" }
-                }
-            }
-        }
-    });
-}
-
-// -------- INIT --------
+document.getElementById("studentFormBox").style.display="none";
 loadQuestions();
+}
+
+/* ================= LOAD QUESTIONS ================= */
+
+async function loadQuestions(){
+const {data,error}=await supabaseClient.from('Questions').select('*');
+if(error){alert("Error loading questions");return;}
+questions=data;
+
+const form=document.getElementById("mcqForm");
+
+data.forEach((q,idx)=>{
+const div=document.createElement("div");
+div.className="question-block";
+div.innerHTML=`
+<h3>Q${idx+1}. ${q.Question}</h3>
+<label><input type="radio" name="q${idx}" value="Option1"> ${q.Option1}</label>
+<label><input type="radio" name="q${idx}" value="Option2"> ${q.Option2}</label>
+<label><input type="radio" name="q${idx}" value="Option3"> ${q.Option3}</label>
+<label><input type="radio" name="q${idx}" value="Option4"> ${q.Option4}</label>
+`;
+form.appendChild(div);
+});
+
+const totalMinutes=Math.ceil(data.length/2);
+timeLeft=totalMinutes*60;
+startTimer();
+
+document.getElementById("submitBtn").disabled=false;
+document.getElementById("submitBtn").style.display="block";
+}
+
+/* ================= TIMER ================= */
+
+function startTimer(){
+document.getElementById("timerBox").style.display="block";
+updateTimer();
+timerInterval=setInterval(function(){
+timeLeft--;
+updateTimer();
+if(timeLeft<=0){
+clearInterval(timerInterval);
+if(!submitted){
+alert("Time Up! Auto submitting test.");
+submitTest();
+}
+}
+},1000);
+}
+
+function updateTimer(){
+const m=Math.floor(timeLeft/60);
+const s=timeLeft%60;
+document.getElementById("timerBox").innerText=
+`Time Remaining: ${m}:${s<10?'0'+s:s}`;
+}
+
+/* ================= SUBMIT TEST ================= */
+
+function submitTest(){
+
+if(submitted) return;
+submitted=true;
+clearInterval(timerInterval);
+
+if(webcamStream){
+webcamStream.getTracks().forEach(track=>track.stop());
+}
+
+let correct=0;
+let wrong=0;
+let unattempted=0;
+let score=0;
+
+questions.forEach((q,idx)=>{
+
+const options=document.querySelectorAll(`input[name="q${idx}"]`);
+let selected=null;
+
+options.forEach(opt=>{
+opt.disabled=true;
+if(opt.checked) selected=opt.value;
+});
+
+if(selected===null){
+unattempted++;
+}
+else if(selected===q.Answer){
+correct++;
+score+=1;
+}
+else{
+wrong++;
+score-=0.25;
+}
+
+});
+
+if(score<0) score=0;
+
+saveResultToSupabase(correct,wrong,unattempted,correct+wrong,questions.length,score);
+
+document.getElementById("submitBtn").disabled=true;
+
+}
+
+/* ================= SAVE TO SUPABASE ================= */
+
+async function saveResultToSupabase(correct,wrong,unattempted,attempted,total,score){
+
+const {data,error}=await supabaseClient
+.from('Results')
+.insert([{
+student_name:studentName,
+roll_no:rollNo,
+faculty_email:facultyEmail,
+total_questions:total,
+attempted:attempted,
+correct:correct,
+wrong:wrong,
+unattempted:unattempted,
+marks:score,
+submitted_at:new Date().toISOString()
+}])
+.select();
+
+if(error){alert("Error saving result");return;}
+
+if(data && data.length>0){
+showDialog(data[0].id);
+}
+
+}
+
+/* ================= DIALOG ================= */
+
+function showDialog(id){
+document.getElementById("submissionIdText").innerHTML=
+`Your Submission ID: <b>${id}</b>`;
+document.getElementById("submissionDialog").style.display="block";
+}
+
+function closeDialog(){
+document.getElementById("submissionDialog").style.display="none";
+}
+
 </script>
 
 </body>
