@@ -5,237 +5,219 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mission Cadet Upgrade | Books</title>
 
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
 <style>
-:root{
-  --bg:#050505;
-  --panel:#111;
-  --panel-soft:#1a0a0a;
-  --border:#2e2e2e;
-  --text:#ffffff;
-  --muted:#c2c2c2;
-  --accent:#c62828;
-  --accent-dark:#8e0000;
-  --radius:14px;
+:root {
+  --bg: #ffffff;
+  --panel: #f9f9f9;
+  --panel-soft: #f1f1f1;
+  --border: #e0e0e0;
+  --text: #000000;
+  --muted: #555555;
+  --accent: #ff0000;
+  --accent-dark: #c20000;
+  --radius: 12px;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI', Arial, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-body{
-  background:linear-gradient(180deg,#000,#080808);
-  color:var(--text);
-  min-height:100vh;
+body {
+  background: var(--bg);
+  color: var(--text);
+  max-width: 320px;
+  max-height: 650px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 60px; /* space for bottom nav */
 }
 
-/* ================= NAV ================= */
-.top-nav{
-  background:linear-gradient(90deg,var(--panel),#1a0000);
-  border-bottom:2px solid var(--accent);
-  padding:16px 24px;
+/* Top Navigation */
+.top-nav {
+  height: 50px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.brand {
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.brand #army { color: #ff0000; }
+.brand #navy { color: #0000ff; }
+.brand #air { color: #00b6ff; }
+
+.reload-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+/* Search Container */
+.search-container {
+  margin: 70px 12px 12px 12px;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--panel-soft);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.search-container input::placeholder {
+  color: var(--muted);
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* Books Grid */
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 12px;
+}
+
+/* Book Card */
+.book-card {
+  background: var(--panel);
+  border-left: 6px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text);
+  transition: 0.3s;
+}
+
+.book-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 14px rgba(255, 0, 0, 0.3);
+}
+
+.book-icon img {
+  width: 60%;
+  height:100%;
+  max-height: 180px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.book-card h2 {
+  font-size: 16px;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+/* CTA */
+.cta {
+  margin: 20px 12px 80px 12px;
+  padding: 14px;
+  text-align: center;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+
+/* ===== Bottom Navigation ===== */
+.bottom-nav{
+  height:55px;
+  background:#ffffff;
+  border-top:1px solid var(--border);
   display:flex;
-  justify-content:space-between;
+  justify-content:space-around;
   align-items:center;
-}
-
-.brand{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:2px;
-  color:var(--accent);
-  text-transform:uppercase;
-}
-
-.nav-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.nav-links{
-  display:flex;
-  gap:14px;
-}
-
-.nav-links a{
-  padding:10px 18px;
-  border-radius:10px;
-  color:var(--muted);
-  text-decoration:none;
-  font-weight:600;
-  transition:.3s;
-}
-
-.nav-links a.active,
-.nav-links a:hover{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  color:#fff;
-}
-
-.reload-btn{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  border:none;
-  color:#fff;
-  padding:9px 14px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:700;
-}
-
-.reload-btn:hover{
-  background:#fff;
-  color:var(--accent);
-}
-
-/* Mobile Menu */
-.menu-btn{
-  display:none;
-  font-size:26px;
-  background:none;
-  border:none;
-  color:#fff;
-  cursor:pointer;
-}
-
-@media(max-width:850px){
-  .menu-btn{ display:block; }
-
-  .nav-links{
-    position:absolute;
-    top:70px;
-    left:0;
-    width:100%;
-    background:#140000;
-    flex-direction:column;
-    padding:15px;
-    border-bottom:2px solid var(--accent);
-    display:none;
-  }
-
-  .nav-links.show{ display:flex; }
-
-  .reload-btn{
-    width:100%;
-    margin-top:10px;
-  }
-}
-
-/* ================= SEARCH ================= */
-.search-container{
-  max-width:600px;
-  margin:40px auto 20px;
-  padding:0 20px;
-}
-
-.search-container input{
+  position:absolute;
+  bottom:0;
   width:100%;
-  padding:14px 18px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:#120000;
-  color:#fff;
-  font-size:16px;
 }
 
-.search-container input::placeholder{
-  color:var(--muted);
-}
-
-.search-container input:focus{
-  outline:none;
-  border-color:var(--accent);
-}
-
-/* ================= BOOK GRID ================= */
-.container{
-  max-width:1100px;
-  margin:30px auto;
-  padding:0 20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
-}
-
-/* ================= BOOK CARD ================= */
-.book-card{
-  background:linear-gradient(135deg,#120000,#1a0a0a);
-  border-left:6px solid var(--accent);
-  border-radius:var(--radius);
-  padding:24px;
+.nav-item{
   text-align:center;
+  font-size:10px;
+  color:var(--muted);
   text-decoration:none;
-  color:#fff;
-  transition:.3s;
 }
 
-.book-card:hover{
-  transform:scale(1.04);
-  box-shadow:0 0 22px rgba(198,40,40,.35);
-}
-
-.book-icon{
+.nav-item i{
   display:block;
-  margin-bottom:14px;
+  font-size:16px;
+  margin-bottom:3px;
 }
 
-.book-icon img{
-  width:100%;
-  max-height:220px;
-  object-fit:cover;
-  border-radius:10px;
-  border:2px solid var(--border);
+.nav-item.active{
+  color:var(--accent);
 }
 
-.book-card h2{
-  font-size:18px;
-  margin-top:12px;
-  text-transform:uppercase;
-  letter-spacing:1px;
+.nav-item.active i{
+  color:var(--accent);
 }
 
-/* ================= CTA ================= */
-.cta{
-  margin:40px auto 60px;
-  max-width:800px;
-  padding:18px;
-  text-align:center;
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  border-radius:12px;
-  font-weight:800;
-  text-transform:uppercase;
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
 }
 </style>
-</head>
 
+<script>
+function reloadPage() {
+  location.reload();
+}
+</script>
+
+</head>
 <body>
 
-<!-- TOP NAV -->
+<!-- Top Navigation -->
 <div class="top-nav">
-  <div class="brand">Mission Cadet Upgrade</div>
-
-  <div class="nav-area">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-
-    <div class="nav-links" id="navLinks">
-      <a href="../index.html">Home</a>
-      <a class="active" href="../Books.html">Books</a>
-      <a href="../Assignments.html">Assignments</a>
-      <a href="../Faq.html">FAQ</a>
-      <a href="../Aboutus.html">About Us</a>
-      <button class="reload-btn" onclick="location.reload()">⟳ Reload</button>
-    </div>
+  <div class="brand">
+    <span id="army">Mission </span>
+    <span id="navy">&nbsp;&nbsp;Cadet&nbsp;&nbsp;</span>
+    <span id="air">Upgrade </span>
   </div>
+  <button class="reload-btn" onclick="reloadPage()">
+    <i class="fas fa-rotate"></i>
+  </button>
 </div>
 
-<!-- SEARCH -->
+<!-- Search -->
 <div class="search-container">
   <input type="text" id="searchInput" placeholder="Search books...">
 </div>
 
-<!-- BOOKS -->
+<!-- Books Grid -->
 <div class="container">
 
   <a href="AFCAT/AFCAT.html" class="book-card">
@@ -247,15 +229,36 @@ body{
 
 </div>
 
+<!-- CTA -->
 <div class="cta">
   Discipline • Knowledge • Leadership
 </div>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<script>
-function toggleMenu(){
-  document.getElementById('navLinks').classList.toggle('show');
-}
-</script>
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+ <a class="nav-item" href="../index.html">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+    <a class="nav-item active" href="../Books.html">
+      <i class="fas fa-book"></i>
+      Books
+    </a>
+    <a class="nav-item" href="../Assignments.html">
+      <i class="fas fa-clipboard"></i>
+      Tasks
+    </a>
+    <a class="nav-item" href="../Faq.html">
+      <i class="fas fa-question-circle"></i>
+      FAQ
+    </a>
+    <a class="nav-item" href="../Aboutus.html">
+      <i class="fas fa-user"></i>
+      About
+    </a>
+</div>
 
 </body>
 </html>
