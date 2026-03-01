@@ -32,9 +32,15 @@
 }
 
 body{
-  background:#f5f5f5;
+  width:100%;
+  max-width:360px;
+  height:800px;
+  background:var(--bg);
   display:flex;
-  justify-content:center;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--border);
 }
 
 /* ===== MOBILE APP CONTAINER ===== */
@@ -172,7 +178,7 @@ canvas{
 
 /* ===== BOTTOM NAV ===== */
 .bottom-nav{
-  position:absolute;
+  position:fixed;
   bottom:0;
   height:60px;
   width:100%;

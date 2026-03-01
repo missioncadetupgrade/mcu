@@ -2,58 +2,48 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Faculty Dashboard – Questions</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 :root{
-  --bg:#ffffff;
+  --bg:#f5f5f5;
   --text:#0f0f0f;
-  --border:#e5e5e5;
+  --border:#ddd;
   --accent:#ff0000;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Arial, sans-serif;}
 
 body{
-  width:320px;
-  max-width:320px;
-  height:650px;
-  max-height:650px;
-  overflow:hidden;
-  background:#ffffff;
+  background:var(--bg);
   color:var(--text);
-  border:1px solid var(--border);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 }
 
-/* ===== YOUR TOP NAV CSS (UNCHANGED AS REQUESTED) ===== */
-.brand{
-  font-size:16px;
-  font-weight:700;
-  color:var(--text);
-}
-
+/* ===== TOP NAV ===== */
 .top-nav{
-  height:50px;
-  background:#ffffff;
+  height:60px;
+  background:#fff;
   border-bottom:1px solid var(--border);
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:15px 12px;
+  padding:0 30px;
   position:fixed;
   top:0;
   width:100%;
   z-index:1000;
+  box-shadow:0 2px 5px rgba(0,0,0,0.05);
 }
 
 .brand{
-  display:inline-flex;
-  font-size:16px;
+  font-size:20px;
   font-weight:700;
-  color:var(--text);
 }
 
 .brand #army{ color:#ff0000; }
@@ -63,31 +53,36 @@ body{
 .reload-btn{
   background:none;
   border:none;
-  font-size:18px;
+  font-size:20px;
   color:var(--accent);
   cursor:pointer;
 }
 
-/* ===== CONTENT AREA ===== */
+/* ===== PAGE CONTENT ===== */
 .page-content{
-  position:absolute;
-  top:50px;
-  bottom:55px;
+  margin-top:60px;
+  flex:1;
+  display:flex;
+  justify-content:center;
+  padding:20px;
+  overflow:auto;
+}
+
+.content-wrapper{
   width:100%;
-  overflow-y:auto;
-  padding:10px;
+  max-width:1000px;
 }
 
 /* HEADER */
 .header{
   display:flex;
-  flex-direction:column;
-  gap:8px;
-  margin-bottom:12px;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
 }
 
 .header h1{
-  font-size:15px;
+  font-size:24px;
   font-weight:700;
 }
 
@@ -95,38 +90,45 @@ body{
   background:var(--accent);
   border:none;
   color:#fff;
-  padding:8px;
+  padding:10px 20px;
   border-radius:20px;
-  font-size:12px;
+  font-size:14px;
   cursor:pointer;
 }
 
-/* CARD (YouTube Style) */
+/* CARD STYLE */
 .table-row{
-  background:#ffffff;
+  background:#fff;
   border:1px solid var(--border);
   border-radius:12px;
-  padding:10px;
-  margin-bottom:12px;
+  padding:15px;
+  margin-bottom:15px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.cell{
+  flex:1 1 200px;
+  margin-bottom:10px;
 }
 
 .cell-title{
-  font-size:11px;
+  font-size:12px;
   color:#606060;
 }
 
 .cell-value{
-  font-size:13px;
-  margin-bottom:6px;
+  font-size:14px;
+  margin-top:3px;
 }
 
 .row-actions{
   display:flex;
-  gap:8px;
-  margin-top:8px;
+  gap:10px;
 }
 
-.delete-btn{
+.action-btn.delete-btn{
   background:#ff3333;
 }
 
@@ -134,12 +136,13 @@ body{
 .drawer{
   position:fixed;
   top:0;
-  right:-320px;
-  width:320px;
-  height:650px;
-  background:#ffffff;
+  right:-450px;
+  width:450px;
+  max-width:90%;
+  height:100vh;
+  background:#fff;
   border-left:1px solid var(--border);
-  padding:15px;
+  padding:20px;
   transition:.3s;
   z-index:2000;
   overflow-y:auto;
@@ -148,65 +151,69 @@ body{
 .drawer.open{ right:0; }
 
 .drawer h2{
-  font-size:15px;
-  margin-bottom:10px;
-  color:#ff0000; /* red highlight */
+  font-size:20px;
+  margin-bottom:15px;
+  color:var(--accent);
 }
 
 .drawer label{
-  font-size:11px;
+  font-size:12px;
   color:#606060;
 }
 
 .drawer input,
 .drawer select{
   width:100%;
-  padding:8px;
-  margin:4px 0 10px;
+  padding:10px;
+  margin:5px 0 15px;
   border-radius:8px;
   border:1px solid var(--border);
-  font-size:13px;
+  font-size:14px;
 }
 
 .drawer-actions{
   display:flex;
   gap:10px;
+  margin-top:10px;
 }
 
 .save{
   flex:1;
   background:var(--accent);
   border:none;
-  padding:10px;
+  padding:12px;
   border-radius:20px;
   color:#fff;
+  cursor:pointer;
 }
 
 .cancel{
   flex:1;
   background:#eeeeee;
   border:none;
-  padding:10px;
+  padding:12px;
   border-radius:20px;
+  cursor:pointer;
 }
 
-/* ===== BOTTOM NAV ===== */
+/* BOTTOM NAV - optional for desktop, hide on large screens */
 .bottom-nav{
-  position:absolute;
+  position:fixed;
   bottom:0;
   width:100%;
-  height:55px;
-  background:#ffffff;
+  height:60px;
+  background:#fff;
   border-top:1px solid var(--border);
   display:flex;
   justify-content:space-around;
   align-items:center;
+  box-shadow:0 -2px 5px rgba(0,0,0,0.05);
 }
 
 .bottom-nav a{
   text-decoration:none;
   color:#606060;
-  font-size:10px;
+  font-size:12px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -218,13 +225,13 @@ body{
 }
 
 .bottom-nav a.active{
-  color:#ff0000;
+  color:var(--accent);
 }
 </style>
 </head>
 <body>
 
-<!-- ===== TOP NAV (ADDED AS REQUIRED) ===== -->
+<!-- TOP NAV -->
 <div class="top-nav">
   <div class="brand">
     <span id="army">Mission </span>
@@ -236,19 +243,18 @@ body{
   </button>
 </div>
 
-<!-- ===== CONTENT ===== -->
+<!-- PAGE CONTENT -->
 <div class="page-content">
-
-  <div class="header">
-    <h1>Faculty Questions Management</h1>
-    <button class="action-btn" onclick="openDrawerNew()">+ Add Question</button>
-     </div>
-
-  <div id="list"></div>
-
+  <div class="content-wrapper">
+    <div class="header">
+      <h1>Faculty Questions Management</h1>
+      <button class="action-btn" onclick="openDrawerNew()">+ Add Question</button>
+    </div>
+    <div id="list"></div>
+  </div>
 </div>
 
-<!-- ===== DRAWER ===== -->
+<!-- DRAWER -->
 <div class="drawer" id="drawer">
   <h2 id="drawer-title">Edit Question</h2>
 
@@ -283,10 +289,11 @@ body{
     <button class="cancel" onclick="closeDrawer()">Cancel</button>
   </div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-<!-- ===== BOTTOM NAV ===== -->
 <div class="bottom-nav">
-  <a class="nav-item" href="../index.html">
+   <a class="nav-item" href="../index.html">
       <i class="fas fa-home"></i>
       Home
     </a>
@@ -307,24 +314,20 @@ body{
     Logout
   </a>
 </div>
-
 <script>
 function reloadPage(){ location.reload(); }
 </script>
 
-<!-- ===== YOUR ORIGINAL SCRIPT (UNCHANGED) ===== -->
+<!-- SUPABASE & JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
-/* YOUR JS CODE REMAINS EXACTLY SAME */
-var SUPABASE_URL,SUPABASE_KEY;
-
 const supabaseUrl = 'https://ncc.missioncadetupgrade.workers.dev';
 const supabaseKey = 'sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
 const supabase1 = supabase.createClient(supabaseUrl, supabaseKey);
 
 const facultyEmail = sessionStorage.getItem("email");
 const role = sessionStorage.getItem("role");
-d_facultyemail.value=facultyEmail;
+d_facultyemail.value = facultyEmail;
 
 if (!facultyEmail || role !== "Faculty") {
   window.location.href = "index.html";
@@ -346,15 +349,17 @@ async function fetchData() {
 function render() {
   const list = document.getElementById("list");
   list.innerHTML = "";
-  questions.forEach((q, i) => {
-    list.innerHTML += `
+  questions.forEach((q,i)=>{
+    list.innerHTML+=`
       <div class="table-row">
-        <div class="cell-title">Question</div>
-        <div class="cell-value">${q.Question}</div>
-
-        <div class="cell-title">Answer</div>
-        <div class="cell-value">${q.Answer || ''}</div>
-
+        <div class="cell">
+          <div class="cell-title">Question</div>
+          <div class="cell-value">${q.Question}</div>
+        </div>
+        <div class="cell">
+          <div class="cell-title">Answer</div>
+          <div class="cell-value">${q.Answer||''}</div>
+        </div>
         <div class="row-actions">
           <button class="action-btn" onclick="edit(${i})">Edit</button>
           <button class="action-btn delete-btn" onclick="del('${q.Question}')">Delete</button>
@@ -401,35 +406,28 @@ async function save(){
 
   if(isNew){
     await supabase1.from('Questions').insert([payload]);
-  }else{
+  } else {
     await supabase1.from('Questions')
-    .update(payload)
-    .eq('id',questions[currentIndex].id);
+      .update(payload)
+      .eq('id',questions[currentIndex].id);
   }
-
   closeDrawer();
   fetchData();
 }
 
 async function del(Question){
   if(!confirm("Delete this question?")) return;
-  await supabase1.from('Questions')
-  .delete()
-  .eq('Question',Question);
+  await supabase1.from('Questions').delete().eq('Question',Question);
   fetchData();
 }
 
 function closeDrawer(){ drawer.classList.remove("open"); }
 fetchData();
+
 document.getElementById('lg').addEventListener('click', function() {
-    // Your logout logic here (e.g., window.location.href = '/logout')
-    console.log('Logging out...');logout();
-});
-function logout(){
   sessionStorage.clear();
   window.location.href="index.html";
-}
+});
 </script>
-
 </body>
 </html>
