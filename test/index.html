@@ -2,37 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mission Cadet Upgrade | Indian Army Theme</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-var SUPABASE_URL,SUPABASE_KEY;
+<meta name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mission Cadet Upgrade | Admin Login</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script>
 const supabaseUrl = 'https://ncc.missioncadetupgrade.workers.dev';
 const supabaseKey = 'sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
-const supabase1 = supabase.createClient(supabaseUrl, supabaseKey);
-
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 async function Lg() {
   const jEmail = document.getElementById('email').value;
   const jPass = document.getElementById('pass').value;
   const alertBox = document.getElementById('alert');
 
-  const { data, error1 } = await supabase1
+  alertBox.textContent = "Checking credentials...";
+  alertBox.style.color = "#999";
+
+  const { data, error } = await supabaseClient
     .from('FacultyAuth')
     .select()
     .eq('Email', jEmail)
     .maybeSingle();
 
-  if (error1) {
-    alertBox.textContent = error1.message;
-    alertBox.style.color = "#0099ff";
+  if (error) {
+    alertBox.textContent = error.message;
+    alertBox.style.color = "red";
     return;
   }
 
   if (!data) {
     alertBox.textContent = "Email not found!";
-    alertBox.style.color = "#0099ff";
+    alertBox.style.color = "red";
     return;
   }
 
@@ -48,360 +51,206 @@ async function Lg() {
   } 
   else {
     alertBox.textContent = "Invalid Credentials!";
-    alertBox.style.color = "#0099ff";
+    alertBox.style.color = "red";
   }
+}
+
+function reloadPage(){
+  location.reload();
 }
 </script>
 
 <style>
-/* ===== RESET ===== */
+:root{
+  --bg:#ffffff;
+  --panel:#f9f9f9;
+  --border:#e5e5e5;
+  --text:#111111;
+  --accent:#ff0000;
+  --radius:10px;
+}
+
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
-/* ===== BODY ===== */
 body{
-  height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  max-width:320px;
+  max-height:650px;
+  margin:auto;
   overflow:hidden;
-  background:#000;
-  color:#fff;
+  border:1px solid #ddd;
 }
 
-/* ===== VIDEO BACKGROUND ===== */
-#bg-video{
+/* ===== TOP NAV ===== */
+.top-nav{
+  height:55px;
+  background:#ffffff;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 12px;
   position:fixed;
   top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:-2;
+  width:320px;
+  z-index:100;
 }
 
-/* Dark overlay like Netflix */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.65);
-  z-index:-1;
-}
-
-/* ===== MAIN AUTH ===== */
-.authen{
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* ===== CONTENT BOX ===== */
-.content{
-  width:100%;
-  max-width:420px;
-  padding:20px;
-}
-
-/* ===== FORM ===== */
-.form{
-  background:rgba(0,0,0,0.85);
-  padding:40px 35px;
-  border-radius:8px;
-  box-shadow:0 0 40px rgba(0,0,0,0.9);
-}
-
-/* Heading */
-.form h2{
-  margin-bottom:25px;
-  font-size:32px;
+.brand{
+  font-size:16px;
   font-weight:700;
+  color:var(--text);
 }
 
-/* Inputs */
+.brand #army{ color:#ff0000; }
+.brand #navy{ color:#0000ff; }
+.brand #air{ color:#00b6ff; }
+
+.reload-btn{
+  background:none;
+  border:none;
+  font-size:18px;
+  color:var(--text);
+  cursor:pointer;
+}
+
+/* ===== MAIN CONTENT ===== */
+.authen{
+  padding:80px 15px 70px 15px;
+  height:650px;
+  overflow-y:auto;
+}
+
+.form{
+  background:var(--panel);
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+}
+
+.form h2{
+  margin-bottom:20px;
+  font-size:20px;
+}
+
 .form input{
   width:100%;
-  padding:14px;
-  margin-bottom:15px;
-  background:#333;
-  border:none;
-  border-radius:4px;
-  color:#fff;
-  font-size:15px;
-}
-
-.form input::placeholder{
-  color:#aaa;
+  padding:12px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:#fff;
 }
 
 .form input:focus{
   outline:none;
-  background:#444;
+  border:1px solid var(--accent);
 }
 
-/* ===== LOGIN BUTTON ===== */
 .btnn{
   width:100%;
-  padding:14px;
-  background:#e50914;
+  padding:12px;
+  background:var(--accent);
   border:none;
-  border-radius:4px;
-  font-size:16px;
-  font-weight:700;
+  border-radius:6px;
+  font-weight:600;
   color:#fff;
   cursor:pointer;
-  margin-top:10px;
-  transition:background .3s, transform .2s;
 }
 
-.btnn:hover{
-  background:#f6121d;
-  transform:scale(1.02);
-}
-
-/* ===== ALERT ===== */
 .alert{
-  margin-top:15px;
-  font-size:14px;
+  margin-top:10px;
   text-align:center;
+  font-size:13px;
   min-height:18px;
 }
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:500px){
-  .form{
-    padding:30px 22px;
-  }
-
-  .form h2{
-    font-size:26px;
-  }
-}
-:root{
-  --bg:#050505;
-  --panel:#111111;
-  --panel-soft:#1c1c1c;
-  --border:#2e2e2e;
-  --text:#ffffff;
-  --muted:#c2c2c2;
-  --accent:#c62828;
-  --accent-dark:#8e0000;
-  --radius:14px;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI', Arial, sans-serif;
-}
-
-body{
-  background:linear-gradient(180deg,#000,#080808);
-  color:var(--text);
-  min-height:100vh;
-}
-
-/* ================= TOP NAV ================= */
-.top-nav{
-  background:linear-gradient(90deg,var(--panel),#1a0000);
-  border-bottom:2px solid var(--accent);
-  padding:16px 28px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.brand{
-  font-size:22px;
-  font-weight:900;
-  color:var(--accent);
-  letter-spacing:2px;
-  text-transform:uppercase;
-}
-
-.nav-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.nav-links{
-  display:flex;
-  gap:14px;
-}
-
-.nav-links a{
-  padding:10px 18px;
-  border-radius:10px;
-  color:var(--muted);
-  text-decoration:none;
-  font-weight:600;
-  transition:.3s;
-}
-
-.nav-links a.active,
-.nav-links a:hover{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  color:#fff;
-}
-
-/* Reload Button */
-.reload-btn{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  border:none;
-  color:#fff;
-  padding:9px 14px;
-  border-radius:10px;
-  font-size:16px;
-  cursor:pointer;
-  font-weight:700;
-  transition:.3s;
-}
-.reload-btn:hover{
+/* ===== BOTTOM NAV ===== */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:320px;
+  height:60px;
   background:#fff;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+
+.bottom-nav a{
+  text-decoration:none;
+  color:#777;
+  font-size:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.bottom-nav a.active{
   color:var(--accent);
 }
 
-/* Mobile Menu Button */
-.menu-btn{
-  display:none;
-  font-size:26px;
-  background:none;
-  border:none;
-  color:#fff;
-  cursor:pointer;
-}
-
-/* ================= MOBILE NAV ================= */
-@media(max-width:850px){
-  .menu-btn{
-    display:block;
-  }
-
-  .nav-links{
-    position:absolute;
-    top:70px;
-    left:0;
-    width:100%;
-    background:#140000;
-    flex-direction:column;
-    padding:15px;
-    border-bottom:2px solid var(--accent);
-    display:none;
-  }
-
-  .nav-links.show{
-    display:flex;
-  }
-
-  .reload-btn{
-    margin-top:10px;
-    width:100%;
-  }
-}
-
-/* ================= MAIN ================= */
-.main{
-  max-width:1100px;
-  margin:40px auto;
-  padding:0 20px;
-}
-
-.header h1{
-  font-size:36px;
-  text-transform:uppercase;
-}
-
-.header p{
-  color:var(--muted);
-  margin-top:8px;
-}
-
-/* ================= CARDS ================= */
-.card{
-  background:linear-gradient(135deg,#120000,#1a0a0a);
-  border:1px solid var(--border);
-  border-left:6px solid var(--accent);
-  border-radius:var(--radius);
-  padding:25px;
-  margin-bottom:20px;
-}
-
-.card h2{
-  color:var(--accent);
-  margin-bottom:12px;
-  text-transform:uppercase;
-}
-
-.card ul{
-  padding-left:20px;
-}
-
-.card ul li{
-  margin-bottom:8px;
-  color:#eee;
-}
-
-/* CTA */
-.cta{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  padding:16px;
-  border-radius:12px;
-  text-align:center;
-  font-weight:800;
-  margin-top:20px;
-  text-transform:uppercase;
+.bottom-nav i{
+  font-size:18px;
+  margin-bottom:3px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP NAV -->
+<!-- REQUIRED TOP NAV -->
 <div class="top-nav">
-  <div class="brand">Mission Cadet Upgrade</div>
-
-  <div class="nav-area">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-
-    <div class="nav-links" id="navLinks">
-      <a href="../index.html">Home</a>
-      <a href="../Books.html">Books</a>
-      <a href="../Assignments.html">Assignments</a>
-      <a href="../Faq.html">FAQ</a>
-      <a href="../Aboutus.html">About Us</a>
-      <a class="active" href="https://missioncadetupgrade.github.io/mcu/test/index.html">Admin</a>
-
-      <!-- Reload Button -->
-      <button class="reload-btn" onclick="reloadPage()">⟳ Reload</button>
-    </div>
+  <div class="brand">
+    <span id="army">Mission </span>
+    <span id="navy">Cadet</span>
+    <span id="air"> Upgrade</span>
   </div>
+  <button class="reload-btn" onclick="reloadPage()">
+    <i class="fas fa-rotate"></i>
+  </button>
 </div>
 
 <main class="authen">
-    <div class="content">
-        <div class="form" id="regform">
-            <form method="POST" id="LoginForm">
-                <h2>Login</h2>
-                <input type="email" id="email" name="email" placeholder="Enter Email" required>
-                <input type="password" id="pass" name="pass" placeholder="Enter Password" required>
-                <button class="btnn" type="button" id="Login" onclick="Lg()">Login</button>
-            </form>
-            <div class="alert" id="alert"></div>
-        </div>
-    </div>
+  <div class="form">
+    <h2>Admin Login</h2>
+    <input type="email" id="email" placeholder="Enter Email" required>
+    <input type="password" id="pass" placeholder="Enter Password" required>
+    <button class="btnn" onclick="Lg()">Login</button>
+    <div class="alert" id="alert"></div>
+  </div>
 </main>
 
-<script>
-function toggleMenu(){
-  document.getElementById('navLinks').classList.toggle('show');
-}
-</script>
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav">
+   <a class="nav-item" href="../index.html">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+    <a class="nav-item" href="../Books.html">
+      <i class="fas fa-book"></i>
+      Books
+    </a>
+    <a class="nav-item" href="../Assignments.html">
+      <i class="fas fa-clipboard"></i>
+      Test
+    </a>
+    <a class="nav-item" href="../Faq.html">
+      <i class="fas fa-question-circle"></i>
+      FAQ
+    </a>
+    <a class="nav-item active" href="Admin.html">
+      <i class="fas fa-user-shield"></i>
+      Admin
+    </a>
+</div>
 
 </body>
 </html>
-
-

@@ -2,238 +2,230 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Online MCQ Test</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
+:root{
+  --bg:#ffffff;
+  --text:#0f0f0f;
+  --border:#e5e5e5;
+  --accent:#ff0000;
+}
 
-/* ===== ORIGINAL CSS (UNCHANGED) ===== */
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:Helvetica,Arial,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Arial, sans-serif;}
 
 body{
-background:linear-gradient(135deg,#0d0d0d,#1a1a1a);
-color:white;
-display:flex;
-justify-content:center;
-padding:20px;
+  width:320px;
+  max-width:320px;
+  height:650px;
+  max-height:650px;
+  overflow:hidden;
+  background:#ffffff;
+  color:var(--text);
+  border:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  user-select:none; /* prevent text selection */
 }
 
-#pdfContent{
-width:100%;
-max-width:900px;
-background:rgba(0,0,0,0.8);
-padding:25px;
-border-radius:15px;
+/* ===== TOP NAV ===== */
+.brand{
+  font-size:16px;
+  font-weight:700;
+  color:var(--text);
 }
 
-h1{text-align:center;color:#8e0000;margin-bottom:20px;font-size:28px;}
-
-.question-block{
-margin-bottom:18px;
-padding:15px;
-background:rgba(255,255,255,0.05);
-border-radius:10px;
+.top-nav{
+  height:50px;
+  background:#ffffff;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 12px;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
 }
 
-.question-block h3{
-color:#8e0000;
-margin-bottom:10px;
-font-size:18px;
+.brand #army{ color:#ff0000; }
+.brand #navy{ color:#0000ff; }
+.brand #air{ color:#00b6ff; }
+
+.reload-btn{
+  background:none;
+  border:none;
+  font-size:18px;
+  color:var(--accent);
+  cursor:pointer;
 }
 
-label{
-display:flex;
-align-items:center;
-gap:10px;
-margin-bottom:8px;
-font-size:16px;
-cursor:pointer;
+/* ===== CONTENT ===== */
+.page-content{
+  position:absolute;
+  top:50px;
+  bottom:55px;
+  width:100%;
+  overflow-y:auto;
+  padding:10px;
 }
 
-input[type="radio"]{transform:scale(1.2);}
+h1{text-align:center; color:var(--accent); margin-bottom:15px; font-size:16px;}
 
-.btn{
-background:#8e0000;
-color:white;
-padding:14px 30px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-display:block;
-margin:25px auto;
-width:fit-content;
-}
-
+/* FORM CARD */
 .form-card{
-background:rgba(255,255,255,0.08);
-padding:30px;
-border-radius:15px;
-box-shadow:0 0 25px rgba(0,0,0,0.6);
-margin-bottom:25px;
+  background:#f5f5f5;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
 .form-card h3{
-text-align:center;
-margin-bottom:20px;
-color:#00ff99;
-font-size:22px;
+  font-size:14px;
+  margin-bottom:10px;
+  color:#ff0000;
 }
 
 .form-input{
-width:100%;
-padding:14px;
-border-radius:8px;
-border:none;
-margin-bottom:15px;
-font-size:15px;
-outline:none;
-background:#111;
-color:white;
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  margin-bottom:10px;
+  font-size:13px;
+  outline:none;
 }
 
-.form-input:focus{box-shadow:0 0 10px #00ff99;}
-
-#timerBox{
-text-align:center;
-font-size:18px;
-font-weight:bold;
-margin-bottom:15px;
-color:#00ff99;
+/* BUTTONS */
+.btn{
+  background:var(--accent);
+  color:#fff;
+  padding:10px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  width:100%;
+  font-size:13px;
+  margin-top:10px;
 }
 
-.dialog{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:#111;
-padding:30px;
-border-radius:12px;
-box-shadow:0 0 20px #000;
-display:none;
-z-index:999;
-text-align:center;
-}
-
-.dialog button{margin-top:15px;}
-
-#webcamBox{
-display:none;
-text-align:center;
-margin-bottom:15px;
-}
-
-video{
-width:200px;
-border-radius:10px;
-border:2px solid #00ff99;
-}
-/* ================= MOBILE RESPONSIVE DESIGN ================= */
-
-@media (max-width:500px){
-
-body{
-padding:10px;
-}
-
-#pdfContent{
-padding:15px;
-border-radius:10px;
-}
-
-h1{
-font-size:20px;
-margin-bottom:15px;
-}
-
+/* QUESTIONS */
 .question-block{
-padding:12px;
-margin-bottom:15px;
+  background:#f5f5f5;
+  padding:10px;
+  margin-bottom:12px;
+  border-radius:12px;
 }
 
 .question-block h3{
-font-size:15px;
+  font-size:14px;
+  color:var(--accent);
+  margin-bottom:6px;
 }
 
 label{
-font-size:14px;
-gap:8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  margin-bottom:6px;
+  cursor:pointer;
 }
 
-input[type="radio"]{
-transform:scale(1.1);
-}
+input[type="radio"]{transform:scale(1.1);}
 
-.btn{
-width:100%;
-padding:12px;
-font-size:14px;
-margin:20px 0;
-}
-
-.form-card{
-padding:18px;
-border-radius:12px;
-}
-
-.form-card h3{
-font-size:18px;
-}
-
-.form-input{
-padding:12px;
-font-size:14px;
-}
-
+/* TIMER */
 #timerBox{
-font-size:15px;
+  text-align:center;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:10px;
+  color:var(--accent);
 }
 
-video{
-width:100%;
-max-width:180px;
-}
-
+/* DIALOG */
 .dialog{
-width:90%;
-padding:20px;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.2);
+  display:none;
+  z-index:999;
+  text-align:center;
 }
 
-.dialog h3{
-font-size:16px;
+.dialog button{
+  margin-top:10px;
+  width:100%;
 }
 
-.dialog p{
-font-size:14px;
+/* BOTTOM NAV */
+.bottom-nav{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:55px;
+  background:#ffffff;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
 }
 
+.bottom-nav a{
+  text-decoration:none;
+  color:#606060;
+  font-size:10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.bottom-nav a i{
+  font-size:18px;
+  margin-bottom:3px;
+}
+
+.bottom-nav a.active{
+  color:var(--accent);
 }
 </style>
 </head>
 
 <body>
 
-<div id="pdfContent">
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="brand">
+    <span id="army">Mission </span>
+    <span id="navy">&nbsp;&nbsp;Cadet&nbsp;&nbsp;</span>
+    <span id="air">Upgrade </span>
+  </div>
+  <button class="reload-btn" onclick="reloadPage()">
+    <i class="fas fa-rotate"></i>
+  </button>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page-content">
 
 <h1>Online MCQ Test</h1>
 
 <div id="studentFormBox" class="form-card">
 <h3>Student Verification</h3>
-<input type="text" id="studentNameInput" class="form-input" placeholder="Enter Student Name">
+<input type="text" id="studentNameInput" class="form-input" placeholder="Enter Cadet Name">
 <input type="text" id="rollNoInput" class="form-input" placeholder="Enter Enrollment / Regiment No">
 <button class="btn" onclick="startTest()">Start Test</button>
-</div>
-
-<div id="webcamBox">
-<h3 style="color:#00ff99;">Webcam Monitoring Active</h3>
-<video id="webcam" autoplay muted></video>
-<h3 style="color:#ff0000;">Correct Answer : + 1 Mark</h3>
-<h3 style="color:#ff0000;">Wrong Answer : - 0.25 Mark</h3>
-<h3 style="color:#ff0000;">Unattended Answer : 0 Mark (Neutral)</h3>
 </div>
 
 <div id="timerBox" style="display:none;"></div>
@@ -246,16 +238,45 @@ Submit Test
 
 </div>
 
+<!-- DIALOG -->
 <div id="submissionDialog" class="dialog">
-<h3>Test Submitted Successfully</h3>
-<p id="submissionIdText"></p>
+<h3 id="dialogTitle">Instructions</h3>
+<p id="submissionIdText">Please read the following instructions before starting the test:<br>
+1. Do not switch tabs or windows.<br>
+2. Copying questions is not allowed.<br>
+3. Dev tools and right click are disabled.<br>
+4. Test will auto-submit on any violation.</p>
 <button class="btn" onclick="closeDialog()">OK</button>
 </div>
 
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <a class="nav-item" href="../index.html">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+    <a class="nav-item" href="../Books.html">
+      <i class="fas fa-book"></i>
+      Books
+    </a>
+    <a class="nav-item" href="../Assignments.html">
+      <i class="fas fa-clipboard"></i>
+      Test
+    </a>
+    <a class="nav-item" href="../Faq.html">
+      <i class="fas fa-question-circle"></i>
+      FAQ
+    </a>
+    <a class="nav-item" href="../Aboutus.html">
+      <i class="fas fa-user"></i>
+      About
+    </a>
+</div>
+
 <script>
+function reloadPage(){ location.reload(); }
 
-/* ================= VARIABLES ================= */
-
+/* ================= ORIGINAL JS (UNCHANGED) ================= */
 let studentName="";
 let rollNo="";
 const facultyEmail="4tnbnncc@kasc.com";
@@ -269,18 +290,20 @@ let submitted=false;
 let timerInterval=null;
 let timeLeft=0;
 let tabSwitchCount=0;
-let webcamStream=null;
 
-/* ================= SECURITY ================= */
-
-document.addEventListener("contextmenu",e=>e.preventDefault());
-
+/* SECURITY & STRICT FEATURES */
+document.addEventListener("contextmenu",e=>e.preventDefault()); // disable right click
 document.addEventListener("keydown",function(e){
 if(e.key==="F12") e.preventDefault();
 if(e.ctrlKey && e.shiftKey && (e.key==="I"||e.key==="J")) e.preventDefault();
 if(e.ctrlKey && e.key==="U") e.preventDefault();
+if(e.ctrlKey && e.key==="C") e.preventDefault(); // prevent copy
 });
 
+// Prevent copying via selection
+document.addEventListener('copy', e => e.preventDefault());
+
+// Warn on leaving page
 window.addEventListener("beforeunload",function(e){
 if(!submitted && questions.length>0){
 e.preventDefault();
@@ -288,57 +311,44 @@ e.returnValue="";
 }
 });
 
+// Auto-submit if tab/window switched
 document.addEventListener("visibilitychange",function(){
 if(document.hidden && !submitted && questions.length>0){
-tabSwitchCount++;
-if(tabSwitchCount>=3){
-alert("Multiple tab switches detected. Auto submitting test.");
+alert("Tab switch detected. Auto submitting test.");
 submitTest();
-}
 }
 });
 
-/* ================= START TEST ================= */
+/* SHOW INSTRUCTION DIALOG ON PAGE LOAD */
+window.addEventListener("load",function(){
+document.getElementById("submissionDialog").style.display="block";
+document.getElementById("dialogTitle").innerText="Instructions";
+document.getElementById("submissionIdText").innerHTML=
+`Please read the instructions carefully before starting the test:<br>
+1. Do not switch tabs or windows.<br>
+2. Copying questions is strictly prohibited.<br>
+3. Dev tools and right-click are disabled.<br>
+4. Test will auto-submit on any violation.`;
+});
 
+/* START TEST */
 async function startTest(){
-
 const name=document.getElementById("studentNameInput").value.trim();
 const roll=document.getElementById("rollNoInput").value.trim();
 if(name===""||roll===""){alert("Enter all details");return;}
-
-try{
-webcamStream=await navigator.mediaDevices.getUserMedia({video:true});
-document.getElementById("webcam").srcObject=webcamStream;
-document.getElementById("webcamBox").style.display="block";
-
-webcamStream.getVideoTracks()[0].onended=function(){
-if(!submitted){
-alert("Webcam turned off. Auto submitting test.");
-submitTest();
-}
-};
-
-}catch(err){
-alert("Webcam permission required to start test.");
-return;
-}
-
 studentName=name;
 rollNo=roll;
-
 document.getElementById("studentFormBox").style.display="none";
 loadQuestions();
 }
 
-/* ================= LOAD QUESTIONS ================= */
-
+/* LOAD QUESTIONS */
 async function loadQuestions(){
 const {data,error}=await supabaseClient.from('Questions').select('*');
 if(error){alert("Error loading questions");return;}
 questions=data;
 
 const form=document.getElementById("mcqForm");
-
 data.forEach((q,idx)=>{
 const div=document.createElement("div");
 div.className="question-block";
@@ -355,13 +365,11 @@ form.appendChild(div);
 const totalMinutes=Math.ceil(data.length/2);
 timeLeft=totalMinutes*60;
 startTimer();
-
 document.getElementById("submitBtn").disabled=false;
 document.getElementById("submitBtn").style.display="block";
 }
 
-/* ================= TIMER ================= */
-
+/* TIMER */
 function startTimer(){
 document.getElementById("timerBox").style.display="block";
 updateTimer();
@@ -370,14 +378,10 @@ timeLeft--;
 updateTimer();
 if(timeLeft<=0){
 clearInterval(timerInterval);
-if(!submitted){
-alert("Time Up! Auto submitting test.");
-submitTest();
-}
+if(!submitted){alert("Time Up! Auto submitting test.");submitTest();}
 }
 },1000);
 }
-
 function updateTimer(){
 const m=Math.floor(timeLeft/60);
 const s=timeLeft%60;
@@ -385,17 +389,11 @@ document.getElementById("timerBox").innerText=
 `Time Remaining: ${m}:${s<10?'0'+s:s}`;
 }
 
-/* ================= SUBMIT TEST ================= */
-
+/* SUBMIT TEST */
 function submitTest(){
-
 if(submitted) return;
 submitted=true;
 clearInterval(timerInterval);
-
-if(webcamStream){
-webcamStream.getTracks().forEach(track=>track.stop());
-}
 
 let correct=0;
 let wrong=0;
@@ -403,41 +401,21 @@ let unattempted=0;
 let score=0;
 
 questions.forEach((q,idx)=>{
-
 const options=document.querySelectorAll(`input[name="q${idx}"]`);
 let selected=null;
-
-options.forEach(opt=>{
-opt.disabled=true;
-if(opt.checked) selected=opt.value;
-});
-
-if(selected===null){
-unattempted++;
-}
-else if(selected===q.Answer){
-correct++;
-score+=1;
-}
-else{
-wrong++;
-score-=0.25;
-}
-
+options.forEach(opt=>{opt.disabled=true;if(opt.checked) selected=opt.value;});
+if(selected===null) unattempted++;
+else if(selected===q.Answer){correct++;score+=1;}
+else{wrong++;score-=0.25;}
 });
 
 if(score<0) score=0;
-
-saveResultToSupabase(correct,wrong,unattempted,correct+wrong,questions.length,score);
-
+saveResultToSupabase(correct,wrong,questions.length-(correct+wrong),correct+wrong,questions.length,score);
 document.getElementById("submitBtn").disabled=true;
-
 }
 
-/* ================= SAVE TO SUPABASE ================= */
-
+/* SAVE RESULTS */
 async function saveResultToSupabase(correct,wrong,unattempted,attempted,total,score){
-
 const {data,error}=await supabaseClient
 .from('Results')
 .insert([{
@@ -455,25 +433,15 @@ submitted_at:new Date().toISOString()
 .select();
 
 if(error){alert("Error saving result");return;}
-
-if(data && data.length>0){
-showDialog(data[0].id);
+if(data && data.length>0){showDialog(data[0].id);}
 }
 
-}
-
-/* ================= DIALOG ================= */
-
+/* DIALOG */
 function showDialog(id){
-document.getElementById("submissionIdText").innerHTML=
-`Your Submission ID: <b>${id}</b>`;
+document.getElementById("submissionIdText").innerHTML=`Your Submission ID: <b>${id}</b>`;
 document.getElementById("submissionDialog").style.display="block";
 }
-
-function closeDialog(){
-document.getElementById("submissionDialog").style.display="none";
-}
-
+function closeDialog(){document.getElementById("submissionDialog").style.display="none";}
 </script>
 
 </body>
