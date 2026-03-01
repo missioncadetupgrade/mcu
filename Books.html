@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mission Cadet Upgrade | Assignments</title>
+<meta name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mission Cadet Upgrade | Books</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 :root{
-  --bg:#050505;
-  --panel:#111;
-  --panel-soft:#1a0a0a;
-  --border:#2e2e2e;
-  --text:#ffffff;
-  --muted:#c2c2c2;
-  --accent:#c62828;
-  --accent-dark:#8e0000;
-  --radius:14px;
+  --bg:#ffffff;
+  --soft:#f9f9f9;
+  --border:#e5e5e5;
+  --text:#0f0f0f;
+  --muted:#606060;
+  --accent:#ff0000;
+  --radius:12px;
 }
 
 *{
@@ -26,122 +26,69 @@
 }
 
 body{
-  background:linear-gradient(180deg,#000,#080808);
-  color:var(--text);
-  min-height:100vh;
+  background:#f2f2f2;
+  display:flex;
+  justify-content:center;
 }
 
-/* ================= NAV ================= */
+.app-container{
+  width:100%;
+  max-width:320px;
+  height:650px;
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+/* ===== Header ===== */
 .top-nav{
-  background:linear-gradient(90deg,var(--panel),#1a0000);
-  border-bottom:2px solid var(--accent);
-  padding:16px 24px;
+  background:#ffffff;
+  border-bottom:1px solid var(--border);
+  padding:12px 14px;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
 .brand{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:2px;
-  color:var(--accent);
-  text-transform:uppercase;
-}
-
-.nav-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.nav-links{
-  display:flex;
-  gap:14px;
-}
-
-.nav-links a{
-  padding:10px 18px;
-  border-radius:10px;
-  color:var(--muted);
-  text-decoration:none;
-  font-weight:600;
-  transition:.3s;
-}
-
-.nav-links a.active,
-.nav-links a:hover{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  color:#fff;
-}
-
-.reload-btn{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  border:none;
-  color:#fff;
-  padding:9px 14px;
-  border-radius:10px;
-  cursor:pointer;
+  font-size:16px;
   font-weight:700;
 }
 
-.reload-btn:hover{
-  background:#fff;
-  color:var(--accent);
-}
+.brand #army{ color:#ff0000; }
+.brand #navy{ color:#0000ff; }
+.brand #air{ color:#00b6ff; }
 
-/* Mobile Menu */
-.menu-btn{
-  display:none;
-  font-size:26px;
+.reload-btn{
   background:none;
   border:none;
-  color:#fff;
+  font-size:18px;
+  color:var(--accent);
   cursor:pointer;
 }
 
-@media(max-width:850px){
-  .menu-btn{ display:block; }
-
-  .nav-links{
-    position:absolute;
-    top:70px;
-    left:0;
-    width:100%;
-    background:#140000;
-    flex-direction:column;
-    padding:15px;
-    border-bottom:2px solid var(--accent);
-    display:none;
-  }
-
-  .nav-links.show{ display:flex; }
-
-  .reload-btn{
-    width:100%;
-    margin-top:10px;
-  }
+/* ===== Scroll Area ===== */
+.main{
+  flex:1;
+  overflow-y:auto;
+  padding:14px;
 }
 
-/* ================= SEARCH ================= */
+/* ===== Search ===== */
 .search-container{
-  max-width:600px;
-  margin:40px auto 20px;
-  padding:0 20px;
+  margin-bottom:14px;
 }
 
 .search-container input{
   width:100%;
-  padding:14px 18px;
-  border-radius:12px;
+  padding:10px 12px;
+  border-radius:8px;
   border:1px solid var(--border);
-  background:#120000;
-  color:#fff;
-  font-size:16px;
-}
-
-.search-container input::placeholder{
-  color:var(--muted);
+  background:var(--soft);
+  font-size:12px;
 }
 
 .search-container input:focus{
@@ -149,105 +96,150 @@ body{
   border-color:var(--accent);
 }
 
-/* ================= CATEGORY GRID ================= */
-.container{
-  max-width:1100px;
-  margin:30px auto 60px;
-  padding:0 20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
-}
-
+/* ===== Category Cards ===== */
 .category-card{
-  background:linear-gradient(135deg,#120000,#1a0a0a);
-  border-left:6px solid var(--accent);
+  display:block;
+  background:var(--soft);
+  border:1px solid var(--border);
   border-radius:var(--radius);
-  padding:28px;
-  text-align:center;
+  padding:14px;
+  margin-bottom:12px;
   text-decoration:none;
-  color:#fff;
-  transition:.3s;
+  color:var(--text);
+  transition:.2s;
 }
 
 .category-card:hover{
-  transform:scale(1.04);
-  box-shadow:0 0 20px rgba(198,40,40,.35);
+  border-color:var(--accent);
 }
 
 .category-icon{
-  font-size:40px;
+  font-size:20px;
+  margin-bottom:6px;
   display:block;
-  margin-bottom:14px;
 }
 
 .category-card h2{
-  font-size:20px;
-  text-transform:uppercase;
-  letter-spacing:1px;
+  font-size:13px;
+  color:var(--accent);
 }
 
-/* ================= CTA ================= */
+/* ===== CTA ===== */
 .cta{
-  margin:40px auto;
-  max-width:800px;
-  padding:18px;
+  background:var(--accent);
+  color:#fff;
+  padding:12px;
+  border-radius:var(--radius);
   text-align:center;
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  border-radius:12px;
-  font-weight:800;
-  text-transform:uppercase;
+  font-size:12px;
+  font-weight:600;
+  margin-top:10px;
+}
+
+/* ===== Bottom Nav ===== */
+.bottom-nav{
+  height:55px;
+  background:#ffffff;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  position:absolute;
+  bottom:0;
+  width:100%;
+}
+
+.nav-item{
+  text-align:center;
+  font-size:9px;
+  color:var(--muted);
+  text-decoration:none;
+}
+
+.nav-item i{
+  display:block;
+  font-size:15px;
+  margin-bottom:3px;
+}
+
+.nav-item.active{
+  color:var(--accent);
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP NAV -->
-<div class="top-nav">
-  <div class="brand">Mission Cadet Upgrade</div>
+<div class="app-container">
 
-  <div class="nav-area">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a class="active" href="Books.html">Books</a>
-      <a href="Assignments.html">Assignments</a>
-      <a href="Faq.html">FAQ</a>
-      <a href="Aboutus.html">About Us</a>      
-      <a href="https://missioncadetupgrade.github.io/mcu/test/index.html">Admin</a>
-      <button class="reload-btn" onclick="location.reload()">⟳ Reload</button>
+  <!-- Header -->
+  <div class="top-nav">
+    <div class="brand">
+      <span id="army">Mission </span>
+      <span id="navy">Cadet</span>
+      <span id="air"> Upgrade</span>
     </div>
+    <button class="reload-btn" onclick="reloadPage()">
+      <i class="fas fa-rotate"></i>
+    </button>
   </div>
-</div>
 
-<!-- SEARCH -->
-<div class="search-container">
-  <input type="text" id="searchInput" placeholder="Search categories...">
-</div>
+  <!-- Main -->
+  <div class="main">
 
-<!-- CATEGORY GRID -->
-<div class="container" id="categoryContainer">
-  <a href="Books/NCC.html" class="category-card">
-    <span class="category-icon">⚔️</span>
-    <h2>National Cadet Corps</h2>
-  </a>
+    <div class="search-container">
+      <input type="text" placeholder="Search categories...">
+    </div>
 
-  <a href="Books/AFCAT.html" class="category-card">
-    <span class="category-icon">✈️</span>
-    <h2>AFCAT</h2>
-  </a>
-</div>
+    <a href="Books/NCC.html" class="category-card">
+      <span class="category-icon">⚔️</span>
+      <h2>National Cadet Corps</h2>
+    </a>
 
+    <a href="Books/AFCAT.html" class="category-card">
+      <span class="category-icon">✈️</span>
+      <h2>AFCAT</h2>
+    </a>
 
-<div class="cta">
-  Discipline • Knowledge • Leadership
+    <div class="cta">
+      Discipline • Knowledge • Leadership
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a class="nav-item" href="index.html">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+
+    <a class="nav-item active" href="Books.html">
+      <i class="fas fa-book"></i>
+      Books
+    </a>
+
+    <a class="nav-item" href="Assignments.html">
+      <i class="fas fa-clipboard"></i>
+      Tasks
+    </a>
+
+    <a class="nav-item" href="Faq.html">
+      <i class="fas fa-question-circle"></i>
+      FAQ
+    </a>
+
+    <a class="nav-item" href="Aboutus.html">
+      <i class="fas fa-user"></i>
+      About
+    </a>
+  </div>
+
 </div>
 
 <script>
-function toggleMenu(){
-  document.getElementById('navLinks').classList.toggle('show');
+function reloadPage(){
+  location.reload();
 }
 </script>
 

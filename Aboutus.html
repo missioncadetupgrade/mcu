@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Mission Cadet Upgrade | About</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 :root{
-  --bg:#050505;
-  --panel:#111;
-  --panel-soft:#1a0a0a;
-  --border:#2e2e2e;
-  --text:#ffffff;
-  --muted:#c2c2c2;
-  --accent:#c62828;
-  --accent-dark:#8e0000;
-  --radius:14px;
+  --bg:#ffffff;
+  --soft:#f9f9f9;
+  --border:#e5e5e5;
+  --text:#0f0f0f;
+  --muted:#606060;
+  --accent:#ff0000;
+  --radius:12px;
 }
 
 *{
@@ -26,236 +26,225 @@
 }
 
 body{
-  background:linear-gradient(180deg,#000,#080808);
-  color:var(--text);
-  min-height:100vh;
+  background:#f2f2f2;
+  display:flex;
+  justify-content:center;
 }
 
-/* ================= NAV ================= */
+.app-container{
+  width:100%;
+  max-width:320px;
+  height:650px;
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+/* ===== Header ===== */
 .top-nav{
-  background:linear-gradient(90deg,var(--panel),#1a0000);
-  border-bottom:2px solid var(--accent);
-  padding:16px 24px;
+  background:#ffffff;
+  border-bottom:1px solid var(--border);
+  padding:12px 14px;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
 .brand{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:2px;
-  color:var(--accent);
-  text-transform:uppercase;
-}
-
-.nav-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.nav-links{
-  display:flex;
-  gap:14px;
-}
-
-.nav-links a{
-  padding:10px 18px;
-  border-radius:10px;
-  color:var(--muted);
-  text-decoration:none;
-  font-weight:600;
-  transition:.3s;
-}
-
-.nav-links a.active,
-.nav-links a:hover{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  color:#fff;
-}
-
-.reload-btn{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  border:none;
-  color:#fff;
-  padding:9px 14px;
-  border-radius:10px;
-  cursor:pointer;
+  font-size:16px;
   font-weight:700;
 }
 
-.reload-btn:hover{
-  background:#fff;
-  color:var(--accent);
-}
+.brand #army{ color:#ff0000; }
+.brand #navy{ color:#0000ff; }
+.brand #air{ color:#00b6ff; }
 
-/* Mobile Menu */
-.menu-btn{
-  display:none;
-  font-size:26px;
+.reload-btn{
   background:none;
   border:none;
-  color:#fff;
+  font-size:18px;
+  color:var(--accent);
   cursor:pointer;
 }
 
-@media(max-width:850px){
-  .menu-btn{ display:block; }
-
-  .nav-links{
-    position:absolute;
-    top:70px;
-    left:0;
-    width:100%;
-    background:#140000;
-    flex-direction:column;
-    padding:15px;
-    border-bottom:2px solid var(--accent);
-    display:none;
-  }
-
-  .nav-links.show{ display:flex; }
-
-  .reload-btn{
-    width:100%;
-    margin-top:10px;
-  }
-}
-
-/* ================= MAIN ================= */
+/* ===== Content ===== */
 .main{
-  max-width:1100px;
-  margin:40px auto 60px;
-  padding:0 20px;
+  flex:1;
+  overflow-y:auto;
+  padding:14px;
 }
 
-/* ================= CONTENT CARD ================= */
-.content-section{
-  background:linear-gradient(135deg,#120000,#1a0a0a);
-  border-left:6px solid var(--accent);
+.section-card{
+  background:var(--soft);
+  border:1px solid var(--border);
   border-radius:var(--radius);
-  padding:30px;
-}
-
-.content-section h2{
-  color:var(--accent);
-  font-size:28px;
-  text-transform:uppercase;
-  margin-bottom:16px;
-}
-
-.content-section h3{
-  margin-top:26px;
-  margin-bottom:10px;
-  font-size:20px;
-  text-transform:uppercase;
-  color:#fff;
-}
-
-.content-section p{
-  color:#e0e0e0;
-  line-height:1.7;
+  padding:14px;
   margin-bottom:14px;
 }
 
-.content-section ul{
-  padding-left:22px;
+.section-card h2{
+  font-size:14px;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+
+.section-card h3{
+  font-size:13px;
+  margin-top:12px;
+  margin-bottom:6px;
+}
+
+.section-card p,
+.section-card li{
+  font-size:12px;
+  line-height:1.5;
+  color:var(--text);
+}
+
+.section-card ul{
+  padding-left:16px;
+}
+
+/* ===== CTA ===== */
+.cta{
+  background:var(--accent);
+  color:#fff;
+  padding:12px;
+  border-radius:var(--radius);
+  text-align:center;
+  font-size:12px;
+  font-weight:600;
   margin-top:10px;
 }
 
-.content-section ul li{
-  margin-bottom:8px;
-  color:#eee;
+/* ===== Bottom Nav ===== */
+.bottom-nav{
+  height:55px;
+  background:#ffffff;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  position:absolute;
+  bottom:0;
+  width:100%;
 }
 
-/* ================= CTA ================= */
-.cta{
-  margin-top:40px;
-  padding:18px;
+.nav-item{
   text-align:center;
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  border-radius:12px;
-  font-weight:800;
-  text-transform:uppercase;
+  font-size:9px;
+  color:var(--muted);
+  text-decoration:none;
+}
+
+.nav-item i{
+  display:block;
+  font-size:15px;
+  margin-bottom:3px;
+}
+
+.nav-item.active{
+  color:var(--accent);
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP NAV -->
-<div class="top-nav">
-  <div class="brand">Mission Cadet Upgrade</div>
+<div class="app-container">
 
-  <div class="nav-area">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="Books.html">Books</a>
-      <a href="Assignments.html">Assignments</a>
-      <a href="Faq.html">FAQ</a>
-      <a class="active" href="Aboutus.html">About Us</a>
-      <a href="https://missioncadetupgrade.github.io/mcu/test/index.html">Admin</a>
-      <button class="reload-btn" onclick="location.reload()">⟳ Reload</button>
+  <!-- Header -->
+  <div class="top-nav">
+    <div class="brand">
+      <span id="army">Mission </span>
+      <span id="navy">Cadet</span>
+      <span id="air"> Upgrade</span>
     </div>
-  </div>
-</div>
-
-<!-- MAIN CONTENT -->
-<div class="main">
-
-  <div class="content-section">
-    <h2>Who We Are</h2>
-    <p>
-      Mission Cadet Upgrade is a student-driven association formed by the final-year NCC cadets
-      of Kongunadu Arts and Science College. Our mission is to nurture and guide our fellow cadets
-      in developing essential life skills, improving communication, and building confidence to excel
-      in every field they pursue.
-    </p>
-    <p>
-      We believe that being an NCC cadet goes beyond discipline and drills — it’s about becoming a
-      well-rounded individual ready to serve the nation with knowledge, leadership, and integrity.
-    </p>
-
-    <h3>Our Vision</h3>
-    <p>
-      To create a community of confident, disciplined, and career-ready cadets who excel in both
-      personal and professional spheres, embodying the values of leadership, service, and excellence.
-    </p>
-
-    <h3>Our Mission</h3>
-    <ul>
-      <li>Enhance personality development and communication skills.</li>
-      <li>Create awareness about career opportunities.</li>
-      <li>Promote current affairs and intellectual discussions.</li>
-      <li>Guide cadets for UPSC, TNPSC, AFCAT, CDS, INET, SSC, etc.</li>
-      <li>Motivate cadets through mentorship and teamwork.</li>
-    </ul>
-
-    <h3>Our Story</h3>
-    <p>
-      Founded by final-year NCC seniors, Mission Cadet Upgrade started as peer-to-peer learning
-      sessions and evolved into a structured leadership platform.
-    </p>
-    <p>
-      Today, it empowers cadets to think beyond the uniform — to lead, serve, and succeed.
-    </p>
-
-    <h3>Our Motto</h3>
-    <p><strong>“Empowering Cadets for a Better Tomorrow.”</strong></p>
+    <button class="reload-btn" onclick="reloadPage()">
+      <i class="fas fa-rotate"></i>
+    </button>
   </div>
 
-  <div class="cta">
-    Serve With Honour • Lead With Courage
+  <!-- Main -->
+  <div class="main">
+
+    <div class="section-card">
+      <h2>Who We Are</h2>
+      <p>
+        Mission Cadet Upgrade is a student-driven association formed by final-year NCC cadets.
+        Our mission is to nurture cadets in leadership, communication, and confidence.
+      </p>
+
+      <h3>Our Vision</h3>
+      <p>
+        To create disciplined and career-ready cadets who embody leadership and excellence.
+      </p>
+
+      <h3>Our Mission</h3>
+      <ul>
+        <li>Enhance personality development</li>
+        <li>Create career awareness</li>
+        <li>Promote current affairs knowledge</li>
+        <li>Guide for competitive exams</li>
+        <li>Encourage teamwork and mentorship</li>
+      </ul>
+
+      <h3>Our Story</h3>
+      <p>
+        Started by final-year NCC seniors, the mission evolved into a structured leadership platform.
+      </p>
+
+      <h3>Our Motto</h3>
+      <p><strong>Empowering Cadets for a Better Tomorrow.</strong></p>
+    </div>
+
+    <div class="cta">
+      Serve With Honour • Lead With Courage
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+
+    <a href="Books.html" class="nav-item">
+      <i class="fas fa-book"></i>
+      Books
+    </a>
+
+    <a href="Assignments.html" class="nav-item">
+      <i class="fas fa-clipboard"></i>
+      Tasks
+    </a>
+
+    <a href="Faq.html" class="nav-item">
+      <i class="fas fa-question-circle"></i>
+      FAQ
+    </a>
+
+    <a href="Aboutus.html" class="nav-item active">
+      <i class="fas fa-user"></i>
+      About
+    </a>
+
+    <a href="test/index.html" class="nav-item">
+      <i class="fas fa-user-shield"></i>
+      Admin
+    </a>
   </div>
 
 </div>
 
 <script>
-function toggleMenu(){
-  document.getElementById('navLinks').classList.toggle('show');
+function reloadPage(){
+  location.reload();
 }
 </script>
 
