@@ -41,7 +41,7 @@ body{
 }
 
 /* ===== TOP NAV ===== */
-.top-nav{
+.top-nav,#timerBox{
   height:60px;
   background:#fff;
   border-bottom:1px solid var(--border);
@@ -55,6 +55,7 @@ body{
   max-width:900px;
   z-index:1000;
 }
+#timerBox{top:10.5%}
 
 .brand{
   font-size:20px;
@@ -81,8 +82,10 @@ body{
 }
 
 h1{
+  top:20%;
   text-align:center;
   color:var(--accent);
+  margin-top:20%;
   margin-bottom:20px;
 }
 
@@ -248,6 +251,7 @@ label{
   </button>
 </div>
 
+<div id="timerBox" style="display:none;"></div>
 <!-- PAGE CONTENT -->
 <div class="page-content">
 
@@ -260,13 +264,13 @@ label{
 <button class="btn" onclick="startTest()">Start Test</button>
 </div>
 
-<div id="timerBox" style="display:none;"></div>
 <form id="mcqForm"></form>
 
 <button class="btn" id="submitBtn" onclick="submitTest()" disabled style="display:none;">
 Submit Test
 </button>
-
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<i style="color:#ddd;">Powered by 4/4 Alpha Coy , 4 (TN) BATTALION NCC</i>
 </div>
 
 <!-- DIALOG -->
