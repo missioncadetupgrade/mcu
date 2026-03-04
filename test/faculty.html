@@ -7,6 +7,9 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<!-- Excel Library -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
 <style>
 :root{
   --bg:#f5f5f5;
@@ -14,189 +17,38 @@
   --border:#ddd;
   --accent:#ff0000;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Arial, sans-serif;}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-
-/* ===== TOP NAV ===== */
-.top-nav{
-  height:60px;
-  background:#fff;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 30px;
-  position:fixed;
-  top:0;
-  width:100%;
-  z-index:1000;
-  box-shadow:0 2px 5px rgba(0,0,0,0.05);
-}
-
-.brand{
-  font-size:20px;
-  font-weight:700;
-}
-
+body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+.top-nav{height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:0 30px;position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 5px rgba(0,0,0,0.05);}
+.brand{font-size:20px;font-weight:700;}
 .brand #army{ color:#ff0000; }
 .brand #navy{ color:#0000ff; }
 .brand #air{ color:#00b6ff; }
-
-.reload-btn{
-  background:none;
-  border:none;
-  font-size:20px;
-  color:var(--accent);
-  cursor:pointer;
-}
-
-/* ===== PAGE CONTENT ===== */
-.page-content{
-  margin-top:60px;
-  flex:1;
-  display:flex;
-  justify-content:center;
-  padding:20px;
-  overflow:auto;
-}
-
-.content-wrapper{
-  width:100%;
-  max-width:1000px;
-}
-
-/* HEADER */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.header h1{
-  font-size:24px;
-  font-weight:700;
-}
-
-.action-btn{
-  background:var(--accent);
-  border:none;
-  color:#fff;
-  padding:10px 20px;
-  border-radius:20px;
-  font-size:14px;
-  cursor:pointer;
-}
-
-/* CARD STYLE */
-.table-row{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:15px;
-  margin-bottom:15px;
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-}
-
-.cell{
-  flex:1 1 200px;
-  margin-bottom:10px;
-}
-
-.cell-title{
-  font-size:12px;
-  color:#606060;
-}
-
-.cell-value{
-  font-size:14px;
-  margin-top:3px;
-}
-
-.row-actions{
-  display:flex;
-  gap:10px;
-}
-
-.action-btn.delete-btn{
-  background:#ff3333;
-}
-
-/* DRAWER */
-.drawer{
-  position:fixed;
-  top:0;
-  right:-450px;
-  width:450px;
-  max-width:90%;
-  height:100vh;
-  background:#fff;
-  border-left:1px solid var(--border);
-  padding:20px;
-  transition:.3s;
-  z-index:2000;
-  overflow-y:auto;
-}
-
+.reload-btn{background:none;border:none;font-size:20px;color:var(--accent);cursor:pointer;}
+.page-content{margin-top:60px;flex:1;display:flex;justify-content:center;padding:20px;overflow:auto;}
+.content-wrapper{width:100%;max-width:1100px;}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.header h1{font-size:24px;font-weight:700;}
+.action-btn{background:var(--accent);border:none;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;cursor:pointer;}
+.table-row{background:#fff;border:1px solid var(--border);border-radius:12px;padding:15px;margin-bottom:15px;display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;}
+.cell{flex:1 1 200px;margin-bottom:10px;}
+.cell-title{font-size:12px;color:#606060;}
+.cell-value{font-size:14px;margin-top:3px;}
+.row-actions{display:flex;gap:10px;}
+.action-btn.delete-btn{background:#ff3333;}
+.checkbox-cell{margin-right:10px;}
+.drawer{position:fixed;top:0;right:-450px;width:450px;max-width:90%;height:100vh;background:#fff;border-left:1px solid var(--border);padding:20px;transition:.3s;z-index:2000;overflow-y:auto;}
 .drawer.open{ right:0; }
+.drawer h2{font-size:20px;margin-bottom:15px;color:var(--accent);}
+.drawer label{font-size:12px;color:#606060;}
+.drawer input,.drawer select{width:100%;padding:10px;margin:5px 0 15px;border-radius:8px;border:1px solid var(--border);font-size:14px;}
+.drawer-actions{display:flex;gap:10px;margin-top:10px;}
+.save{flex:1;background:var(--accent);border:none;padding:12px;border-radius:20px;color:#fff;cursor:pointer;}
+.cancel{flex:1;background:#eeeeee;border:none;padding:12px;border-radius:20px;cursor:pointer;}
+</style>
+<style>
 
-.drawer h2{
-  font-size:20px;
-  margin-bottom:15px;
-  color:var(--accent);
-}
-
-.drawer label{
-  font-size:12px;
-  color:#606060;
-}
-
-.drawer input,
-.drawer select{
-  width:100%;
-  padding:10px;
-  margin:5px 0 15px;
-  border-radius:8px;
-  border:1px solid var(--border);
-  font-size:14px;
-}
-
-.drawer-actions{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-}
-
-.save{
-  flex:1;
-  background:var(--accent);
-  border:none;
-  padding:12px;
-  border-radius:20px;
-  color:#fff;
-  cursor:pointer;
-}
-
-.cancel{
-  flex:1;
-  background:#eeeeee;
-  border:none;
-  padding:12px;
-  border-radius:20px;
-  cursor:pointer;
-}
-
-/* BOTTOM NAV - optional for desktop, hide on large screens */
+/* ===== BOTTOM NAV (ADDED ONLY) ===== */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -208,6 +60,7 @@ body{
   justify-content:space-around;
   align-items:center;
   box-shadow:0 -2px 5px rgba(0,0,0,0.05);
+  z-index:3000;
 }
 
 .bottom-nav a{
@@ -227,70 +80,260 @@ body{
 .bottom-nav a.active{
   color:var(--accent);
 }
+
+/* Prevent content hiding behind bottom nav */
+.page-content{
+  padding-bottom:80px;
+}
+
 </style>
 </head>
 <body>
 
-<!-- TOP NAV -->
 <div class="top-nav">
   <div class="brand">
     <span id="army">Mission </span>
-    <span id="navy">&nbsp;&nbsp;Cadet&nbsp;&nbsp;</span>
-    <span id="air">Upgrade </span>
+    <span id="navy">Cadet </span>
+    <span id="air">Upgrade</span>
   </div>
-  <button class="reload-btn" onclick="reloadPage()">
+  <button class="reload-btn" onclick="location.reload()">
     <i class="fas fa-rotate"></i>
   </button>
 </div>
 
-<!-- PAGE CONTENT -->
 <div class="page-content">
-  <div class="content-wrapper">
-    <div class="header">
-      <h1>Faculty Questions Management</h1>
-      <button class="action-btn" onclick="openDrawerNew()">+ Add Question</button>
-    </div>
-    <div id="list"></div>
-  </div>
+<div class="content-wrapper">
+
+<div class="header">
+<h1>Faculty Questions Management</h1>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+<select id="yearFilter" onchange="filterByYear()" style="padding:10px;border-radius:20px;border:1px solid #ddd;">
+<option value="">All Years</option>
+<option value="1">1st Year</option>
+<option value="2">2nd Year</option>
+<option value="3">3rd Year</option>
+</select>
+
+<button class="action-btn" onclick="bulkDelete()">Bulk Delete</button>
+<button class="action-btn" onclick="downloadSample()">Download Sample</button>
+<button class="action-btn" onclick="document.getElementById('excelFile').click()">Upload Excel</button>
+<button class="action-btn" onclick="openDrawerNew()">+ Add Question</button>
+
+</div>
+
+<input type="file" id="excelFile" accept=".xlsx,.xls" style="display:none;" onchange="uploadExcel(event)">
+</div>
+
+<div id="list"></div>
+</div>
 </div>
 
 <!-- DRAWER -->
 <div class="drawer" id="drawer">
-  <h2 id="drawer-title">Edit Question</h2>
+<h2>Question</h2>
+<input type="hidden" id="d_id">
 
-  <input style="display:none;" id="d_facultyemail" readonly>
+<label>Year</label>
+<select id="d_year">
+<option value="">Select Year</option>
+<option value="1">1st Year</option>
+<option value="2">2nd Year</option>
+<option value="3">3rd Year</option>
+</select>
 
-  <label>Question</label>
-  <input id="d_question">
+<label>Question</label>
+<input id="d_question">
+<label>Option 1</label><input id="d_option1">
+<label>Option 2</label><input id="d_option2">
+<label>Option 3</label><input id="d_option3">
+<label>Option 4</label><input id="d_option4">
 
-  <label>Option 1</label>
-  <input id="d_option1">
+<label>Correct Answer</label>
+<select id="d_answer">
+<option value="">Select Correct Option</option>
+<option value="Option1">Option 1</option>
+<option value="Option2">Option 2</option>
+<option value="Option3">Option 3</option>
+<option value="Option4">Option 4</option>
+</select>
 
-  <label>Option 2</label>
-  <input id="d_option2">
-
-  <label>Option 3</label>
-  <input id="d_option3">
-
-  <label>Option 4</label>
-  <input id="d_option4">
-
-  <label>Correct Answer</label>
-  <select id="d_answer">
-    <option value="">Select Correct Option</option>
-    <option value="Option1">Option 1</option>
-    <option value="Option2">Option 2</option>
-    <option value="Option3">Option 3</option>
-    <option value="Option4">Option 4</option>
-  </select>
-
-  <div class="drawer-actions">
-    <button class="save" onclick="save()">Save</button>
-    <button class="cancel" onclick="closeDrawer()">Cancel</button>
-  </div>
+<div class="drawer-actions">
+<button class="save" onclick="save()">Save</button>
+<button class="cancel" onclick="closeDrawer()">Cancel</button>
 </div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+
+const supabaseUrl='https://ncc.missioncadetupgrade.workers.dev';
+const supabaseKey='sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
+const supabase1=supabase.createClient(supabaseUrl,supabaseKey);
+
+const facultyEmail=sessionStorage.getItem("email");
+const role=sessionStorage.getItem("role");
+if(!facultyEmail||role!=="Faculty"){window.location.href="index.html";}
+
+let questions=[];
+let selectedIds=[];
+let currentYear="";
+
+async function fetchData(){
+let query=supabase1.from('Questions').select().eq('FacultyEmail',facultyEmail);
+if(currentYear) query=query.eq('Year',currentYear);
+const {data}=await query;
+questions=data||[];
+render();
+}
+
+function render(){
+const list=document.getElementById("list");
+list.innerHTML="";
+questions.forEach(q=>{
+list.innerHTML+=`
+<div class="table-row">
+<div class="checkbox-cell">
+<input type="checkbox" onchange="toggleSelect('${q.id}',this)">
+</div>
+<div class="cell"><div class="cell-title">Year</div><div class="cell-value">${q.Year||''}</div></div>
+<div class="cell"><div class="cell-title">Question</div><div class="cell-value">${q.Question}</div></div>
+<div class="cell"><div class="cell-title">Answer</div><div class="cell-value">${q.Answer||''}</div></div>
+<div class="row-actions">
+<button class="action-btn" onclick="edit('${q.id}')">Edit</button>
+<button class="action-btn delete-btn" onclick="del('${q.id}')">Delete</button>
+</div>
+</div>`;
+});
+}
+
+function openDrawerNew(){
+document.getElementById("d_id").value="";
+drawer.classList.add("open");
+}
+
+function edit(id){
+const q=questions.find(x=>x.id==id);
+d_id.value=q.id;
+d_year.value=q.Year;
+d_question.value=q.Question;
+d_option1.value=q.Option1;
+d_option2.value=q.Option2;
+d_option3.value=q.Option3;
+d_option4.value=q.Option4;
+d_answer.value=q.Answer;
+drawer.classList.add("open");
+}
+
+async function save(){
+const id=d_id.value;
+const payload={
+FacultyEmail:facultyEmail,
+Year:d_year.value,
+Question:d_question.value,
+Option1:d_option1.value,
+Option2:d_option2.value,
+Option3:d_option3.value,
+Option4:d_option4.value,
+Answer:d_answer.value
+};
+if(id){
+await supabase1.from('Questions').update(payload).eq('id',id);
+}else{
+await supabase1.from('Questions').insert([payload]);
+}
+closeDrawer();
+fetchData();
+}
+
+async function del(id){
+if(!confirm("Delete this question?")) return;
+await supabase1.from('Questions').delete().eq('id',id);
+fetchData();
+}
+
+function toggleSelect(id,el){
+if(el.checked){selectedIds.push(id);}
+else{selectedIds=selectedIds.filter(x=>x!==id);}
+}
+
+async function bulkDelete(){
+if(selectedIds.length===0){alert("No questions selected");return;}
+if(!confirm("Delete selected questions?")) return;
+await supabase1.from('Questions').delete().in('id',selectedIds);
+selectedIds=[];
+fetchData();
+}
+
+function filterByYear(){
+currentYear=document.getElementById("yearFilter").value;
+fetchData();
+}
+
+function closeDrawer(){drawer.classList.remove("open");}
+
+/* Excel Sample */
+function downloadSample(){
+const data=[
+["Year","Question","Option1","Option2","Option3","Option4","Answer"],
+["1","Sample Question?","A","B","C","D","Option1"]
+];
+const ws=XLSX.utils.aoa_to_sheet(data);
+const wb=XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb,ws,"Sample");
+XLSX.writeFile(wb,"sample_format.xlsx");
+}
+
+/* Upload Excel */
+async function uploadExcel(event){
+const file=event.target.files[0];
+if(!file) return;
+const data=await file.arrayBuffer();
+const workbook=XLSX.read(data);
+const sheet=workbook.Sheets[workbook.SheetNames[0]];
+const rows=XLSX.utils.sheet_to_json(sheet,{header:1});
+rows.shift();
+let payload=[];
+rows.forEach(r=>{
+if(r.length>=7){
+payload.push({
+FacultyEmail:facultyEmail,
+Year:r[0],
+Question:r[1],
+Option1:r[2],
+Option2:r[3],
+Option3:r[4],
+Option4:r[5],
+Answer:r[6]
+});
+}
+});
+if(payload.length>0){
+await supabase1.from('Questions').insert(payload);
+alert("Excel Uploaded");
+fetchData();
+}
+}
+
+/* GLOBAL FIX */
+window.edit=edit;
+window.del=del;
+window.save=save;
+window.bulkDelete=bulkDelete;
+window.filterByYear=filterByYear;
+window.openDrawerNew=openDrawerNew;
+window.closeDrawer=closeDrawer;
+
+fetchData();
+// Logout
+document.getElementById("lg").addEventListener("click",function(e){
+e.preventDefault();
+sessionStorage.clear();
+window.location.href="../index.html";
+});
+</script>
+
 
 <div class="bottom-nav">
    <a class="nav-item" href="../index.html">
@@ -309,125 +352,10 @@ body{
       <i class="fas fa-question-circle"></i>
       FAQ
     </a>
-  <a href="#" id="lg">
+  <a href="../index.html" id="lg">
     <i class="fas fa-right-from-bracket"></i>
     Logout
   </a>
 </div>
-<script>
-function reloadPage(){ location.reload(); }
-</script>
-
-<!-- SUPABASE & JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-const supabaseUrl = 'https://ncc.missioncadetupgrade.workers.dev';
-const supabaseKey = 'sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
-const supabase1 = supabase.createClient(supabaseUrl, supabaseKey);
-
-const facultyEmail = sessionStorage.getItem("email");
-const role = sessionStorage.getItem("role");
-d_facultyemail.value = facultyEmail;
-
-if (!facultyEmail || role !== "Faculty") {
-  window.location.href = "index.html";
-}
-
-let questions = [];
-let currentIndex = null;
-let isNew = false;
-
-async function fetchData() {
-  const { data } = await supabase1
-    .from('Questions')
-    .select()
-    .eq('FacultyEmail', facultyEmail);
-  questions = data || [];
-  render();
-}
-
-function render() {
-  const list = document.getElementById("list");
-  list.innerHTML = "";
-  questions.forEach((q,i)=>{
-    list.innerHTML+=`
-      <div class="table-row">
-        <div class="cell">
-          <div class="cell-title">Question</div>
-          <div class="cell-value">${q.Question}</div>
-        </div>
-        <div class="cell">
-          <div class="cell-title">Answer</div>
-          <div class="cell-value">${q.Answer||''}</div>
-        </div>
-        <div class="row-actions">
-          <button class="action-btn" onclick="edit(${i})">Edit</button>
-          <button class="action-btn delete-btn" onclick="del('${q.Question}')">Delete</button>
-        </div>
-      </div>
-    `;
-  });
-}
-
-function edit(i){
-  currentIndex=i;
-  isNew=false;
-  const q=questions[i];
-  d_question.value=q.Question;
-  d_option1.value=q.Option1;
-  d_option2.value=q.Option2;
-  d_option3.value=q.Option3;
-  d_option4.value=q.Option4;
-  d_answer.value=q.Answer||"";
-  drawer.classList.add("open");
-}
-
-function openDrawerNew(){
-  isNew=true;
-  d_question.value="";
-  d_option1.value="";
-  d_option2.value="";
-  d_option3.value="";
-  d_option4.value="";
-  d_answer.value="";
-  drawer.classList.add("open");
-}
-
-async function save(){
-  const payload={
-    FacultyEmail:d_facultyemail.value,
-    Question:d_question.value,
-    Option1:d_option1.value,
-    Option2:d_option2.value,
-    Option3:d_option3.value,
-    Option4:d_option4.value,
-    Answer:d_answer.value
-  };
-
-  if(isNew){
-    await supabase1.from('Questions').insert([payload]);
-  } else {
-    await supabase1.from('Questions')
-      .update(payload)
-      .eq('id',questions[currentIndex].id);
-  }
-  closeDrawer();
-  fetchData();
-}
-
-async function del(Question){
-  if(!confirm("Delete this question?")) return;
-  await supabase1.from('Questions').delete().eq('Question',Question);
-  fetchData();
-}
-
-function closeDrawer(){ drawer.classList.remove("open"); }
-fetchData();
-
-document.getElementById('lg').addEventListener('click', function() {
-  sessionStorage.clear();
-  window.location.href="index.html";
-});
-</script>
 </body>
 </html>

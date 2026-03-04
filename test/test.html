@@ -30,7 +30,6 @@ body{
   justify-content:center;
 }
 
-/* MAIN CONTAINER */
 .container{
   width:100%;
   max-width:900px;
@@ -40,7 +39,6 @@ body{
   border-right:1px solid var(--border);
 }
 
-/* ===== TOP NAV ===== */
 .top-nav,#timerBox{
   height:60px;
   background:#fff;
@@ -74,7 +72,6 @@ body{
   cursor:pointer;
 }
 
-/* ===== CONTENT ===== */
 .page-content{
   margin-top:70px;
   margin-bottom:80px;
@@ -82,14 +79,12 @@ body{
 }
 
 h1{
-  top:20%;
   text-align:center;
   color:var(--accent);
   margin-top:20%;
   margin-bottom:20px;
 }
 
-/* FORM CARD */
 .form-card{
   background:#f5f5f5;
   padding:20px;
@@ -128,16 +123,13 @@ h1{
   opacity:0.9;
 }
 
-/* TIMER */
 #timerBox{
   text-align:center;
   font-weight:bold;
-  margin-bottom:20px;
   font-size:18px;
   color:var(--accent);
 }
 
-/* QUESTIONS */
 #mcqForm{
   display:grid;
   grid-template-columns:1fr;
@@ -163,28 +155,15 @@ label{
   cursor:pointer;
 }
 
-/* ===== DESKTOP LAYOUT ===== */
 @media (min-width:768px){
   #mcqForm{
     grid-template-columns:1fr 1fr;
   }
-
   .question-block{
     min-height:200px;
   }
 }
 
-/* ===== LARGE SCREEN ===== */
-@media (min-width:1200px){
-  .container{
-    max-width:1100px;
-  }
-  .top-nav{
-    max-width:1100px;
-  }
-}
-
-/* ===== DIALOG ===== */
 .dialog{
   position:fixed;
   top:50%;
@@ -201,18 +180,19 @@ label{
   text-align:center;
 }
 
-/* ===== BOTTOM NAV ===== */
+/* ===== BOTTOM NAV (ADDED ONLY) ===== */
 .bottom-nav{
   position:fixed;
   bottom:0;
   width:100%;
-  max-width:900px;
   height:60px;
   background:#fff;
   border-top:1px solid var(--border);
   display:flex;
   justify-content:space-around;
   align-items:center;
+  box-shadow:0 -2px 5px rgba(0,0,0,0.05);
+  z-index:3000;
 }
 
 .bottom-nav a{
@@ -225,21 +205,25 @@ label{
 }
 
 .bottom-nav a i{
-  font-size:20px;
+  font-size:18px;
   margin-bottom:3px;
 }
 
 .bottom-nav a.active{
   color:var(--accent);
 }
+
+/* Prevent content hiding behind bottom nav */
+.page-content{
+  padding-bottom:80px;
+}
+
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<!-- TOP NAV -->
 <div class="top-nav">
   <div class="brand">
     <span id="army">Mission </span>
@@ -252,7 +236,7 @@ label{
 </div>
 
 <div id="timerBox" style="display:none;"></div>
-<!-- PAGE CONTENT -->
+
 <div class="page-content">
 
 <h1>Online MCQ Test</h1>
@@ -261,6 +245,15 @@ label{
 <h3>Student Verification</h3>
 <input type="text" id="studentNameInput" class="form-input" placeholder="Enter Cadet Name">
 <input type="text" id="rollNoInput" class="form-input" placeholder="Enter Enrollment / Regiment No">
+
+<!-- ✅ YEAR SELECT ADDED -->
+<select id="yearSelect" class="form-input">
+  <option value="">Select Year</option>
+  <option value="1">1st Year</option>
+  <option value="2">2nd Year</option>
+  <option value="3">3rd Year</option>
+</select>
+
 <button class="btn" onclick="startTest()">Start Test</button>
 </div>
 
@@ -269,51 +262,24 @@ label{
 <button class="btn" id="submitBtn" onclick="submitTest()" disabled style="display:none;">
 Submit Test
 </button>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<br><br><br><br><br><br>
 <i style="color:#ddd;">Powered by 4/4 Alpha Coy , 4 (TN) BATTALION NCC</i>
 </div>
 
-<!-- DIALOG -->
 <div id="submissionDialog" class="dialog">
 <h3 id="dialogTitle">Instructions</h3>
-<p id="submissionIdText">
-Please read the instructions carefully before starting the test.
-</p>
+<p id="submissionIdText"></p>
 <button class="btn" onclick="closeDialog()">OK</button>
-</div>
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <a class="nav-item" href="../index.html">
-      <i class="fas fa-home"></i>
-      Home
-    </a>
-    <a class="nav-item" href="../Books.html">
-      <i class="fas fa-book"></i>
-      Books
-    </a>
-    <a class="nav-item" href="../Assignments.html">
-      <i class="fas fa-clipboard"></i>
-      Test
-    </a>
-    <a class="nav-item" href="../Faq.html">
-      <i class="fas fa-question-circle"></i>
-      FAQ
-    </a>
-    <a class="nav-item" href="../Aboutus.html">
-      <i class="fas fa-user"></i>
-      About
-    </a>
 </div>
 
 </div>
 
 <script>
-function reloadPage(){ location.reload(); }
 
-/* ================= ORIGINAL JS (UNCHANGED) ================= */
 let studentName="";
 let rollNo="";
+let selectedYear="";   // ✅ NEW
 const facultyEmail="4tnbnncc@kasc.com";
 
 const supabaseUrl='https://ncc.missioncadetupgrade.workers.dev';
@@ -324,21 +290,17 @@ let questions=[];
 let submitted=false;
 let timerInterval=null;
 let timeLeft=0;
-let tabSwitchCount=0;
 
-/* SECURITY & STRICT FEATURES */
-document.addEventListener("contextmenu",e=>e.preventDefault()); // disable right click
+/* SECURITY */
+document.addEventListener("contextmenu",e=>e.preventDefault());
 document.addEventListener("keydown",function(e){
 if(e.key==="F12") e.preventDefault();
 if(e.ctrlKey && e.shiftKey && (e.key==="I"||e.key==="J")) e.preventDefault();
 if(e.ctrlKey && e.key==="U") e.preventDefault();
-if(e.ctrlKey && e.key==="C") e.preventDefault(); // prevent copy
+if(e.ctrlKey && e.key==="C") e.preventDefault();
 });
-
-// Prevent copying via selection
 document.addEventListener('copy', e => e.preventDefault());
 
-// Warn on leaving page
 window.addEventListener("beforeunload",function(e){
 if(!submitted && questions.length>0){
 e.preventDefault();
@@ -346,7 +308,6 @@ e.returnValue="";
 }
 });
 
-// Auto-submit if tab/window switched
 document.addEventListener("visibilitychange",function(){
 if(document.hidden && !submitted && questions.length>0){
 alert("Tab switch detected. Auto submitting test.");
@@ -354,33 +315,49 @@ submitTest();
 }
 });
 
-/* SHOW INSTRUCTION DIALOG ON PAGE LOAD */
 window.addEventListener("load",function(){
 document.getElementById("submissionDialog").style.display="block";
 document.getElementById("dialogTitle").innerText="Instructions";
 document.getElementById("submissionIdText").innerHTML=
-`Please read the instructions carefully before starting the test:<br>
-1. Do not switch tabs or windows.<br>
-2. Copying questions is strictly prohibited.<br>
-3. Dev tools and right-click are disabled.<br>
-4. Test will auto-submit on any violation.`;
+`Please read carefully:<br>
+1. Do not switch tabs.<br>
+2. Copying prohibited.<br>
+3. Dev tools disabled.<br>
+4. Auto submit on violation.`;
 });
 
 /* START TEST */
 async function startTest(){
 const name=document.getElementById("studentNameInput").value.trim();
 const roll=document.getElementById("rollNoInput").value.trim();
-if(name===""||roll===""){alert("Enter all details");return;}
+const year=document.getElementById("yearSelect").value;
+
+if(name===""||roll===""||year===""){
+alert("Enter all details");
+return;
+}
+
 studentName=name;
 rollNo=roll;
+selectedYear=year;
+
 document.getElementById("studentFormBox").style.display="none";
 loadQuestions();
 }
 
-/* LOAD QUESTIONS */
+/* LOAD QUESTIONS FILTERED BY YEAR */
 async function loadQuestions(){
-const {data,error}=await supabaseClient.from('Questions').select('*');
+const {data,error}=await supabaseClient
+.from('Questions')
+.select('*')
+.eq('Year',selectedYear);
+
 if(error){alert("Error loading questions");return;}
+if(!data || data.length===0){
+alert("No questions available for selected year.");
+return;
+}
+
 questions=data;
 
 const form=document.getElementById("mcqForm");
@@ -417,6 +394,7 @@ if(!submitted){alert("Time Up! Auto submitting test.");submitTest();}
 }
 },1000);
 }
+
 function updateTimer(){
 const m=Math.floor(timeLeft/60);
 const s=timeLeft%60;
@@ -424,7 +402,7 @@ document.getElementById("timerBox").innerText=
 `Time Remaining: ${m}:${s<10?'0'+s:s}`;
 }
 
-/* SUBMIT TEST */
+/* SUBMIT */
 function submitTest(){
 if(submitted) return;
 submitted=true;
@@ -445,11 +423,10 @@ else{wrong++;score-=0.25;}
 });
 
 if(score<0) score=0;
-saveResultToSupabase(correct,wrong,questions.length-(correct+wrong),correct+wrong,questions.length,score);
+saveResultToSupabase(correct,wrong,unattempted,correct+wrong,questions.length,score);
 document.getElementById("submitBtn").disabled=true;
 }
 
-/* SAVE RESULTS */
 async function saveResultToSupabase(correct,wrong,unattempted,attempted,total,score){
 const {data,error}=await supabaseClient
 .from('Results')
@@ -457,6 +434,7 @@ const {data,error}=await supabaseClient
 student_name:studentName,
 roll_no:rollNo,
 faculty_email:facultyEmail,
+year:selectedYear,   // ✅ saved year
 total_questions:total,
 attempted:attempted,
 correct:correct,
@@ -471,14 +449,44 @@ if(error){alert("Error saving result");return;}
 if(data && data.length>0){showDialog(data[0].id);}
 }
 
-/* DIALOG */
 function showDialog(id){
 document.getElementById("submissionIdText").innerHTML=`Your Submission ID: <b>${id}</b>`;
 document.getElementById("submissionDialog").style.display="block";
 }
-function closeDialog(){document.getElementById("submissionDialog").style.display="none";}
+
+function closeDialog(){
+document.getElementById("submissionDialog").style.display="none";
+}
+// Logout
+document.getElementById("lg").addEventListener("click",function(e){
+e.preventDefault();
+sessionStorage.clear();
+window.location.href="../index.html";
+});
 </script>
 
+
+<div class="bottom-nav">
+   <a class="nav-item" href="../index.html">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+    <a class="nav-item" href="../Books.html">
+      <i class="fas fa-book"></i>
+      Books
+    </a>
+    <a class="nav-item" href="../Assignments.html">
+      <i class="fas fa-clipboard"></i>
+      Test
+    </a>
+    <a class="nav-item" href="../Faq.html">
+      <i class="fas fa-question-circle"></i>
+      FAQ
+    </a>
+  <a href="#" id="lg">
+    <i class="fas fa-right-from-bracket"></i>
+    Logout
+  </a>
+</div>
 </body>
 </html>
-
