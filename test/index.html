@@ -47,7 +47,7 @@ async function Lg() {
   else if (data.Password === jPass && data.Role === 'Faculty') {
     sessionStorage.setItem("email", data.Email);
     sessionStorage.setItem("role", "Faculty");
-    window.location.href = "faculty.html";
+    window.location.href = "FacResults.html";
   } 
   else {
     alertBox.textContent = "Invalid Credentials!";
