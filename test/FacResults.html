@@ -1,0 +1,360 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Dashboard – Questions</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+  --bg:#f5f5f5;
+  --text:#0f0f0f;
+  --border:#ddd;
+  --accent:#ff0000;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Arial, sans-serif;}
+body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+.top-nav{height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:0 30px;position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 5px rgba(0,0,0,0.05);}
+.brand{font-size:20px;font-weight:700;}
+.brand #army{ color:#ff0000; }
+.brand #navy{ color:#0000ff; }
+.brand #air{ color:#00b6ff; }
+.reload-btn{background:none;border:none;font-size:20px;color:var(--accent);cursor:pointer;}
+.page-content{margin-top:60px;flex:1;display:flex;justify-content:center;padding:20px;overflow:auto;}
+.content-wrapper{width:100%;max-width:1100px;}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.header h1{font-size:24px;font-weight:700;}
+.action-btn{background:var(--accent);border:none;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;cursor:pointer;}
+.table-row{background:#fff;border:1px solid var(--border);border-radius:12px;padding:15px;margin-bottom:15px;display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;}
+.cell{flex:1 1 200px;margin-bottom:10px;}
+.cell-title{font-size:12px;color:#606060;}
+.cell-value{font-size:14px;margin-top:3px;}
+.row-actions{display:flex;gap:10px;}
+.action-btn.delete-btn{background:#ff3333;}
+.checkbox-cell{margin-right:10px;}
+</style>
+
+<style>
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:60px;
+  background:#fff;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  box-shadow:0 -2px 5px rgba(0,0,0,0.05);
+  z-index:3000;
+}
+.bottom-nav a{
+  text-decoration:none;
+  color:#606060;
+  font-size:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.bottom-nav a i{
+  font-size:18px;
+  margin-bottom:3px;
+}
+.bottom-nav a.active{
+  color:var(--accent);
+}
+.page-content{
+  padding-bottom:80px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-nav">
+  <div class="brand">
+    <span id="army">Mission </span>
+    <span id="navy">Cadet </span>
+    <span id="air">Upgrade</span>
+  </div>
+
+  <div>
+    <button class="reload-btn" onclick="location.reload()">
+      <i class="fas fa-rotate"></i>
+    </button>
+  </div>
+</div>
+
+
+<div class="page-content">
+<div class="content-wrapper">
+
+<div id="resultSection">
+
+<div class="header">
+<h1>Cadet Results</h1>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+
+<input type="text" id="searchRoll" placeholder="Search Roll No" onkeyup="filterResults()">
+
+<select id="yearFilter" onchange="filterResults()">
+<option value="">All Years</option>
+<option value="1">Year 1</option>
+<option value="2">Year 2</option>
+<option value="3">Year 3</option>
+</select>
+
+<button class="action-btn" onclick="exportResults()">Export Excel</button>
+
+</div>
+
+</div>
+
+<canvas id="resultChart" height="120"></canvas>
+
+<div id="resultList"></div>
+
+</div>
+
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+
+const supabaseUrl='https://ncc.missioncadetupgrade.workers.dev';
+const supabaseKey='sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
+const supabase1=supabase.createClient(supabaseUrl,supabaseKey);
+
+const facultyEmail=sessionStorage.getItem("email");
+const role=sessionStorage.getItem("role");
+
+if(!facultyEmail||role!=="Faculty"){
+window.location.href="index.html";
+}
+
+let allResults=[];
+let chart;
+
+/* FETCH RESULTS */
+
+async function showResults(){
+
+const {data}=await supabase1
+.from('Results')
+.select('*')
+.order('created_at',{ascending:false});
+
+allResults=data||[];
+
+renderResults(allResults);
+createChart(allResults);
+
+}
+
+showResults();
+
+
+/* RENDER RESULTS */
+
+function renderResults(results){
+
+const resultList=document.getElementById("resultList");
+
+resultList.innerHTML="";
+
+results.forEach(r=>{
+
+resultList.innerHTML+=`
+
+<div class="table-row">
+
+<div class="cell">
+<div class="cell-title">Student</div>
+<div class="cell-value">${r.student_name||''}</div>
+</div>
+
+<div class="cell">
+<div class="cell-title">Roll No</div>
+<div class="cell-value">${r.roll_no||''}</div>
+</div>
+
+<div class="cell">
+<div class="cell-title">Year</div>
+<div class="cell-value">${r.year||''}</div>
+</div>
+
+<div class="cell">
+<div class="cell-title">Marks</div>
+<div class="cell-value">${r.marks||''}</div>
+</div>
+
+<div class="cell">
+<div class="cell-title">Correct</div>
+<div class="cell-value">${r.correct||''}</div>
+</div>
+
+<div class="cell">
+<div class="cell-title">Wrong</div>
+<div class="cell-value">${r.wrong||''}</div>
+</div>
+
+<div class="cell">
+<div class="cell-title">Attempted</div>
+<div class="cell-value">${r.attempted||''}</div>
+</div>
+
+<div class="cell">
+<div class="cell-title">Unattempted</div>
+<div class="cell-value">${r.unattempted||''}</div>
+</div>
+
+<div class="cell">
+<div class="cell-title">Submitted</div>
+<div class="cell-value">${r.submitted_at||''}</div>
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* FILTER RESULTS */
+
+function filterResults(){
+
+const roll=document.getElementById("searchRoll").value.toLowerCase();
+const year=document.getElementById("yearFilter").value;
+
+let filtered=allResults.filter(r=>{
+
+let matchRoll=!roll || (r.roll_no||'').toLowerCase().includes(roll);
+let matchYear=!year || r.year==year;
+
+return matchRoll && matchYear;
+
+});
+
+renderResults(filtered);
+createChart(filtered);
+
+}
+
+
+/* CHART */
+
+function createChart(results){
+
+let correct=0;
+let wrong=0;
+let unattempted=0;
+
+results.forEach(r=>{
+correct+=Number(r.correct||0);
+wrong+=Number(r.wrong||0);
+unattempted+=Number(r.unattempted||0);
+});
+
+const ctx=document.getElementById("resultChart");
+
+if(chart){ chart.destroy(); }
+
+chart=new Chart(ctx,{
+type:'bar',
+data:{
+labels:["Correct","Wrong","Unattempted"],
+datasets:[{
+label:"Cadet Performance",
+data:[correct,wrong,unattempted]
+}]
+}
+});
+
+}
+
+
+/* EXPORT EXCEL */
+
+function exportResults(){
+
+if(allResults.length===0){
+alert("No results to export");
+return;
+}
+
+let rows=[[
+"Student Name",
+"Roll No",
+"Year",
+"Total Questions",
+"Correct",
+"Wrong",
+"Marks",
+"Submitted At"
+]];
+
+allResults.forEach(r=>{
+rows.push([
+r.student_name,
+r.roll_no,
+r.year,
+r.total_questions,
+r.correct,
+r.wrong,
+r.marks,
+r.submitted_at
+]);
+});
+
+const ws=XLSX.utils.aoa_to_sheet(rows);
+const wb=XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb,ws,"Results");
+
+XLSX.writeFile(wb,"Cadet_Results.xlsx");
+
+}
+
+
+/* LOGOUT */
+
+document.getElementById("lg").addEventListener("click",function(e){
+
+e.preventDefault();
+
+sessionStorage.clear();
+
+window.location.href="../index.html";
+
+});
+
+</script>
+
+
+<div class="bottom-nav">
+   <a class="nav-item" href="../index.html">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+    <a class="nav-item" href="faculty.html">
+      <i class="fas fa-clipboard"></i>
+      Questions
+    </a>
+  <a href="../index.html" id="lg">
+    <i class="fas fa-right-from-bracket"></i>
+    Logout
+  </a>
+</div>
+
+</body>
+</html>
