@@ -252,6 +252,7 @@ label{
   <option value="1">1st Year</option>
   <option value="2">2nd Year</option>
   <option value="3">3rd Year</option>
+  <option value="3air">Year 3 (2 TN AIR SQN NCC)</option>
 </select>
 
 <button class="btn" onclick="startTest()">Start Test</button>
@@ -419,7 +420,7 @@ let selected=null;
 options.forEach(opt=>{opt.disabled=true;if(opt.checked) selected=opt.value;});
 if(selected===null) unattempted++;
 else if(selected===q.Answer){correct++;score+=1;}
-else{wrong++;score-=0.25;}
+else{wrong++;score-=0.0;}
 });
 
 if(score<0) score=0;

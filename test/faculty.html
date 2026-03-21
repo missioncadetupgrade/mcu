@@ -114,6 +114,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 <option value="1">1st Year</option>
 <option value="2">2nd Year</option>
 <option value="3">3rd Year</option>
+<option value="3air">Year 3 (2 TN AIR SQN NCC)</option>
 </select>
 
 <button class="action-btn" onclick="bulkDelete()">Bulk Delete</button>
@@ -141,6 +142,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 <option value="1">1st Year</option>
 <option value="2">2nd Year</option>
 <option value="3">3rd Year</option>
+<option value="3air">3rd Year (2 TN AIR SQN NCC)</option>
 </select>
 
 <label>Question</label>
@@ -276,8 +278,8 @@ function closeDrawer(){drawer.classList.remove("open");}
 /* Excel Sample */
 function downloadSample(){
 const data=[
-["Year","Question","Option1","Option2","Option3","Option4","Answer"],
-["1","Sample Question?","A","B","C","D","Option1"]
+["Year","Question","Option1","Option2","Option3","Option4","FacultyEmail","Answer"],
+["1","Sample Question?","A","B","C","D","ncc4tn@kongunaducollege.ac.in","Option1"]
 ];
 const ws=XLSX.utils.aoa_to_sheet(data);
 const wb=XLSX.utils.book_new();
@@ -305,7 +307,8 @@ Option1:r[2],
 Option2:r[3],
 Option3:r[4],
 Option4:r[5],
-Answer:r[6]
+FacultyEmail:r[6],
+Answer:r[7]
 });
 }
 });

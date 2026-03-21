@@ -252,11 +252,54 @@ body{
     <div class="header">
       <h1>Faculty Profile Management</h1>
       <button class="action-btn" onclick="openDrawerNew()">+ Add Faculty</button>
+<!-- Admin list container -->
+      
     </div>
     <div id="list"></div>
+      <h1>Test Management</h1>
+  <div id="admin-list" style="margin-top:30px;"></div>
+  </div>
+  
+</div>
+<!-- ADMIN DRAWER -->
+<div class="drawer" id="admin-drawer">
+  <h2 id="admin-drawer-title">Edit Test Management</h2>
+
+  <label>Year</label>
+  <input id="a_year">
+
+  <label>Subject Code</label>
+  <input id="a_subjectcode">
+
+  <label>Subject Name</label>
+  <input id="a_subjectname">
+
+  <label>College Logo</label>
+  <input id="a_collegelogo">
+
+  <label>College Year</label>
+  <input id="a_collegeyear">
+
+  <label>Exam Month</label>
+  <input id="a_exammonth">
+
+  <label>Exam Year</label>
+  <input id="a_examyear">
+
+  <label>Total Marks</label>
+  <input id="a_totalmark">
+
+  <label>Purpose</label>
+  <input id="a_purpose">
+
+  <label>Exam Date</label>
+  <input id="a_examdate">
+
+  <div class="drawer-actions">
+    <button class="save" onclick="saveAdmin()">Save</button>
+    <button class="cancel" onclick="closeAdminDrawer()">Cancel</button>
   </div>
 </div>
-
 <!-- DRAWER -->
 <div class="drawer" id="drawer">
   <h2 id="drawer-title">Edit Faculty</h2>
@@ -412,6 +455,129 @@ document.getElementById('lg').addEventListener('click', function() {
     sessionStorage.clear();
     window.location.href = "index.html";
 });
+</script>
+<script>
+let admins = [];
+let currentAdminIndex = null;
+let isAdminNew = false;
+
+// FETCH ADMIN DATA
+async function fetchAdmin() {
+  const { data, error } = await supabase1
+    .from('Admin')
+    .select('*');
+  if (error) return console.error(error);
+  admins = data;
+  renderAdmin();
+}
+
+// RENDER ADMIN LIST
+function renderAdmin() {
+  const list = document.getElementById("admin-list");
+  list.innerHTML = "";
+  admins.forEach((u, i) => {
+    list.innerHTML += `
+      <div class="table-row">
+        <div class="cell">
+          <div class="cell-title">Year</div>
+          <div class="cell-value">${u.year || ""}</div>
+        </div>
+        <div class="cell">
+          <div class="cell-title">Subject Code</div>
+          <div class="cell-value">${u.subjectcode || ""}</div>
+        </div>
+        <div class="cell">
+          <div class="cell-title">Subject Name</div>
+          <div class="cell-value">${u.subjectname || ""}</div>
+        </div>
+        <div class="cell">
+          <div class="cell-title">Purpose</div>
+          <div class="cell-value">${u.Purpose || ""}</div>
+        </div>
+        <div class="row-actions">
+          <button class="action-btn" onclick="editAdmin(${i})">Edit</button>
+          <button class="action-btn delete-btn" onclick="delAdmin(${u.id})">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// EDIT ADMIN
+function editAdmin(i){
+  currentAdminIndex = i;
+  isAdminNew = false;
+  const u = admins[i];
+  a_year.value = u.year;
+  a_subjectcode.value = u.subjectcode;
+  a_subjectname.value = u.subjectname;
+  a_collegelogo.value = u.collegelogo;
+  a_collegeyear.value = u.collegeyear;
+  a_exammonth.value = u.exammonth;
+  a_examyear.value = u.examyear;
+  a_totalmark.value = u.TotalMark;
+  a_purpose.value = u.Purpose;
+  a_examdate.value = u.examdate;
+  document.getElementById('admin-drawer').classList.add("open");
+}
+
+// OPEN NEW ADMIN
+function openDrawerAdminNew(){
+  isAdminNew = true;
+  a_year.value = "";
+  a_subjectcode.value = "";
+  a_subjectname.value = "";
+  a_collegelogo.value = "";
+  a_collegeyear.value = "";
+  a_exammonth.value = "";
+  a_examyear.value = "";
+  a_totalmark.value = "";
+  a_purpose.value = "";
+  a_examdate.value = "";
+  document.getElementById('admin-drawer').classList.add("open");
+}
+
+// SAVE ADMIN
+async function saveAdmin(){
+  const payload = {
+    year: a_year.value,
+    subjectcode: a_subjectcode.value,
+    subjectname: a_subjectname.value,
+    collegelogo: a_collegelogo.value,
+    collegeyear: a_collegeyear.value,
+    exammonth: a_exammonth.value,
+    examyear: a_examyear.value,
+    TotalMark: a_totalmark.value,
+    Purpose: a_purpose.value,
+    examdate: a_examdate.value
+  };
+
+  if(isAdminNew){
+    await supabase1.from('Admin').insert([payload]);
+  } else {
+    await supabase1.from('Admin')
+      .update(payload)
+      .eq('id', admins[currentAdminIndex].id);
+  }
+
+  closeAdminDrawer();
+  fetchAdmin();
+}
+
+// DELETE ADMIN
+async function delAdmin(id){
+  if(!confirm("Are you sure you want to delete this record?")) return;
+  await supabase1.from('Admin').delete().eq('id', id);
+  fetchAdmin();
+}
+
+// CLOSE ADMIN DRAWER
+function closeAdminDrawer(){ 
+  document.getElementById('admin-drawer').classList.remove("open"); 
+}
+
+// INITIAL FETCH
+fetchAdmin();
 </script>
 </body>
 </html>

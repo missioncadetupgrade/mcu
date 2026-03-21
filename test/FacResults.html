@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,9 +7,11 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<!-- jsPDF & html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <style>
 :root{
   --bg:#f5f5f5;
@@ -82,14 +84,12 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
     <span id="navy">Cadet </span>
     <span id="air">Upgrade</span>
   </div>
-
   <div>
     <button class="reload-btn" onclick="location.reload()">
       <i class="fas fa-rotate"></i>
     </button>
   </div>
 </div>
-
 
 <div class="page-content">
 <div class="content-wrapper">
@@ -98,9 +98,9 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 
 <div class="header">
 <h1>Cadet Results</h1>
+<button class="action-btn delete-btn" onclick="deleteSelected()">Delete Selected</button>
 
 <div style="display:flex;gap:10px;flex-wrap:wrap">
-
 <input type="text" id="searchRoll" placeholder="Search Roll No" onkeyup="filterResults()">
 
 <select id="yearFilter" onchange="filterResults()">
@@ -108,237 +108,297 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 <option value="1">Year 1</option>
 <option value="2">Year 2</option>
 <option value="3">Year 3</option>
+<option value="3air">Year 3 (2 TN AIR SQN NCC)</option>
 </select>
 
 <button class="action-btn" onclick="exportResults()">Export Excel</button>
-
+<button class="action-btn" onclick="printMarksheet()">Print PDF</button>
 </div>
-
 </div>
-
 
 <div id="resultList"></div>
 
 </div>
-
 </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
-
 const supabaseUrl='https://ncc.missioncadetupgrade.workers.dev';
 const supabaseKey='sb_publishable_VA-TOQxa5NucY7L1hPStkg_3eAj42PM';
 const supabase1=supabase.createClient(supabaseUrl,supabaseKey);
+
+  async function processAdminData() {
+    // Fetch the whole table
+    const { data, error } = await supabase1
+      .from('Admin')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching Admin data:', error);
+      return;
+    }
+window.AdminData = data;
+  
+  }
+
+  // Call the function
+  processAdminData();
 
 const facultyEmail=sessionStorage.getItem("email");
 const role=sessionStorage.getItem("role");
 
 if(!facultyEmail||role!=="Faculty"){
-window.location.href="index.html";
+  window.location.href="index.html";
 }
 
 let allResults=[];
-let chart;
-
-/* FETCH RESULTS */
 
 async function showResults(){
-
-const {data}=await supabase1
-.from('Results')
-.select('*')
-.order('created_at',{ascending:false});
-
-allResults=data||[];
-
-renderResults(allResults);
-createChart(allResults);
-
+  const {data}=await supabase1
+    .from('Results')
+    .select('*')
+    .order('created_at',{ascending:false});
+  allResults=data||[];
+  renderResults(allResults);
 }
 
 showResults();
 
+async function deleteSelected(){
+  const checkboxes = document.querySelectorAll(".rowCheckbox");
+  const selectedIndexes = [];
+  checkboxes.forEach(cb => {
+    if(cb.checked){
+      selectedIndexes.push(parseInt(cb.dataset.index));
+    }
+  });
 
-/* RENDER RESULTS */
+  if(selectedIndexes.length === 0){
+    alert("Select at least one result to delete.");
+    return;
+  }
+
+  if(!confirm("Are you sure you want to delete the selected results?")) return;
+
+  for(let i = selectedIndexes.length - 1; i >= 0; i--){
+    const r = allResults[selectedIndexes[i]];
+    await supabase1
+      .from('Results')
+      .delete()
+      .eq('id', r.id);
+    allResults.splice(selectedIndexes[i], 1);
+  }
+
+  renderResults(allResults);
+}
+
 
 function renderResults(results){
+  const resultList = document.getElementById("resultList");
+  resultList.innerHTML = `
+    <div class="table-row">
+      <div class="cell checkbox-cell">
+        <input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"> Select All
+      </div>
+    </div>
+  `;
 
-const resultList=document.getElementById("resultList");
-
-resultList.innerHTML="";
-
-results.forEach(r=>{
-
-resultList.innerHTML+=`
-
-<div class="table-row">
-
-<div class="cell">
-<div class="cell-title">Student</div>
-<div class="cell-value">${r.student_name||''}</div>
-</div>
-
-<div class="cell">
-<div class="cell-title">Roll No</div>
-<div class="cell-value">${r.roll_no||''}</div>
-</div>
-
-<div class="cell">
-<div class="cell-title">Year</div>
-<div class="cell-value">${r.year||''}</div>
-</div>
-
-<div class="cell">
-<div class="cell-title">Marks</div>
-<div class="cell-value">${r.marks||''}</div>
-</div>
-
-<div class="cell">
-<div class="cell-title">Correct</div>
-<div class="cell-value">${r.correct||''}</div>
-</div>
-
-<div class="cell">
-<div class="cell-title">Wrong</div>
-<div class="cell-value">${r.wrong||''}</div>
-</div>
-
-<div class="cell">
-<div class="cell-title">Attempted</div>
-<div class="cell-value">${r.attempted||''}</div>
-</div>
-
-<div class="cell">
-<div class="cell-title">Unattempted</div>
-<div class="cell-value">${r.unattempted||''}</div>
-</div>
-
-<div class="cell">
-<div class="cell-title">Submitted</div>
-<div class="cell-value">${r.submitted_at||''}</div>
-</div>
-
-</div>
-
-`;
-
-});
-
+  results.forEach((r, index) => {
+    resultList.innerHTML += `
+    <div class="table-row">
+      <div class="cell checkbox-cell">
+        <input type="checkbox" class="rowCheckbox" data-index="${index}">
+      </div>
+      <div class="cell">
+        <div class="cell-title">Student</div>
+        <div class="cell-value">${r.student_name||''}</div>
+      </div>
+      <div class="cell">
+        <div class="cell-title">Roll No</div>
+        <div class="cell-value">${r.roll_no||''}</div>
+      </div>
+      <div class="cell">
+        <div class="cell-title">Year</div>
+        <div class="cell-value">${r.year||''}</div>
+      </div>
+      <div class="cell">
+        <div class="cell-title">Marks</div>
+        <div class="cell-value">${r.marks||''}</div>
+      </div>
+      <!-- add other cells here as needed -->
+    </div>
+    `;
+  });
 }
 
+function toggleSelectAll(source){
+  const checkboxes = document.querySelectorAll(".rowCheckbox");
+  checkboxes.forEach(cb => cb.checked = source.checked);
+}
 
-/* FILTER RESULTS */
 
 function filterResults(){
-
-const roll=document.getElementById("searchRoll").value.toLowerCase();
-const year=document.getElementById("yearFilter").value;
-
-let filtered=allResults.filter(r=>{
-
-let matchRoll=!roll || (r.roll_no||'').toLowerCase().includes(roll);
-let matchYear=!year || r.year==year;
-
-return matchRoll && matchYear;
-
-});
-
-renderResults(filtered);
-createChart(filtered);
-
+  const roll=document.getElementById("searchRoll").value.toLowerCase();
+  const year=document.getElementById("yearFilter").value;
+  let filtered=allResults.filter(r=>{
+    let matchRoll=!roll || (r.roll_no||'').toLowerCase().includes(roll);
+    let matchYear=!year || r.year==year;
+    return matchRoll && matchYear;
+  });
+  renderResults(filtered);
 }
-
-
-/* CHART */
-
-function createChart(results){
-
-let correct=0;
-let wrong=0;
-let unattempted=0;
-
-results.forEach(r=>{
-correct+=Number(r.correct||0);
-wrong+=Number(r.wrong||0);
-unattempted+=Number(r.unattempted||0);
-});
-
-const ctx=document.getElementById("resultChart");
-
-if(chart){ chart.destroy(); }
-
-chart=new Chart(ctx,{
-type:'bar',
-data:{
-labels:["Correct","Wrong","Unattempted"],
-datasets:[{
-label:"Cadet Performance",
-data:[correct,wrong,unattempted]
-}]
-}
-});
-
-}
-
-
-/* EXPORT EXCEL */
 
 function exportResults(){
-
-if(allResults.length===0){
-alert("No results to export");
-return;
+  if(allResults.length===0){ alert("No results to export"); return; }
+  let rows=[["Student Name","Roll No","Year","Total Questions","Correct","Wrong","Marks","Submitted At"]];
+  allResults.forEach(r=>{
+    rows.push([r.student_name,r.roll_no,r.year,r.total_questions,r.correct,r.wrong,r.marks,r.submitted_at]);
+  });
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,"Results");
+  XLSX.writeFile(wb,"Cadet_Results.xlsx");
 }
-
-let rows=[[
-"Student Name",
-"Roll No",
-"Year",
-"Total Questions",
-"Correct",
-"Wrong",
-"Marks",
-"Submitted At"
-]];
-
-allResults.forEach(r=>{
-rows.push([
-r.student_name,
-r.roll_no,
-r.year,
-r.total_questions,
-r.correct,
-r.wrong,
-r.marks,
-r.submitted_at
-]);
-});
-
-const ws=XLSX.utils.aoa_to_sheet(rows);
-const wb=XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(wb,ws,"Results");
-
-XLSX.writeFile(wb,"Cadet_Results.xlsx");
-
-}
-
-
-/* LOGOUT */
 
 document.getElementById("lg").addEventListener("click",function(e){
-
-e.preventDefault();
-
-sessionStorage.clear();
-
-window.location.href="../index.html";
-
+  e.preventDefault();
+  sessionStorage.clear();
+  window.location.href="../index.html";
 });
 
-</script>
+/* PRINT MARKSHEET */
+async function printMarksheet() {
 
+
+
+  const roll = document.getElementById("searchRoll").value;
+
+  const cadet = allResults.find(r => r.roll_no === roll);
+
+
+
+
+
+// Loop through each row
+   AdminData.forEach(row => {
+      if (row.Purpose == 'questionpaper' && row.year == cadet.year ) {
+        // Access columns relevant for exam
+        console.log('Exam Row:');
+        console.log('Year:', row.year);
+        console.log('Subject Code:', row.subjectcode);
+        console.log('Subject Name:', row.subjectname);
+        window.subjectcode1 = row.subjectcode;
+        window.subjectname1 = row.subjectname;
+      }
+if (row.Purpose == 'resultpage' ) {
+        // Access columns relevant for result page
+        console.log('Result Page Row:');
+        console.log('College Logo:', row.collegelogo);
+        console.log('College Year:', row.collegeyear);
+        console.log('Exam Month:', row.exammonth);
+        console.log('Exam Year:', row.examyear);
+        console.log('Exam Date:', row.examdate);
+        console.log('Total Marks:', row.TotalMark);
+     
+        window.collegelogo1 = "colege_logo.jpg";
+        window.collegeyear1 = "53years.png"
+        window.exammonth1 = row.exammonth;
+        window.examyear1 = row.examyear;
+        window.examdate1 = row.examdate;
+        window.TotalMark1 = row.TotalMark;}
+
+ });
+
+
+  if(!cadet){
+    alert("Cadet not found");
+    return;
+  }  if(!roll){
+    alert("Enter Roll No to print Marksheet");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  // Add college logo
+  const logoImg = collegelogo1 ; // replace with your logo base64
+  doc.addImage(logoImg, 'PNG', 7, 15, 23, 23); // x, y, width, height
+
+ // Add college logo
+  const logoImg2 = collegeyear1; // replace with your logo base64
+  doc.addImage(logoImg2, 'PNG', 180, 15, 24, 24); // x, y, width, height
+
+  let y = 24; // start Y for header text
+  const leftMargin = 20;
+
+  // Header (centered)
+  doc.setFontSize(14);
+  doc.setFont("arial","bold");
+  doc.text("KONGUNADU ARTS AND SCIENCE COLLEGE (AUTONOMOUS)", 108, y, { align: 'center' });
+  y += 6;
+  doc.setFontSize(11);
+  doc.setFont("arial","normal");
+  doc.text("Coimbatore – 641 029, Tamil Nadu, India", 105, y, { align: 'center' });
+  y += 6;
+  doc.text("Re-accredited by NAAC with A+ Grade 4th Cycle", 105, y, { align: 'center' });
+  y += 6;
+  doc.text("College of Excellence – UGC", 105, y, { align: 'center' });
+  y += 14;
+  doc.setFontSize(13);
+  doc.setFont("arial","bold");
+  doc.text("NCC – GENERAL ELECTIVE CREDIT COURSE EXAMINATION – "+exammonth1+" " +examyear1+" ", 105, y, { align: 'center' });
+  y += 12;
+
+  // Cadet Details Table
+doc.autoTable({
+  startY: y,
+  theme: 'grid',
+  head: [['Field', 'Details']],
+  body: [
+    ['NAME OF THE CADET', cadet.student_name.toUpperCase()||''],
+    ['DEPARTMENT ROLL NO', cadet.roll_no.toUpperCase()||''],
+    ['SUBJECT CODE', subjectcode1],
+    ['SUBJECT NAME', subjectname1],
+    ['DATE OF EXAMINATION', examdate1]
+  ],
+  styles: { font: 'arial', fontSize: 11, textColor: [0, 0, 0] },
+  headStyles: { fillColor: [220,220,220], textColor: [0,0,0] }, 
+  columnStyles: { 0: { cellWidth: 60 }, 1: { cellWidth: 100 } }
+});
+
+  const finalY = doc.lastAutoTable.finalY + 10;
+
+  // Marks Table
+doc.autoTable({
+  startY: finalY,
+  theme: 'grid',
+  head: [['TOTAL MARKS', 'Correct', 'Wrong', 'Attempted', 'Unattempted']],
+  body: [[
+    `${cadet.marks||'0'} / `+TotalMark1,
+    cadet.correct||'',
+    cadet.wrong||'',
+    cadet.attempted||'',
+    cadet.unattempted||''
+  ]],
+  styles: { font: 'arial', fontSize: 11, textColor: [0, 0, 0] }, 
+  headStyles: { fillColor: [220,220,220], textColor: [0,0,0] },
+  columnStyles: {
+    0: { cellWidth: 35 },
+    1: { cellWidth: 25 },
+    2: { cellWidth: 25 },
+    3: { cellWidth: 25 },
+    4: { cellWidth: 35 }
+  }
+});
+
+  doc.save(`${cadet.roll_no}_Marksheet.pdf`);
+}
+
+
+</script>
 
 <div class="bottom-nav">
    <a class="nav-item" href="../index.html">
