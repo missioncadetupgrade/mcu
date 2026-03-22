@@ -291,8 +291,8 @@ function reloadPage(){
   location.reload();
 }
 
-async function loadResult(){
-  const regno=document.getElementById("regno").value.trim();
+async function loadResult(){alert("! Due to Elective Paper Examination the Test Result will be issued while you receiving your Semester Marksheet.. Thankyou.");
+ /* const regno=document.getElementById("regno").value.trim();
 
   if(!regno){
     alert("Please Enter Regimental Number");
@@ -319,7 +319,7 @@ async function loadResult(){
   document.getElementById("wrong").innerText=data.wrong;
   document.getElementById("marks").innerText=data.marks;
 
-  renderPie(data.correct,data.wrong,data.unattempted);
+  renderPie(data.correct,data.wrong,data.unattempted);*/
 }
 
 function renderPie(correct,wrong,unattempted){
