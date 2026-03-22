@@ -206,6 +206,15 @@ canvas{
   font-size:18px;
   margin-bottom:3px;
 }
+
+  #issue{
+color:#fff;
+background-color:red;
+font-size:20px;
+padding:5px;
+border:1px solid #000;
+border-radius:5px;
+  }
 </style>
 </head>
 
@@ -250,6 +259,7 @@ canvas{
       <div class="result-item"><span>Marks</span><span id="marks"></span></div>
 
       <canvas id="pieChart"></canvas>
+      <div id="issue"></div>
     </div>
 
   </div>
@@ -291,7 +301,9 @@ function reloadPage(){
   location.reload();
 }
 
-async function loadResult(){alert("! Due to Elective Paper Examination the Test Result will be issued while you receiving your Semester Marksheet.. Thankyou.");
+async function loadResult(){
+  
+  document.getElementById('issue').innerHTML = "! Due to Elective Paper Examination the Test Result will be issued while you receiving your Semester Marksheet.. Thankyou.";
  /* const regno=document.getElementById("regno").value.trim();
 
   if(!regno){
